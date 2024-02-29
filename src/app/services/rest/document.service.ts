@@ -1,0 +1,225 @@
+import { Injectable } from '@angular/core'
+import { PaperlessDocument } from 'src/app/data/paperless-document'
+import { PaperlessDocumentMetadata } from 'src/app/data/paperless-document-metadata'
+import { AbstractPaperlessService } from './abstract-paperless-service'
+import { HttpClient, HttpParams } from '@angular/common/http'
+import { Observable } from 'rxjs'
+import { Results } from 'src/app/data/results'
+import { FilterRule } from 'src/app/data/filter-rule'
+import { map, tap } from 'rxjs/operators'
+import { CorrespondentService } from './correspondent.service'
+import { DocumentTypeService } from './document-type.service'
+import { TagService } from './tag.service'
+import { PaperlessDocumentSuggestions } from 'src/app/data/paperless-document-suggestions'
+import { queryParamsFromFilterRules } from '../../utils/query-params'
+import { StoragePathService } from './storage-path.service'
+import { environment } from 'src/environments/environment'
+
+export const DOCUMENT_SORT_FIELDS = [
+  { field: 'archive_serial_number', name: $localize`ASN` },
+  { field: 'correspondent__name', name: $localize`Correspondent` },
+  { field: 'title', name: $localize`Title` },
+  { field: 'document_type__name', name: $localize`Document type` },
+  /* { field: 'created', name: $localize`Created` }, */
+  { field: 'added', name: $localize`Added` },
+  { field: 'modified', name: $localize`Modified` },
+  { field: 'num_notes', name: $localize`Notes` },
+  { field: 'owner', name: $localize`Owner` },
+]
+
+export const DOCUMENT_SORT_FIELDS_FULLTEXT = [
+  ...DOCUMENT_SORT_FIELDS,
+  {
+    field: 'score',
+    name: $localize`:Score is a value returned by the full text search engine and specifies how well a result matches the given query:Search score`,
+  },
+]
+
+export interface SelectionDataItem {
+  id: number
+  document_count: number
+}
+
+export interface SelectionData {
+selected_storage_paths: SelectionDataItem[]
+  selected_correspondents: SelectionDataItem[]
+  selected_tags: SelectionDataItem[]
+  selected_document_types: SelectionDataItem[]
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DocumentService extends AbstractPaperlessService<PaperlessDocument> {
+  private _searchQuery: string
+
+  constructor(
+    http: HttpClient,
+    private correspondentService: CorrespondentService,
+    private documentTypeService: DocumentTypeService,
+    private tagService: TagService,
+    private storagePathService: StoragePathService
+  ) {
+    super(http, 'document')
+  }
+
+  addObservablesToDocument(doc: PaperlessDocument) {
+     if (doc.correspondent) {
+      doc.correspondent$ = this.correspondentService.getCached(
+        doc.correspondent
+      )
+    }
+    if (doc.document_type) {
+      doc.document_type$ = this.documentTypeService.getCached(doc.document_type)
+    }
+    if (doc.tags) {
+      doc.tags$ = this.tagService
+        .getCachedMany(doc.tags)
+        .pipe(
+          tap((tags) =>
+            tags.sort((tagA, tagB) => tagA.name.localeCompare(tagB.name))
+          )
+        )
+    }
+    if (doc.storage_path) {
+      doc.storage_path$ = this.storagePathService.getCached(doc.storage_path)
+    }  return doc
+   
+  }
+
+  listFiltered(
+    page?: number,
+    pageSize?: number,
+    sortField?: string,
+    sortReverse?: boolean,
+    filterRules?: FilterRule[],
+    action?:string,
+    extraParams = {}
+  ): Observable<Results<PaperlessDocument>> {
+     return this.list(
+      page,
+      null,
+      null,
+      null,
+      action,
+      null,
+      
+    ).pipe(
+      map((results) => {
+        console.log('Results object:', results); // Log the entire results object
+        console.log('Results results:', results.data ); // Log the results.results property
+       // results.results.forEach((doc) => this.addObservablesToDocument(doc));
+         return results
+      })
+    ) 
+   
+  }
+ /*  page,
+  pageSize,
+  sortField,
+  sortReverse,
+  action,
+  Object.assign(extraParams, queryParamsFromFilterRules(filterRules)) */
+ 
+
+  listAllFilteredIds(filterRules?: FilterRule[]): Observable<string[]> {
+    return this.listFiltered(1, 100000, null, null, filterRules,null, {
+      fields: 'id',
+    }).pipe(map((response) => response.results.map((doc) => doc.id)))
+  }
+
+  getlist(id: string,action :string): Observable<PaperlessDocument> {
+    return this.http.get<PaperlessDocument>(this.getResourceUrl(id,action))/* , {
+     /*  params: {
+        full_perms: true,
+      }, */
+    } 
+  
+
+  getPreviewUrl(id: string, original: boolean = false): string {
+    let url = this.getResourceUrl(id, 'preview')
+    if (this._searchQuery) url += `#search="${this._searchQuery}"`
+    if (original) {
+      url += '?original=true'
+    }
+    return url
+  }
+
+  getThumbUrl(id: string): string {
+    return this.getResourceUrl(id, 'thumb')
+  }
+
+  getDownloadUrl(id: string, original: boolean = false): string {
+    let url = this.getResourceUrl(id, 'download')
+    if (original) {
+      url += '?original=true'
+    }
+    return url
+  }
+
+  getNextAsn(): Observable<number> {
+    return this.http.get<number>(this.getResourceUrl(null, 'next_asn'))
+  }
+
+  update(o: PaperlessDocument): Observable<PaperlessDocument> {
+    // we want to only set created_date
+    o.created = undefined
+    return super.update(o)
+  }
+
+  uploadDocument(formData : FormData) {
+
+      return this.http.post(`${environment.apiBaseUrl}/document/Upload`
+      ,
+      formData,
+      { reportProgress: true, observe: 'events' }
+    )
+  }
+
+  getMetadata(id: string): Observable<PaperlessDocumentMetadata> {
+    return this.http.get<PaperlessDocumentMetadata>(
+      this.getResourceUrl(id, 'metadata')
+    )
+  }
+
+  bulkEdit(ids: string[], method: string, args: any) {
+    return this.http.post(this.getResourceUrl(null, 'bulk_edit'), {
+      documents: ids,
+      method: method,
+      parameters: args,
+    })
+  }
+
+  getSelectionData(ids: string[]): Observable<SelectionData> {
+    return this.http.post<SelectionData>(
+      this.getResourceUrl(null, 'selection_data'),
+      { documents: ids }
+    )
+  }
+
+  getSuggestions(id: string): Observable<PaperlessDocumentSuggestions> {
+    return this.http.get<PaperlessDocumentSuggestions>(
+      this.getResourceUrl(id, 'suggestions')
+    )
+  }
+
+  bulkDownload(
+    ids: string[],
+    content = 'both',
+    useFilenameFormatting: boolean = false
+  ) {
+    return this.http.post(
+      this.getResourceUrl(null, 'bulk_download'),
+      {
+        documents: ids,
+        content: content,
+        follow_formatting: useFilenameFormatting,
+      },
+      { responseType: 'blob' }
+    )
+  }
+
+  public set searchQuery(query: string) {
+    this._searchQuery = query
+  }
+}
