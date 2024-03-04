@@ -33,9 +33,9 @@ export class OpenDocumentsService {
   private dirtyDocuments: Set<string> = new Set<string>()
 
   refreshDocument(id: string) {
-    let index = this.openDocuments.findIndex((doc) => doc.id == id)
+   /*  let index = this.openDocuments.findIndex((doc) => doc.id === id)
     if (index > -1) {
-      this.documentService.get(id).subscribe({
+      this.documentService.getlist(id,"get_document").subscribe({
         next: (doc) => {
           this.openDocuments[index] = doc
           this.save()
@@ -45,7 +45,8 @@ export class OpenDocumentsService {
           this.save()
         },
       })
-    }
+    } */
+    return null;
   }
 
   getOpenDocuments(): PaperlessDocument[] {

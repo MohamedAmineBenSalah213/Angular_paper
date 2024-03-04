@@ -258,9 +258,9 @@ export class DocumentDetailComponent
       .pipe(
         switchMap((doc) => {
           this.documentId = doc.id
-          console.log(doc);
-          this.previewUrl = this.documentsService.getPreviewUrl(this.documentId)
-         /*  this.http.get(this.previewUrl, { responseType: 'text' }).subscribe({
+          console.log(this.documentId);
+          this.previewUrl = "C:\\Users\\Amine\\archive\\ASN0001\\ASN0001.pdf"/*  this.documentsService.getPreviewUrl(this.documentId) */
+           this.http.get(this.previewUrl, { responseType: 'text' }).subscribe({
             next: (res) => {
               this.previewText = res.toString()
             },
@@ -269,7 +269,7 @@ export class DocumentDetailComponent
                 err.message ?? err.toString()
               }`
             },
-          }) */
+          }) 
           this.downloadUrl = this.documentsService.getDownloadUrl(
             this.documentId
           )

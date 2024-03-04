@@ -56,8 +56,8 @@
         [disabled]="!userIsOwner"
         [existingFields]="document?.custom_fields"
         (created)="refreshCustomFields()"
-        (added)="addField($event)">
-    </pngx-custom-fields-dropdown>
+        (added)="addField($event)"></pngx-custom-fields-dropdown>
+    
 
     <pngx-share-links-dropdown [documentId]="documentId" [disabled]="!userIsOwner" ></pngx-share-links-dropdown><!-- *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.ShareLink }"> -->
 </pngx-page-header>
@@ -103,6 +103,7 @@
                         <div>
                             <pngx-input-text #inputTitle i18n-title title="Title" formControlName="title" [horizontal]="true" (keyup)="titleKeyUp($event)" [error]="error?.title"></pngx-input-text>
                             <pngx-input-text i18n-title title="Archive serial number" [error]="error?.archive_serial_number" [horizontal]="true" formControlName='archive_serial_number'></pngx-input-text>
+                           
                             <pngx-input-date i18n-title title="Date created" formControlName="created_date" [suggestions]="suggestions?.dates" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 [error]="error?.created_date"></pngx-input-date>
                             <pngx-input-select [items]="correspondents" i18n-title title="Correspondent" formControlName="correspondent" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
@@ -168,7 +169,7 @@
                                 </tr>
                                 <tr>
                                     <td i18n>Original mime type</td>
-                                    <td>{{metadata?.original_mime_type}}</td>
+                                    <td>{{document?.mimeType}}</td>
                                 </tr>
                                 <tr *ngIf="metadata?.has_archive_version">
                                     <td i18n>Archive MD5 checksum</td>

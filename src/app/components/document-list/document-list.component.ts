@@ -299,7 +299,7 @@ export class DocumentListComponent
   }
 
   trackByDocumentId(index, item: PaperlessDocument) {
-    console.log(item.id)
+  //  console.log(item.id)
     return item.id
   }
 

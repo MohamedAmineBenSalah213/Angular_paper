@@ -37,7 +37,7 @@ export interface PaperlessDocument extends ObjectWithPermissions {
   tags?: string[]
 
   checksum?: string
-
+  mimeType?:string
   // UTC
   created?: Date
 

@@ -143,7 +143,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
       url += '?original=true'
     }
     return url
-  }
+  }/*  */
 
   getThumbUrl(id: string): string {
     return this.getResourceUrl(id, 'thumb')
