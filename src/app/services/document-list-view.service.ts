@@ -249,9 +249,10 @@ export class DocumentListViewService {
         next: (result) => {
           this.initialized = true
           this.isReloading = false
-          activeListViewState.collectionSize = result.totalItems
-          activeListViewState.documents = result.data
-          console.log(result);
+          activeListViewState.collectionSize = result.count
+          activeListViewState.documents = result.results
+          console.log("act")
+          console.log(activeListViewState.documents);
          /*  this.documentService
             .getSelectionData(result.all)
             .pipe(first())
@@ -375,7 +376,9 @@ export class DocumentListViewService {
     this.reload()
     this.saveDocumentListView()
   }
-
+  set documents(doc:any){
+     this.activeListViewState.documents = doc
+  }
   get documents(): PaperlessDocument[] {
     return this.activeListViewState.documents
   }

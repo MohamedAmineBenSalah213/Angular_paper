@@ -146,9 +146,9 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe((c) => {
         console.log(c.results);
-        this.data=  c.data
+        this.data=  c.results
       
-        this.collectionSize = c.totalItems
+        this.collectionSize = c.count
         this.isLoading = false
       })
   }

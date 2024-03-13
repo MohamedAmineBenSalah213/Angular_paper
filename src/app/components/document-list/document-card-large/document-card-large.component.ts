@@ -65,7 +65,7 @@ export class DocumentCardLargeComponent extends ComponentWithPermissions {
   popoverHidden = true
 
   get searchScoreClass() {
-    if (this.document.__search_hit__) {
+   /*  if (this.document.__search_hit__) {
       if (this.document.__search_hit__.score > 0.7) {
         return 'success'
       } else if (this.document.__search_hit__.score > 0.3) {
@@ -73,7 +73,8 @@ export class DocumentCardLargeComponent extends ComponentWithPermissions {
       } else {
         return 'danger'
       }
-    }
+    } */
+    return null
   }
 
   get searchNoteHighlights() {

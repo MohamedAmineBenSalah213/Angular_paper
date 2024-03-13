@@ -25,10 +25,10 @@ export class ShareLinksDropdownComponent implements OnInit {
   @Input()
   title = $localize`Share Links`
 
-  _documentId: number
+  _documentId: string
 
   @Input()
-  set documentId(id: number) {
+  set documentId(id: string) {
     if (id !== undefined) {
       this._documentId = id
       this.refresh()

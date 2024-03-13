@@ -82,7 +82,7 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
       .listAll(null,null,"list_customfield",null)
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => {
-        this.customFields = result.data
+        this.customFields = result.results
         this.updateUnusedFields()
       })
   }

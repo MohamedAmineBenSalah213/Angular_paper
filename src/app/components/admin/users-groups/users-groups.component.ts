@@ -69,7 +69,7 @@ export class UsersAndGroupsComponent
     this.unsubscribeNotifier.next(true)
   }
 
-  editUser(user: PaperlessUser = null) {
+  editUser(user: PaperlessUser) {
     var modal = this.modalService.open(UserEditDialogComponent, {
       backdrop: 'static',
       size: 'xl',

@@ -27,13 +27,13 @@ export class FileDropComponent {
   ) {}
 
   public get dragDropEnabled(): boolean {
-    return (
+    return true /* (
       this.settings.globalDropzoneEnabled &&
       this.permissionsService.currentUserCan(
         PermissionAction.Add,
         PermissionType.Document
       )
-    )
+    ) */
   }
 
   @ViewChild('ngxFileDrop') ngxFileDrop: NgxFileDropComponent

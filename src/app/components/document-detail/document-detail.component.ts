@@ -158,7 +158,7 @@ export class DocumentDetailComponent
   }
 
   DocumentDetailNavIDs = DocumentDetailNavIDs
-  activeNavID: number
+  activeNavID: string
 
   constructor(
     private documentsService: DocumentService,
@@ -214,23 +214,24 @@ export class DocumentDetailComponent
       .subscribe(() => {
         this.error = null
         const docValues = Object.assign({}, this.documentForm.value)
-       /*  docValues['owner'] =
+        docValues['owner'] =
           this.documentForm.get('permissions_form').value['owner']
         docValues['set_permissions'] =
           this.documentForm.get('permissions_form').value['set_permissions']
         delete docValues['permissions_form']
-        Object.assign(this.document, docValues) */
+        Object.assign(this.document, docValues) 
+        console.log(this.document)
       })
 
     this.correspondentService
       .listAll(null,null,"list_correspondent",null)
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
-      .subscribe((result) => (this.correspondents = result.data))
+      .subscribe((result) => (this.correspondents = result.results))
 
     this.documentTypeService
       .listAll(null,null,"list_types",null)
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
-      .subscribe((result) => (this.documentTypes = result.data))
+      .subscribe((result) => (this.documentTypes = result.results))
 
    /*  this.storagePathService
       .listAll()
@@ -248,18 +249,25 @@ export class DocumentDetailComponent
       .pipe(
         takeUntil(this.unsubscribeNotifier),
         switchMap((paramMap) => {
-         const documentId = paramMap.get('id')
-        //const documentId = "a41b0000-86e9-b4b6-2825-08dc37a2469f"
-          console.log(documentId)
-         // this.docChangeNotifier.next(documentId)
-          return this.documentsService.getlist(documentId,"get_document")
+          const documentId = paramMap.get('id');
+          if (!documentId) {
+            console.log('Document ID is not available in route parameters');
+            // Handle the situation where the document ID is not available
+            // You may want to show an error message or navigate to a different page
+           // return throwError('Document ID is not available');
+          }
+      
+          // Continue with the processing if documentId is available
+          console.log('Document ID:', documentId);
+          this.docChangeNotifier.next(documentId);
+          return this.documentsService.getlist(documentId, 'get_document');
         })
       )
       .pipe(
         switchMap((doc) => {
           this.documentId = doc.id
-          console.log(this.documentId);
-          this.previewUrl = "C:\\Users\\Amine\\archive\\ASN0001\\ASN0001.pdf"/*  this.documentsService.getPreviewUrl(this.documentId) */
+        console.log(this.documentId);
+       /*      this.previewUrl =  this.documentsService.getPreviewUrl(this.documentId) 
            this.http.get(this.previewUrl, { responseType: 'text' }).subscribe({
             next: (res) => {
               this.previewText = res.toString()
@@ -269,7 +277,7 @@ export class DocumentDetailComponent
                 err.message ?? err.toString()
               }`
             },
-          }) 
+          })  */ 
           this.downloadUrl = this.documentsService.getDownloadUrl(
             this.documentId
           )
@@ -282,7 +290,7 @@ export class DocumentDetailComponent
             this.documentId
           )
           if (openDocument) {
-           /*  if (this.documentForm.dirty) {
+             if (this.documentForm.dirty) {
               Object.assign(openDocument, this.documentForm.value)
               openDocument['owner'] =
                 this.documentForm.get('permissions_form').value['owner']
@@ -291,7 +299,7 @@ export class DocumentDetailComponent
                   'set_permissions'
                 ]
               delete openDocument['permissions_form']
-            } */
+            } 
             this.updateComponent(openDocument)
           } else {
             this.openDocumentService.openDocument(doc)
@@ -330,17 +338,17 @@ export class DocumentDetailComponent
            
             title: doc.title,
             content: doc.content,
-            created_date: doc.createdOn,
-            correspondent: doc.correspondent,
+           created_date: doc.created,
+         /*    correspondent: doc.correspondent,
             document_type: doc.document_type,
-            storage_path: doc.storage_path,
-            archive_serial_number: doc.asn,
-            tags: [...doc.tags],
-           /*  permissions_form: {
+            storage_path: doc.storage_path, */
+            archive_serial_number: doc.archive_serial_number,
+            /* tags: [...doc.tags], */
+            permissions_form: {
               owner: doc.owner,
               set_permissions: doc.permissions,
-            }, */
-            custom_fields: doc.custom_fields,
+            },
+            /* custom_fields: doc.custom_fields, */
           })
        
           this.isDirty$ = dirtyCheck(
@@ -366,7 +374,7 @@ export class DocumentDetailComponent
       })
 
     this.route.paramMap.subscribe((paramMap) => {
-      const section = paramMap.get('section')
+       const section = paramMap.get('section')
       if (section) {
         const navIDKey: string = Object.keys(DocumentDetailNavIDs).find(
           (navID) => navID.toLowerCase() == section
@@ -374,10 +382,12 @@ export class DocumentDetailComponent
         if (navIDKey) {
           this.activeNavID = DocumentDetailNavIDs[navIDKey]
         }
-      } else if (paramMap.get('id')) {
-        this.router.navigate(['documents', +paramMap.get('id'), 'details'], {
+      } else if ( paramMap.get('id') ) { 
+        console.log(paramMap.get('id'));
+        
+        this.router.navigate(['documents', +paramMap.get('id'), 'details'] , {
           replaceUrl: true,
-        })
+        } )
       }
     })
   }
@@ -557,6 +567,7 @@ export class DocumentDetailComponent
           close && this.close()
           this.networkActive = false
           this.error = null
+          console.log(this.documentId)
           this.openDocumentService.refreshDocument(this.documentId)
         },
         error: (error) => {
@@ -733,7 +744,7 @@ export class DocumentDetailComponent
 
   pdfPreviewLoaded(pdf: PDFDocumentProxy) {
     this.previewNumPages = pdf.numPages
-    if (this.password) this.requiresPassword = false
+    //if (this.password) this.requiresPassword = false
   }
 
   onError(event) {
@@ -758,31 +769,33 @@ export class DocumentDetailComponent
   }
 
   get notesEnabled(): boolean {
-    return (
+    return  true;/* (
       this.settings.get(SETTINGS_KEYS.NOTES_ENABLED) &&
       this.permissionsService.currentUserCan(
         PermissionAction.View,
         PermissionType.Note
       )
-    )
+    ) */
   }
 
   notesUpdated(notes: PaperlessDocumentNote[]) {
-    this.document.notes = notes
+   /*  this.document.notes = notes */
     this.openDocumentService.refreshDocument(this.documentId)
   }
 
   get userIsOwner(): boolean {
-    let doc: PaperlessDocument = Object.assign({}, this.document)
+    return true;
+  /*   let doc: PaperlessDocument = Object.assign({}, this.document)
     // dont disable while editing
     if (this.document && this.store?.value.permissions_form?.owner) {
       doc.owner = this.store?.value.permissions_form?.owner
     }
-    return !this.document || this.permissionsService.currentUserOwnsObject(doc)
+    return !this.document || this.permissionsService.currentUserOwnsObject(doc) */
   }
 
   get userCanEdit(): boolean {
-    let doc: PaperlessDocument = Object.assign({}, this.document)
+    return true
+    /* let doc: PaperlessDocument = Object.assign({}, this.document)
     // dont disable while editing
     if (this.document && this.store?.value.permissions_form?.owner) {
       doc.owner = this.store?.value.permissions_form?.owner
@@ -793,7 +806,7 @@ export class DocumentDetailComponent
         PermissionAction.Change,
         doc
       )
-    )
+    ) */
   }
 
   filterDocuments(items: ObjectWithId[] | NgbDateStruct[]) {
@@ -849,7 +862,7 @@ export class DocumentDetailComponent
     this.customFieldsService
       .listAll(null,null,"list_customfield",null)
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
-      .subscribe((result) => (this.customFields = result.data))
+      .subscribe((result) => (this.customFields = result.results))
   }
 
   public refreshCustomFields() {
@@ -870,7 +883,7 @@ export class DocumentDetailComponent
 
   private updateFormForCustomFields(emitEvent: boolean = false) {
     this.customFieldFormFields.clear({ emitEvent: false })
-    this.document.custom_fields?.forEach((fieldInstance) => {
+   /*  this.document.custom_fields?.forEach((fieldInstance) => {
       this.customFieldFormFields.push(
         new FormGroup({
           field: new FormControl(
@@ -880,25 +893,25 @@ export class DocumentDetailComponent
         }),
         { emitEvent }
       )
-    })
+    }) */
   }
 
   public addField(field: PaperlessCustomField) {
-    this.document.custom_fields.push({
+   /*  this.document.custom_fields.push({
       field: field.id,
       value: null,
       document: this.documentId,
       created: new Date(),
     })
-    this.updateFormForCustomFields(true)
+    this.updateFormForCustomFields(true) */
   }
 
   public removeField(fieldInstance: PaperlessCustomFieldInstance) {
-    this.document.custom_fields.splice(
+ /*    this.document.custom_fields.splice(
       this.document.custom_fields.indexOf(fieldInstance),
       1
     )
     this.updateFormForCustomFields(true)
-    this.documentForm.updateValueAndValidity()
+    this.documentForm.updateValueAndValidity() */
   }
 }

@@ -64,7 +64,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
   }
 
   addObservablesToDocument(doc: PaperlessDocument) {
-     if (doc.correspondent) {
+/*      if (doc.correspondent) {
       doc.correspondent$ = this.correspondentService.getCached(
         doc.correspondent
       )
@@ -83,7 +83,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     }
     if (doc.storage_path) {
       doc.storage_path$ = this.storagePathService.getCached(doc.storage_path)
-    }  return doc
+    } */  return doc
    
   }
 
@@ -107,7 +107,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     ).pipe(
       map((results) => {
         console.log('Results object:', results); // Log the entire results object
-        console.log('Results results:', results.data ); // Log the results.results property
+        console.log('Results results:', results.results ); // Log the results.results property
        // results.results.forEach((doc) => this.addObservablesToDocument(doc));
          return results
       })
@@ -163,7 +163,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
 
   update(o: PaperlessDocument): Observable<PaperlessDocument> {
     // we want to only set created_date
-    o.created = undefined
+    /* o.created = undefined */
     return super.update(o)
   }
 

@@ -41,8 +41,9 @@ export class CustomFieldsComponent
 
   reload() {
     this.customFieldsService
-    .listAllCustom("list_customfield").subscribe(
+    .listAll(null,null,"list_customfield",null).subscribe(
       (data) => {
+        console.log(data)
         this.fields=data.results;
       },
       (error) => {

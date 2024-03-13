@@ -1,5 +1,6 @@
+{{documentId | json}}
 <pngx-page-header [(title)]="title">
-    <div class="input-group input-group-sm me-5 d-none d-md-flex" *ngIf="getContentType() === 'application/pdf' && !useNativePdfViewer">
+    <div class="input-group input-group-sm me-5 d-none d-md-flex">
       <div class="input-group-text" i18n>Page</div>
       <input class="form-control flex-grow-0 w-auto" type="number" min="1" [max]="previewNumPages" [(ngModel)]="previewCurrentPage" />
       <div class="input-group-text" i18n>of {{previewNumPages}}</div>
@@ -18,7 +19,7 @@
             </svg><span class="d-none d-lg-inline ps-1" i18n>Download</span>
         </a>
 
-        <div class="btn-group" ngbDropdown role="group" *ngIf="metadata?.has_archive_version">
+        <div class="btn-group" ngbDropdown role="group" >
             <button class="btn btn-sm btn-outline-primary dropdown-toggle" ngbDropdownToggle></button>
             <div class="dropdown-menu shadow" ngbDropdownMenu>
                 <a ngbDropdownItem [href]="downloadOriginalUrl" i18n>Download original</a>
@@ -54,11 +55,11 @@
         class="me-2"
         [documentId]="documentId"
         [disabled]="!userIsOwner"
-        [existingFields]="document?.custom_fields"
+    
         (created)="refreshCustomFields()"
         (added)="addField($event)"></pngx-custom-fields-dropdown>
     
-
+<!--     [existingFields]="document?.custom_fields"  -->
     <pngx-share-links-dropdown [documentId]="documentId" [disabled]="!userIsOwner" ></pngx-share-links-dropdown><!-- *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.ShareLink }"> -->
 </pngx-page-header>
 
@@ -74,7 +75,7 @@
                             <use xlink:href="assets/bootstrap-icons.svg#x" />
                         </svg>
                     </button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" i18n-title title="Previous" (click)="previousDoc()" [disabled]="!hasPrevious()">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" i18n-title title="Previous" (click)="previousDoc()" >
                         <svg class="buttonicon" fill="currentColor">
                             <use xlink:href="assets/bootstrap-icons.svg#arrow-left" />
                         </svg>
@@ -87,7 +88,7 @@
                 </div>
 
                 <div class="btn-group ms-auto">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="discard()" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Discard</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="discard()" i18n [disabled]="true">Discard</button>
                     <ng-container><!--  *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Document }" -->
                         <button *ngIf="hasNext()" type="button" class="btn btn-sm btn-outline-primary" (click)="saveEditNext()" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Save &amp; next</button>
                         <button *ngIf="!hasNext()" type="button" class="btn btn-sm btn-outline-primary" (click)="save(true)" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Save &amp; close</button>
@@ -96,8 +97,8 @@
                 </div>
             </div>
 
-            <ul ngbNav #nav="ngbNav" class="nav-underline flex-nowrap flex-md-wrap overflow-auto" (navChange)="onNavChange($event)" [(activeId)]="activeNavID">
-                <li [ngbNavItem]="DocumentDetailNavIDs.Details">
+            <ul ngbNav #nav="ngbNav" class="nav-underline flex-nowrap flex-md-wrap overflow-auto" ><!-- (navChange)="onNavChange($event)" -->
+                 <li [ngbNavItem]="DocumentDetailNavIDs.Details">
                     <a ngbNavLink i18n>Details</a>
                     <ng-template ngbNavContent>
                         <div>
@@ -107,12 +108,12 @@
                             <pngx-input-date i18n-title title="Date created" formControlName="created_date" [suggestions]="suggestions?.dates" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 [error]="error?.created_date"></pngx-input-date>
                             <pngx-input-select [items]="correspondents" i18n-title title="Correspondent" formControlName="correspondent" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
-                                (createNew)="createCorrespondent($event)" [suggestions]="suggestions?.correspondents" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Correspondent }"></pngx-input-select>
+                                (createNew)="createCorrespondent($event)" [suggestions]="suggestions?.correspondents" ></pngx-input-select><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Correspondent }" -->
                             <pngx-input-select [items]="documentTypes" i18n-title title="Document type" formControlName="document_type" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
-                                (createNew)="createDocumentType($event)" [suggestions]="suggestions?.document_types" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.DocumentType }"></pngx-input-select>
+                                (createNew)="createDocumentType($event)" [suggestions]="suggestions?.document_types" ></pngx-input-select><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.DocumentType }" " -->
                             <pngx-input-select [items]="storagePaths" i18n-title title="Storage path" formControlName="storage_path" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
-                                (createNew)="createStoragePath($event)" [suggestions]="suggestions?.storage_paths" i18n-placeholder placeholder="Default" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.StoragePath }"></pngx-input-select>
-                            <pngx-input-tags formControlName="tags" [suggestions]="suggestions?.tags" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Tag }"></pngx-input-tags>
+                                (createNew)="createStoragePath($event)" [suggestions]="suggestions?.storage_paths" i18n-placeholder placeholder="Default" ></pngx-input-select><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.StoragePath }" " -->
+                            <pngx-input-tags formControlName="tags" [suggestions]="suggestions?.tags" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)" ></pngx-input-tags><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Tag }" " -->
                             <ng-container *ngFor="let fieldInstance of document?.custom_fields; let i = index">
                                 <div [formGroup]="customFieldFormFields.controls[i]" [ngSwitch]="getCustomFieldFromInstance(fieldInstance)?.data_type">
                                     <pngx-input-text *ngSwitchCase="PaperlessCustomFieldDataType.String" formControlName="value" [title]="getCustomFieldFromInstance(fieldInstance)?.name" [removable]="true" (removed)="removeField(fieldInstance)" [horizontal]="true" [error]="getCustomFieldError(i)"></pngx-input-text>
@@ -126,7 +127,7 @@
                             </ng-container>
                         </div>
                     </ng-template>
-                </li>
+                </li> 
 
                 <li [ngbNavItem]="DocumentDetailNavIDs.Content">
                     <a ngbNavLink i18n>Content</a>
@@ -141,17 +142,17 @@
                     <a ngbNavLink i18n>Metadata</a>
                     <ng-template ngbNavContent>
 
-                        <table class="table table-borderless" *ngIf="document">
+                       <table class="table table-borderless" ><!-- *ngIf="document" -->
                             <tbody>
-                                <tr>
+                               <!--  <tr>
                                     <td i18n>Date modified</td>
                                     <td>{{document.lastModifiedOn | customDate}}</td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td i18n>Date added</td>
-                                    <td>{{document.createdOn | customDate}}</td>
+                                    <td>{{document.created | customDate}}</td>
                                 </tr>
-                                <tr>
+                              <!--   <tr>
                                     <td i18n>Media filename</td>
                                     <td>{{metadata?.media_filename}}</td>
                                 </tr>
@@ -178,10 +179,10 @@
                                 <tr *ngIf="metadata?.has_archive_version">
                                     <td i18n>Archive file size</td>
                                     <td>{{metadata?.archive_size | fileSize}}</td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
-
+ 
                         <pngx-metadata-collapse i18n-title title="Original document metadata" [metadata]="metadata.original_metadata" *ngIf="metadata?.original_metadata?.length > 0"></pngx-metadata-collapse>
                         <pngx-metadata-collapse i18n-title title="Archived document metadata" [metadata]="metadata.archive_metadata" *ngIf="metadata?.archive_metadata?.length > 0"></pngx-metadata-collapse>
 
@@ -212,12 +213,12 @@
                     </ng-template>
                 </li>
 
-                <li [ngbNavItem]="DocumentDetailNavIDs.Notes" *ngIf="notesEnabled">
+            <!--     <li [ngbNavItem]="DocumentDetailNavIDs.Notes" *ngIf="notesEnabled">
                     <a class="text-nowrap" ngbNavLink i18n>Notes <span *ngIf="document?.notes.length" class="badge text-bg-secondary ms-1">{{document.notes.length}}</span></a>
                     <ng-template ngbNavContent>
                         <pngx-document-notes [documentId]="documentId" [notes]="document?.notes" [addDisabled]="!userCanEdit" (updated)="notesUpdated($event)"></pngx-document-notes>
                     </ng-template>
-                </li>
+                </li> -->
 
                 <li [ngbNavItem]="DocumentDetailNavIDs.Permissions" *ngIf="showPermissions">
                     <a ngbNavLink i18n>Permissions</a>

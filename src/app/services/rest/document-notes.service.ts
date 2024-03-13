@@ -14,7 +14,7 @@ export class DocumentNotesService extends AbstractPaperlessService<PaperlessDocu
 
   getNotes(documentId: string): Observable<PaperlessDocumentNote[]> {
     return this.http.get<PaperlessDocumentNote[]>(
-      this.getResourceUrl(documentId, 'notes')
+      this.getResourceUrl(documentId, 'getnotes')
     )
   }
 

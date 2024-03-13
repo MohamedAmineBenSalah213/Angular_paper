@@ -15,14 +15,14 @@ export class ShareLinkService extends AbstractNameFilterService<PaperlessShareLi
     super(http, 'share_links')
   }
 
-  getLinksForDocument(documentId: number): Observable<PaperlessShareLink[]> {
+  getLinksForDocument(documentId: string): Observable<PaperlessShareLink[]> {
     return this.http.get<PaperlessShareLink[]>(
       `${this.baseUrl}documents/${documentId}/${this.resourceName}/`
     )
   }
 
   createLinkForDocument(
-    documentId: number,
+    documentId: string,
     file_version: PaperlessFileVersion = PaperlessFileVersion.Archive,
     expiration: Date = null
   ) {

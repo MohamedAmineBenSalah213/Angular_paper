@@ -30,7 +30,7 @@ export class DocumentCardSmallComponent extends ComponentWithPermissions impleme
     super()
   }
   ngOnInit(): void {
-   console.log(this.document.id);
+   console.log(this.document.id+'data'+ this.document.title) ;
    
   }
 
@@ -69,17 +69,20 @@ export class DocumentCardSmallComponent extends ComponentWithPermissions impleme
     return this.settingsService.get(SETTINGS_KEYS.DARK_MODE_THUMB_INVERTED)
   }
 
-  getThumbUrl() {
-    return this.documentService.getThumbUrl(this.document.id)
+  getThumbUrl(): string {
+    if ( this.document.id) {
+      return this.documentService.getThumbUrl(this.document.id);
+    }
+    return ''; // Return an empty string if document or document id is not available
   }
 
   getDownloadUrl() {
     
     return this.documentService.getDownloadUrl(this.document.id)
   }
-  imagePath = 'C:\\Users\\Amine\\archive\\image1.jpg';
+
   get previewUrl() {
-    return this.documentService.getPreviewUrl(this.document.id)
+    return this.documentService.getPreviewUrl(this.document.id,true)
   }
 
   get privateName() {
@@ -87,7 +90,7 @@ export class DocumentCardSmallComponent extends ComponentWithPermissions impleme
   }
 
   getTagsLimited$() {
-    const limit = this.document.notes.length > 0 ? 6 : 7
+    /* const limit = this.document.notes.length > 0 ? 6 : 7
     return this.document.tags$.pipe(
       map((tags) => {
         if (tags.length > limit) {
@@ -97,7 +100,7 @@ export class DocumentCardSmallComponent extends ComponentWithPermissions impleme
           return tags
         }
       })
-    )
+    ) */
   }
 
   mouseEnterPreview() {

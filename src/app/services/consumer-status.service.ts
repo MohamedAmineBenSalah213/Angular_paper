@@ -238,6 +238,7 @@ export class ConsumerStatusService {
   }
 
   onDocumentConsumptionFinished() {
+    debugger
     return this.documentConsumptionFinishedSubject
   }
 

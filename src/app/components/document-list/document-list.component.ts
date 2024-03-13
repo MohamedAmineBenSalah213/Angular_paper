@@ -130,6 +130,9 @@ export class DocumentListComponent
   }
 
   ngOnInit(): void {
+    console.log(this.list)
+        debugger
+
     if (localStorage.getItem('document-list:displayMode') != null) {
       this.displayMode = localStorage.getItem('document-list:displayMode')
     }
@@ -139,6 +142,7 @@ export class DocumentListComponent
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe(() => {
         this.list.reload()
+        debugger
       })
 
     this.route.paramMap
@@ -266,7 +270,7 @@ export class DocumentListComponent
   }
 
   toggleSelected(document: PaperlessDocument, event: MouseEvent): void {
-    console.log(document.title,document.createdOn);
+    console.log(document.title);
     
     if (!event.shiftKey) this.list.toggleSelected(document)
     else this.list.selectRangeTo(document)

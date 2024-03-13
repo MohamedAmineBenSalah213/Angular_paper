@@ -15,7 +15,7 @@ import { SettingsService } from 'src/app/services/settings.service'
 })
 export class DocumentTypeEditDialogComponent extends EditDialogComponent<PaperlessDocumentType> {
   getActionupdate() {
-    return null;
+    return 'update_type';
   }
   getAction() {
     return "post_type"
@@ -40,10 +40,13 @@ export class DocumentTypeEditDialogComponent extends EditDialogComponent<Paperle
   getForm(): FormGroup {
     return new FormGroup({
       name: new FormControl(''),
-      matching_algorithm: new FormControl(DEFAULT_MATCHING_ALGORITHM),
-      match: new FormControl(''),
+      matchalgorithm: new FormControl(DEFAULT_MATCHING_ALGORITHM),
+      match: new FormControl(['']),
       is_insensitive: new FormControl(true),
+      documentTypes:new FormControl(null),
       permissions_form: new FormControl(null),
+      owner:new FormControl(null),
+     
     })
   }
 }

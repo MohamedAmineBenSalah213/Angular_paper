@@ -77,7 +77,7 @@ export const SETTINGS: PaperlessUiSetting[] = [
   {
     key: SETTINGS_KEYS.DOCUMENT_LIST_SIZE,
     type: 'number',
-    default: 50,
+    default: 16,
   },
   {
     key: SETTINGS_KEYS.DARK_MODE_USE_SYSTEM,

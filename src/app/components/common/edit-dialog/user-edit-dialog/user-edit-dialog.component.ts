@@ -35,10 +35,10 @@ export class UserEditDialogComponent
   ) {
     super(service, activeModal, service, settingsService)
 
-    groupsService
+   /*  groupsService
       .listAll()
       .pipe(first())
-      .subscribe((result) => (this.groups = result.results))
+      .subscribe((result) => (this.groups = result.results)) */
   }
 
   ngOnInit(): void {
@@ -69,21 +69,23 @@ export class UserEditDialogComponent
   }
 
   onToggleSuperUser() {
-    if (this.objectForm.get('is_superuser').value) {
+   /*  if (this.objectForm.get('is_superuser').value) {
       this.objectForm.get('user_permissions').disable()
     } else {
       this.objectForm.get('user_permissions').enable()
-    }
+    } */
+    return null;
   }
 
   get inheritedPermissions(): string[] {
-    const groupsVal: Array<string> = this.objectForm.get('groups').value
+   /*  const groupsVal: Array<string> = this.objectForm.get('groups').value
 
     if (!groupsVal) return []
     else
       return groupsVal.flatMap(
         (id) => this.groups.find((g) => g.id == id)?.permissions
-      )
+      ) */
+      return null;
   }
 
   save(): void {

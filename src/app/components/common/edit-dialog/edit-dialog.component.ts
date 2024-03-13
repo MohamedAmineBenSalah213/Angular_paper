@@ -144,15 +144,17 @@ export abstract class EditDialogComponent<
   save() {
     this.error = null
   const formValues = Object.assign({}, this.objectForm.value)
-     const permissionsObject: PermissionsFormObject =
+/*      const permissionsObject: PermissionsFormObject =
       this.objectForm.get('permissions_form')?.value
     if (permissionsObject) {
       formValues.owner = permissionsObject.owner
       formValues.set_permissions = permissionsObject.set_permissions
       delete formValues.permissions_form
-    } 
+    }  */
 
     var newObject = Object.assign(Object.assign({}, this.object), formValues)
+    console.log(this.object);
+    
     console.log(newObject+"***"+this.objectForm.value)
     var serverResponse: Observable<T>
     switch (this.dialogMode) {
@@ -165,16 +167,20 @@ export abstract class EditDialogComponent<
         if(newObject.matchalgorithm!= MATCH_AUTO){
         newObject.match = this.splitIntoList(newObject.match);  
         newObject.DocumentTags = [];
+        newObject.DocumentTypes =[];
         newObject.owner="user";
+        console.log(newObject);
+        
         serverResponse = this.service.create(newObject,this.getAction())
         }
-        else{
+        if(!newObject.matchalgorithm){
           serverResponse = this.service.create(newObject,this.getAction())
         } 
         console.log(serverResponse)
         break
       case EditDialogMode.EDIT:
-        newObject.match = this.splitIntoList(newObject.match); 
+       // newObject.match = this.splitIntoList(newObject.match); 
+        newObject.DocumentTags = [];
         newObject.owner="user";
         serverResponse = this.service.update(newObject,this.getActionupdate())
       default:

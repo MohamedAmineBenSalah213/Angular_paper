@@ -81,6 +81,7 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
         extraParams
       ).pipe(publishReplay(1), refCount())
     }
+    console.log(this._listAll);
     return this._listAll
   }
   listAllCustom(action: string): Observable<Results<T>> {
@@ -91,8 +92,6 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
           count: data.length,
           results: data,
           all: null ,
-          data:null,
-          totalItems:null// You may need to adjust this based on your actual requirements
         };
         return results;
       })

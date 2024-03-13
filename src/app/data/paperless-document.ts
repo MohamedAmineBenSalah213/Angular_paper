@@ -16,7 +16,7 @@ export interface SearchHit {
 }
 
 export interface PaperlessDocument extends ObjectWithPermissions {
-  correspondent$?: Observable<PaperlessCorrespondent>
+  /* correspondent$?: Observable<PaperlessCorrespondent>
 
   correspondent?: string
 
@@ -27,17 +27,19 @@ export interface PaperlessDocument extends ObjectWithPermissions {
   storage_path$?: Observable<PaperlessStoragePath>
 
   storage_path?: string
-
+  fileData :string */
   title?: string
 
   content?: string
+  added?: Date
+  created?: Date
 
-  tags$?: Observable<PaperlessTag[]>
+ /*  tags$?: Observable<PaperlessTag[]>
 
   tags?: string[]
 
   checksum?: string
-  mimeType?:string
+ 
   // UTC
   created?: Date
 
@@ -46,20 +48,19 @@ export interface PaperlessDocument extends ObjectWithPermissions {
 
   modified?: Date
 
-  added?: Date
-  createdOn?: Date
-  LastModifiedOn?: Date
+  
+ 
   original_file_name?: string
-  asn?:string
+  
   download_url?: string
 
-  thumbnail_url?: string
+  thumbnail_url?: string */
 
   archive_serial_number?: number
 
-  notes?: PaperlessDocumentNote[]
+ /*  notes?: PaperlessDocumentNote[]
 
   __search_hit__?: SearchHit
 
-  custom_fields?: PaperlessCustomFieldInstance[]
+  custom_fields?: PaperlessCustomFieldInstance[] */
 }
