@@ -64,13 +64,14 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
   }
 
   addObservablesToDocument(doc: PaperlessDocument) {
-/*      if (doc.correspondent) {
+    debugger
+      if (doc.correspondentId) {
       doc.correspondent$ = this.correspondentService.getCached(
-        doc.correspondent
+        doc.correspondentId,"list_correspondent"
       )
     }
-    if (doc.document_type) {
-      doc.document_type$ = this.documentTypeService.getCached(doc.document_type)
+    if (doc.documentType) {
+      doc.document_type$ = this.documentTypeService.getCached(doc.documentType,"list_types")
     }
     if (doc.tags) {
       doc.tags$ = this.tagService
@@ -81,9 +82,11 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
           )
         )
     }
-    if (doc.storage_path) {
-      doc.storage_path$ = this.storagePathService.getCached(doc.storage_path)
-    } */  return doc
+   /*  if (doc.storage_path) {
+      doc.storage_path$ = this.storagePathService.getCached(doc.storage_path,"")
+    }  */ 
+    console.log(doc);
+     return doc
    
   }
 
@@ -108,7 +111,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
       map((results) => {
         console.log('Results object:', results); // Log the entire results object
         console.log('Results results:', results.results ); // Log the results.results property
-       // results.results.forEach((doc) => this.addObservablesToDocument(doc));
+        results.results.forEach((doc) => this.addObservablesToDocument(doc));
          return results
       })
     ) 
@@ -143,7 +146,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
       url += '?original=true'
     }
     return url
-  }/*  */
+  }
 
   getThumbUrl(id: string): string {
     return this.getResourceUrl(id, 'thumb')

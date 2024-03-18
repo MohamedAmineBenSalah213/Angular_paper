@@ -34,11 +34,12 @@ export class DashboardComponent extends ComponentWithPermissions {
   }
 
   get subtitle() {
-    if (this.settingsService.displayName) {
-      return $localize`Hello ${this.settingsService.displayName}, welcome to Paperless-ngx`
+   /*  if (this.settingsService.displayName) {
+      return $localize`Hello ${this.settingsService.displayName} `
     } else {
-      return $localize`Welcome to Paperless-ngx`
-    }
+      return $localize
+    } */
+    return "Hello"
   }
 
   completeTour() {

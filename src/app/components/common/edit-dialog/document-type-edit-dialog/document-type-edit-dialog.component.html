@@ -8,12 +8,12 @@
 
       <div class="col">
         <pngx-input-text i18n-title title="Name" formControlName="name" [error]="error?.name"></pngx-input-text>
-        <pngx-input-select i18n-title title="Matching algorithm" [items]="getMatchingAlgorithms()" formControlName="matchalgorithm"></pngx-input-select>
+        <pngx-input-select i18n-title title="Matching algorithm" [items]="getMatchingAlgorithms()" formControlName="matching_algorithm"></pngx-input-select>
         <pngx-input-text *ngIf="patternRequired" i18n-title title="Matching pattern" formControlName="match" [error]="error?.match"></pngx-input-text>
         <pngx-input-check *ngIf="patternRequired" i18n-title title="Case insensitive" formControlName="is_insensitive"></pngx-input-check>
       </div>
-
-      <div *pngxIfOwner="object">
+<!-- *pngxIfOwner="object" -->
+      <div >
         <pngx-permissions-form [users]="users" accordion="true" formControlName="permissions_form"></pngx-permissions-form>
       </div>
 

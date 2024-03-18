@@ -38,17 +38,14 @@ export class TagEditDialogComponent extends EditDialogComponent<PaperlessTag> {
   getEditTitle() {
     return $localize`Edit tag`
   }
- objectForm: FormGroup; 
   getForm(): FormGroup {
     return new FormGroup({
       name: new FormControl(''),
       color: new FormControl(randomColor()),
       is_inbox_tag: new FormControl(false),
-      matchalgorithm: new FormControl(DEFAULT_MATCHING_ALGORITHM),
+      matching_algorithm: new FormControl(DEFAULT_MATCHING_ALGORITHM),
       match: new FormControl(['']),
       is_insensitive: new FormControl(true),
-      owner:new FormControl(null),
-      DocumentTags:new FormControl(null),
       permissions_form: new FormControl(null),
     })
   }

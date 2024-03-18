@@ -19,9 +19,7 @@ export class CustomFieldEditDialogComponent
   extends EditDialogComponent<PaperlessCustomField>
   implements OnInit
 {
-  getActionupdate() {
-    return null;
-  }
+ 
   constructor(
     service: CustomFieldsService,
     activeModal: NgbActiveModal,
@@ -34,7 +32,7 @@ export class CustomFieldEditDialogComponent
   ngOnInit(): void {
     super.ngOnInit()
     if (this.typeFieldDisabled) {
-      this.objectForm.get('DataType').disable()
+      this.objectForm.get('data_type').disable()
     }
   }
 
@@ -49,7 +47,7 @@ export class CustomFieldEditDialogComponent
   getForm(): FormGroup {
     return new FormGroup({
       name: new FormControl(null),
-      DataType: new FormControl(null),
+      data_type: new FormControl(null),
     })
   }
 
@@ -62,5 +60,8 @@ export class CustomFieldEditDialogComponent
   }
   getAction() {
     return "post_customfield"
+  }
+  getActionupdate() {
+    return "update_customfield";
   }
 }

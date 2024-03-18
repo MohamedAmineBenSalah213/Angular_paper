@@ -100,7 +100,7 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
         distinctUntilChanged()
       )
       .subscribe((title) => {
-      //  this._nameFilter = title
+        this._nameFilter = title
         this.page = 1
         this.reloadData()
       })
@@ -112,13 +112,13 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
   }
 
   getMatching(o: MatchingModel) {
-          if (o.matchalgorithm == MATCH_AUTO) {
+          if (o.matching_algorithm == MATCH_AUTO) {
       return $localize`Automatic`
-    } else if (o.matchalgorithm == MATCH_NONE) {
+    } else if (o.matching_algorithm == MATCH_NONE) {
       return $localize`None`
     } else if (o.match && o.match.length > 0) {
       return `${
-        MATCHING_ALGORITHMS.find((a) => a.id == o.matchalgorithm).shortName
+        MATCHING_ALGORITHMS.find((a) => a.id == o.matching_algorithm).shortName
       }: ${o.match}`
     } else {
       return '-'
@@ -133,13 +133,14 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
 
   reloadData() {
     this.isLoading = true
+    console.log(this._nameFilter);
     this.service
       .listFiltered(
         this.page,
         null,
         null,
         null,
-        null,
+        this._nameFilter,
         this.action,
         false
       )
@@ -147,7 +148,6 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
       .subscribe((c) => {
         console.log(c.results);
         this.data=  c.results
-      
         this.collectionSize = c.count
         this.isLoading = false
       })

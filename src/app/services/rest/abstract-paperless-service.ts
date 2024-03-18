@@ -44,20 +44,18 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
     if (page) {
       httpParams = httpParams.set('pageNumber', page.toString())
     }
-   /*  if (pageSize) {
+    if (pageSize) {
       httpParams = httpParams.set('pageSize', pageSize.toString())
-    } */
-   /*  let ordering = this.getOrderingQueryParam(sortField, sortReverse)
+    } 
+    let ordering = this.getOrderingQueryParam(sortField, sortReverse)
     if (ordering) {
       httpParams = httpParams.set('ordering', ordering)
-    } */
-    /* for (let extraParamKey in extraParams) {
+    } 
+     for (let extraParamKey in extraParams) {
       if (extraParams[extraParamKey] != null) {
         httpParams = httpParams.set(extraParamKey, extraParams[extraParamKey])
       }
-    } */
-    console.log(this.getResourceUrl(null,path));
-    
+    }    
     return this.http.get<Results<T>>(this.getResourceUrl(null,path)  , {
       params: httpParams,
     } );
@@ -99,15 +97,15 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
   }
   
 
-  getCached(id: string): Observable<T> {
-    return this.listAll().pipe(
-      map((list) => list.results.find((o) => o.id == id))
+  getCached(id: string,action:string): Observable<T> {
+    return this.listAll(null,null,action,null).pipe(
+      map((list) => list.results.find((o) => o.id === id))
     )
   }
 
   getCachedMany(ids: string[]): Observable<T[]> {
     return this.listAll().pipe(
-      map((list) => ids.map((id) => list.results.find((o) => o.id == id)))
+      map((list) => ids.map((id) => list.results.find((o) => o.id === id)))
     )
   }
 

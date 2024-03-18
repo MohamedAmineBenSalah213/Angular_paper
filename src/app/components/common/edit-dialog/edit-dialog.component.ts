@@ -59,8 +59,7 @@ export abstract class EditDialogComponent<
   objectForm: FormGroup = this.getForm()
 
   ngOnInit(): void {
-    return null;
-   /*  if (this.object != null) {
+     if (this.object != null) {
       if (this.object['permissions']) {
         this.object['set_permissions'] = this.object['permissions']
       }
@@ -69,6 +68,7 @@ export abstract class EditDialogComponent<
         owner: (this.object as ObjectWithPermissions).owner,
         set_permissions: (this.object as ObjectWithPermissions).permissions,
       }
+      
       this.objectForm.patchValue(this.object)
     } else {
       // defaults from settings
@@ -104,7 +104,7 @@ export abstract class EditDialogComponent<
 
     this.userService.listAll().subscribe((r) => {
       this.users = r.results
-    }) */
+    }) 
   }
 
   getCreateTitle() {
@@ -143,29 +143,31 @@ export abstract class EditDialogComponent<
   }
   save() {
     this.error = null
-  const formValues = Object.assign({}, this.objectForm.value)
-/*      const permissionsObject: PermissionsFormObject =
+     const formValues = Object.assign({}, this.objectForm.value)
+    const permissionsObject: PermissionsFormObject =
       this.objectForm.get('permissions_form')?.value
     if (permissionsObject) {
       formValues.owner = permissionsObject.owner
       formValues.set_permissions = permissionsObject.set_permissions
       delete formValues.permissions_form
-    }  */
+    }  
 
     var newObject = Object.assign(Object.assign({}, this.object), formValues)
     console.log(this.object);
     
-    console.log(newObject+"***"+this.objectForm.value)
+    console.log(newObject.name+"***"+this.objectForm.value)
     var serverResponse: Observable<T>
     switch (this.dialogMode) {
       case EditDialogMode.CREATE:
-         if (newObject.matchalgorithm== MATCH_AUTO){
+        debugger
+         if (newObject.matching_algorithm== MATCH_AUTO){
           newObject.DocumentTags = [];
           newObject.owner="user";
           serverResponse = this.service.create(newObject,this.getAction())
         } 
-        if(newObject.matchalgorithm!= MATCH_AUTO){
-        newObject.match = this.splitIntoList(newObject.match);  
+        if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_AUTO ){
+        newObject.match = this.splitIntoList(newObject.match); 
+        console.log(newObject.match) 
         newObject.DocumentTags = [];
         newObject.DocumentTypes =[];
         newObject.owner="user";
@@ -173,16 +175,22 @@ export abstract class EditDialogComponent<
         
         serverResponse = this.service.create(newObject,this.getAction())
         }
-        if(!newObject.matchalgorithm){
+        else{
           serverResponse = this.service.create(newObject,this.getAction())
         } 
         console.log(serverResponse)
         break
       case EditDialogMode.EDIT:
-       // newObject.match = this.splitIntoList(newObject.match); 
-        newObject.DocumentTags = [];
+        if(newObject.matching_algorithm!= null){
+       newObject.match = this.splitIntoList(newObject.match); 
+        //newObject.DocumentTags = [];
         newObject.owner="user";
+        console.log(this.getActionupdate())
         serverResponse = this.service.update(newObject,this.getActionupdate())
+        }
+        else{
+          serverResponse = this.service.update(newObject,this.getActionupdate())
+        }
       default:
         break
     }

@@ -73,7 +73,7 @@ export class DocumentCardSmallComponent extends ComponentWithPermissions impleme
     if ( this.document.id) {
       return this.documentService.getThumbUrl(this.document.id);
     }
-    return ''; // Return an empty string if document or document id is not available
+   
   }
 
   getDownloadUrl() {
@@ -82,7 +82,7 @@ export class DocumentCardSmallComponent extends ComponentWithPermissions impleme
   }
 
   get previewUrl() {
-    return this.documentService.getPreviewUrl(this.document.id,true)
+    return this.documentService.getPreviewUrl(this.document.id)
   }
 
   get privateName() {
@@ -95,7 +95,7 @@ export class DocumentCardSmallComponent extends ComponentWithPermissions impleme
       map((tags) => {
         if (tags.length > limit) {
           this.moreTags = tags.length - (limit - 1)
-          return tags.slice(0, limit - 1)
+          return tags$.slice(0, limit - 1)
         } else {
           return tags
         }

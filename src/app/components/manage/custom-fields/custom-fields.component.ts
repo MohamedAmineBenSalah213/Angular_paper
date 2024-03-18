@@ -4,7 +4,6 @@ import { Subject, takeUntil } from 'rxjs'
 import {
   DATA_TYPE_LABELS,
   PaperlessCustomField,
-  PaperlessCustomFieldDataType,
 } from 'src/app/data/paperless-custom-field'
 import { PermissionsService } from 'src/app/services/permissions.service'
 import { CustomFieldsService } from 'src/app/services/rest/custom-fields.service'
@@ -28,7 +27,7 @@ export class CustomFieldsComponent
   private unsubscribeNotifier: Subject<any> = new Subject()
   constructor(
     private customFieldsService: CustomFieldsService,
-    //public permissionsService: PermissionsService,
+    public permissionsService: PermissionsService,
     private modalService: NgbModal,
     private toastService: ToastService
   ) {
@@ -41,16 +40,11 @@ export class CustomFieldsComponent
 
   reload() {
     this.customFieldsService
-    .listAll(null,null,"list_customfield",null).subscribe(
-      (data) => {
-        console.log(data)
-        this.fields=data.results;
-      },
-      (error) => {
-        console.error('Error fetching custom fields:', error);
-      }
-    );
-   
+      .listAllCustom("list_customfield")
+      .pipe(takeUntil(this.unsubscribeNotifier))
+      .subscribe((r) => {
+        this.fields = r.results
+      })
   }
 
   editField(field: PaperlessCustomField) {
@@ -73,7 +67,7 @@ export class CustomFieldsComponent
       })
   }
 
-  deleteField(field: PaperlessCustomField) {
+  deleteField(field?: PaperlessCustomField) {
     const modal = this.modalService.open(ConfirmDialogComponent, {
       backdrop: 'static',
     })
@@ -84,7 +78,7 @@ export class CustomFieldsComponent
     modal.componentInstance.btnCaption = $localize`Proceed`
     modal.componentInstance.confirmClicked.subscribe(() => {
       modal.componentInstance.buttonsEnabled = false
-      this.customFieldsService.delete(field,"delete_customfield").subscribe({
+      this.customFieldsService.delete(field).subscribe({
         next: () => {
           modal.close()
           this.toastService.showInfo($localize`Deleted field`)
@@ -99,7 +93,6 @@ export class CustomFieldsComponent
   }
 
   getDataType(field: PaperlessCustomField): string {
-    const dataTypeLabel = DATA_TYPE_LABELS.find((l) => l.id === field.dataType);
-    return dataTypeLabel ? dataTypeLabel.name : 'Unknown';
-    }
+    return DATA_TYPE_LABELS.find((l) => l.id === field.data_type).name
+  }
 }

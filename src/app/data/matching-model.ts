@@ -54,7 +54,7 @@ export interface MatchingModel extends ObjectWithId {
 
   match?: Array<string>
 
-  matchalgorithm?: number
+  matching_algorithm?: number
 
   is_insensitive?: boolean
 

@@ -40,8 +40,8 @@ export class CorrespondentEditDialogComponent extends EditDialogComponent<Paperl
   getForm(): FormGroup {
     return new FormGroup({
       name: new FormControl(''),
-      matchalgorithm: new FormControl(DEFAULT_MATCHING_ALGORITHM),
-      match: new FormControl(''),
+      matching_algorithm: new FormControl(DEFAULT_MATCHING_ALGORITHM),
+      match: new FormControl(['']),
       is_insensitive: new FormControl(true),
       permissions_form: new FormControl(null),
     })

@@ -17,7 +17,7 @@ export class UserService extends AbstractNameFilterService<PaperlessUser> {
   }
 
   update(o: PaperlessUser): Observable<PaperlessUser> {
-    return this.getCached(o.id).pipe(
+    return this.getCached(o.id,"list_user").pipe(
       switchMap((initialUser) => {
         initialUser.user_permissions?.forEach((perm) => {
           const { typeKey, actionKey } =

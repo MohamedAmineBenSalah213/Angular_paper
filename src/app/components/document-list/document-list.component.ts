@@ -150,7 +150,7 @@ export class DocumentListComponent
         filter((params) => params.has('id')), // only on saved view e.g. /view/id
         switchMap((params) => {
           return this.savedViewService
-            .getCached(params.get('id'))
+            .getCached(params.get('id'),"saved_view")
             .pipe(map((view) => ({ view })))
         })
       )
@@ -217,7 +217,7 @@ export class DocumentListComponent
 
   loadViewConfig(viewID: string) {
     this.savedViewService
-      .getCached(viewID)
+      .getCached(viewID,"view")
       .pipe(first())
       .subscribe((view) => {
         this.unmodifiedSavedView = view

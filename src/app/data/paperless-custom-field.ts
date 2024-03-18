@@ -42,8 +42,7 @@ export const DATA_TYPE_LABELS = [
 ]
 
 export interface PaperlessCustomField extends ObjectWithId {
-  dataType: PaperlessCustomFieldDataType
-  Name: string
-  CreatedOn?: Date, 
-  LastModifiedOn?:Date
+  data_type: PaperlessCustomFieldDataType
+  name: string
+  created?: Date
 }

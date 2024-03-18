@@ -15,15 +15,15 @@ export abstract class AbstractNameFilterService<
     action?:string,
     fullPerms?: boolean
   ) {
-    /* let params = {}
+    let params = {}
     if (nameFilter) {
-      params['name__icontains'] = nameFilter
+      params['name_icontains'] = nameFilter
     }
-    if (fullPerms) {
+     /*if (fullPerms) {
       params['full_perms'] = true
     } */
-    //return this.list(page, pageSize, sortField, sortReverse, action,params)
-    return this.list(page, pageSize,null,null,action,null)
+    return this.list(page, pageSize, null, null, action,params)
+    //return this.list(page, pageSize,null,null,action,null)
   // return this.listAllCustom(action)
   }
 

@@ -17,7 +17,7 @@ export class GroupService extends AbstractNameFilterService<PaperlessGroup> {
   }
 
   update(o: PaperlessGroup): Observable<PaperlessGroup> {
-    return this.getCached(o.id).pipe(
+    return this.getCached(o.id,"goup_list").pipe(
       switchMap((initialGroup) => {
         initialGroup.permissions?.forEach((perm) => {
           const { typeKey, actionKey } =
