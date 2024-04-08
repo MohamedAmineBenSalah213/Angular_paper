@@ -15,10 +15,10 @@ import { SettingsService } from 'src/app/services/settings.service'
 })
 export class StoragePathEditDialogComponent extends EditDialogComponent<PaperlessStoragePath> {
   getActionupdate() {
-    return null;
+    return 'update_storage_path';
   }
   getAction() {
-    return null;
+    return 'add_storage_path';
   }
   constructor(
     service: StoragePathService,

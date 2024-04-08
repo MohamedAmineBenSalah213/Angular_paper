@@ -78,7 +78,7 @@ export class CustomFieldsComponent
     modal.componentInstance.btnCaption = $localize`Proceed`
     modal.componentInstance.confirmClicked.subscribe(() => {
       modal.componentInstance.buttonsEnabled = false
-      this.customFieldsService.delete(field).subscribe({
+      this.customFieldsService.delete(field,"delete_customfield").subscribe({
         next: () => {
           modal.close()
           this.toastService.showInfo($localize`Deleted field`)

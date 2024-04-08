@@ -66,7 +66,7 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
   listAll(
     sortField?: string,
     sortReverse?: boolean,
-   path?:string, 
+    path?:string, 
     extraParams?
   ): Observable<Results<T>> {
     if (!this._listAll) {
@@ -79,7 +79,6 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
         extraParams
       ).pipe(publishReplay(1), refCount())
     }
-    console.log(this._listAll);
     return this._listAll
   }
   listAllCustom(action: string): Observable<Results<T>> {

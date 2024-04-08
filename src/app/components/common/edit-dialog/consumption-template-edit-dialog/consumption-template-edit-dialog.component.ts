@@ -5,6 +5,7 @@ import { first } from 'rxjs'
 import {
   DocumentSource,
   PaperlessConsumptionTemplate,
+  WorkflowTriggerType,
 } from 'src/app/data/paperless-consumption-template'
 import { PaperlessCorrespondent } from 'src/app/data/paperless-correspondent'
 import { PaperlessDocumentType } from 'src/app/data/paperless-document-type'
@@ -18,6 +19,21 @@ import { SettingsService } from 'src/app/services/settings.service'
 import { EditDialogComponent } from '../edit-dialog.component'
 import { MailRuleService } from 'src/app/services/rest/mail-rule.service'
 import { PaperlessMailRule } from 'src/app/data/paperless-mail-rule'
+import { DEFAULT_MATCHING_ALGORITHM, MATCHING_ALGORITHMS, MATCH_AUTO } from 'src/app/data/matching-model'
+export const WORKFLOW_TYPE_OPTIONS = [
+  {
+    id: WorkflowTriggerType.Consumption,
+    name: $localize`Consumption Started`,
+  },
+  {
+    id: WorkflowTriggerType.DocumentAdded,
+    name: $localize`Document Added`,
+  },
+  {
+    id: WorkflowTriggerType.DocumentUpdated,
+    name: $localize`Document Updated`,
+  },
+]
 
 export const DOCUMENT_SOURCE_OPTIONS = [
   {
@@ -33,25 +49,22 @@ export const DOCUMENT_SOURCE_OPTIONS = [
     name: $localize`Mail Fetch`,
   },
 ]
-
+const TRIGGER_MATCHING_ALGORITHMS = MATCHING_ALGORITHMS.filter(
+  (a) => a.id !== MATCH_AUTO
+)
 @Component({
   selector: 'pngx-consumption-template-edit-dialog',
   templateUrl: './consumption-template-edit-dialog.component.html',
   styleUrls: ['./consumption-template-edit-dialog.component.scss'],
 })
 export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<PaperlessConsumptionTemplate> {
-  getActionupdate() {
-    throw new Error('Method not implemented.')
-  }
-  getAction() {
-    throw new Error('Method not implemented.')
-  }
+ 
   templates: PaperlessConsumptionTemplate[]
   correspondents: PaperlessCorrespondent[]
   documentTypes: PaperlessDocumentType[]
   storagePaths: PaperlessStoragePath[]
   mailRules: PaperlessMailRule[]
-
+  public WorkflowTriggerType = WorkflowTriggerType
   constructor(
     service: ConsumptionTemplateService,
     activeModal: NgbActiveModal,
@@ -96,10 +109,21 @@ export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<
   getForm(): FormGroup {
     return new FormGroup({
       name: new FormControl(null),
+      type: new FormControl(null),
       account: new FormControl(null),
       filter_filename: new FormControl(null),
       filter_path: new FormControl(null),
       filter_mailrule: new FormControl(null),
+      matching_algorithm: new FormControl(),
+      match: new FormControl(''),
+      is_insensitive: new FormControl(null),
+      filter_has_tags: new FormControl(null),
+      filter_has_correspondent: new FormControl(
+        null
+      ),
+      filter_has_document_type: new FormControl(
+        null
+      ),
       order: new FormControl(null),
       sources: new FormControl([]),
       assign_title: new FormControl(null),
@@ -114,8 +138,23 @@ export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<
       assign_change_groups: new FormControl([]),
     })
   }
-
+  getMatchingAlgorithms() {
+    // No auto matching
+    return TRIGGER_MATCHING_ALGORITHMS
+  }
+  getTriggerTypeOptionName(type: WorkflowTriggerType): string {
+    return this.triggerTypeOptions.find((t) => t.id === type)?.name ?? ''
+  }
   get sourceOptions() {
     return DOCUMENT_SOURCE_OPTIONS
+  }
+  get triggerTypeOptions() {
+    return WORKFLOW_TYPE_OPTIONS
+  }
+  getActionupdate() {
+    throw new Error('Method not implemented.')
+  }
+  getAction() {
+    throw new Error('Method not implemented.')
   }
 }

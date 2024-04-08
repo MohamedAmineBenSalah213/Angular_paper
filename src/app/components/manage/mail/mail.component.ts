@@ -44,8 +44,9 @@ export class MailComponent
   }
 
   ngOnInit(): void {
+    
     this.mailAccountService
-      .listAll(null, null, null,{ full_perms: true })
+      .listAll(null, null, "list_mailaccount",{ full_perms: true })
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe({
         next: (r) => {
@@ -58,9 +59,10 @@ export class MailComponent
           )
         },
       })
-
+     
     this.mailRuleService
-      .listAll(null, null, null,{ full_perms: true })
+    .listAll(null, null, "list_mailrule",{ full_perms: true })
+   
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe({
         next: (r) => {
@@ -93,7 +95,7 @@ export class MailComponent
         )
         this.mailAccountService.clearCache()
         this.mailAccountService
-          .listAll(null, null, null,{ full_perms: true })
+          .listAll(null, null, "list_mailaccount",{ full_perms: true })
           .subscribe((r) => {
             this.mailAccounts = r.results
           })
@@ -122,7 +124,7 @@ export class MailComponent
           this.toastService.showInfo($localize`Deleted mail account`)
           this.mailAccountService.clearCache()
           this.mailAccountService
-            .listAll(null, null, null,{ full_perms: true })
+            .listAll(null, null, "list_mailaccount",{ full_perms: true })
             .subscribe((r) => {
               this.mailAccounts = r.results
             })
@@ -152,7 +154,7 @@ export class MailComponent
         this.toastService.showInfo($localize`Saved rule "${newMailRule.name}".`)
         this.mailRuleService.clearCache()
         this.mailRuleService
-          .listAll(null, null, null,{ full_perms: true })
+          .listAll(null, null, "list_mailrule",{ full_perms: true })
           .subscribe((r) => {
             this.mailRules = r.results
           })
@@ -181,7 +183,7 @@ export class MailComponent
           this.toastService.showInfo($localize`Deleted mail rule`)
           this.mailRuleService.clearCache()
           this.mailRuleService
-            .listAll(null, null, null,{ full_perms: true })
+            .listAll(null, null, "list_mailrule",{ full_perms: true })
             .subscribe((r) => {
               this.mailRules = r.results
             })

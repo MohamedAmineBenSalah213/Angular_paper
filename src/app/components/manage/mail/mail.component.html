@@ -1,10 +1,10 @@
 <pngx-page-header title="Mail Settings" i18n-title>
 </pngx-page-header>
-
-<ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailAccount }">
+<!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailAccount }" -->
+<ng-container >
     <h4>
         <ng-container i18n>Mail accounts</ng-container>
-        <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="editMailAccount()" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.MailAccount }">
+        <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="editMailAccount()" ><!-- *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.MailAccount }" -->
         <svg class="sidebaricon me-1" fill="currentColor">
             <use xlink:href="assets/bootstrap-icons.svg#plus-circle" />
         </svg>
@@ -22,21 +22,21 @@
 
         <li *ngFor="let account of mailAccounts" class="list-group-item">
             <div class="row">
-            <div class="col d-flex align-items-center"><button class="btn btn-link p-0" type="button" (click)="editMailAccount(account)" [disabled]="!permissionsService.currentUserCan(PermissionAction.Change, PermissionType.MailAccount)">{{account.name}}</button></div>
+            <div class="col d-flex align-items-center"><button class="btn btn-link p-0" type="button" (click)="editMailAccount(account)" >{{account.name}}</button></div><!-- [disabled]="!permissionsService.currentUserCan(PermissionAction.Change, PermissionType.MailAccount)" -->
             <div class="col d-flex align-items-center">{{account.imap_server}}</div>
             <div class="col">
                 <div class="btn-group">
-                <button *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailAccount }" [disabled]="!userCanEdit(account)" class="btn btn-sm btn-outline-secondary" type="button" (click)="editMailAccount(account)">
-                    <svg class="buttonicon-sm" fill="currentColor">
+                <button [disabled]="!userCanEdit(account)" class="btn btn-sm btn-outline-secondary" type="button" (click)="editMailAccount(account)">
+                    <svg class="buttonicon-sm" fill="currentColor"><!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailAccount }"  -->
                         <use xlink:href="assets/bootstrap-icons.svg#pencil" />
                     </svg>&nbsp;<ng-container i18n>Edit</ng-container>
                 </button>
-                <button *pngxIfOwner="account" class="btn btn-sm btn-outline-secondary" type="button" (click)="editPermissions(account)">
+                <button class="btn btn-sm btn-outline-secondary" type="button" (click)="editPermissions(account)"><!-- *pngxIfOwner="account"  -->
                     <svg class="buttonicon-sm" fill="currentColor">
                         <use xlink:href="assets/bootstrap-icons.svg#person-lock" />
                     </svg>&nbsp;<ng-container i18n>Permissions</ng-container>
                 </button>
-                <button *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.MailAccount }" [disabled]="!userIsOwner(account)" class="btn btn-sm btn-outline-danger" type="button" (click)="deleteMailAccount(account)">
+                <button  [disabled]="!userIsOwner(account)" class="btn btn-sm btn-outline-danger" type="button" (click)="deleteMailAccount(account)"><!-- *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.MailAccount }" -->
                     <svg class="buttonicon-sm" fill="currentColor">
                         <use xlink:href="assets/bootstrap-icons.svg#trash" />
                     </svg>&nbsp;<ng-container i18n>Delete</ng-container>
@@ -50,10 +50,10 @@
 
 </ng-container>
 
-<ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailRule }">
+<ng-container ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailRule }" -->
     <h4 class="mt-4">
         <ng-container i18n>Mail rules</ng-container>
-        <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="editMailRule()" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.MailRule }">
+        <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="editMailRule()" ><!-- *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.MailRule }" -->
         <svg class="sidebaricon me-1" fill="currentColor">
             <use xlink:href="assets/bootstrap-icons.svg#plus-circle" />
         </svg>
@@ -71,21 +71,24 @@
 
         <li *ngFor="let rule of mailRules" class="list-group-item">
             <div class="row">
-            <div class="col d-flex align-items-center"><button class="btn btn-link p-0" type="button" (click)="editMailRule(rule)" [disabled]="!permissionsService.currentUserCan(PermissionAction.Change, PermissionType.MailRule)">{{rule.name}}</button></div>
+            <div class="col d-flex align-items-center"><button class="btn btn-link p-0" type="button" (click)="editMailRule(rule)" >{{rule.name}}</button></div><!-- [disabled]="!permissionsService.currentUserCan(PermissionAction.Change, PermissionType.MailRule)" -->
             <div class="col d-flex align-items-center">{{(mailAccountService.getCached(rule.account) | async)?.name}}</div>
             <div class="col">
                 <div class="btn-group">
-                <button *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailRule }" [disabled]="!userCanEdit(rule)" class="btn btn-sm btn-outline-secondary" type="button" (click)="editMailRule(rule)">
+                    <!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailRule }" -->
+                <button  [disabled]="!userCanEdit(rule)" class="btn btn-sm btn-outline-secondary" type="button" (click)="editMailRule(rule)">
                     <svg class="buttonicon-sm" fill="currentColor">
                         <use xlink:href="assets/bootstrap-icons.svg#pencil" />
                     </svg>&nbsp;<ng-container i18n>Edit</ng-container>
                 </button>
-                <button *pngxIfOwner="rule" class="btn btn-sm btn-outline-secondary" type="button" (click)="editPermissions(rule)">
+                <!-- *pngxIfOwner="rule" -->
+                <button  class="btn btn-sm btn-outline-secondary" type="button" (click)="editPermissions(rule)">
                     <svg class="buttonicon-sm" fill="currentColor">
                         <use xlink:href="assets/bootstrap-icons.svg#person-lock" />
                     </svg>&nbsp;<ng-container i18n>Permissions</ng-container>
                 </button>
-                <button *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.MailRule }" [disabled]="!userIsOwner(rule)" class="btn btn-sm btn-outline-danger" type="button" (click)="deleteMailRule(rule)">
+                <!-- *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.MailRule }" -->
+                <button  [disabled]="!userIsOwner(rule)" class="btn btn-sm btn-outline-danger" type="button" (click)="deleteMailRule(rule)">
                     <svg class="buttonicon-sm" fill="currentColor">
                         <use xlink:href="assets/bootstrap-icons.svg#trash" />
                     </svg>&nbsp;<ng-container i18n>Delete</ng-container>

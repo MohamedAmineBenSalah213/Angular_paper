@@ -5,6 +5,11 @@ export enum DocumentSource {
   ApiUpload = 2,
   MailFetch = 3,
 }
+export enum WorkflowTriggerType {
+  Consumption = 1,
+  DocumentAdded = 2,
+  DocumentUpdated = 3,
+}
 
 export interface PaperlessConsumptionTemplate extends ObjectWithId {
   name: string
@@ -17,19 +22,33 @@ export interface PaperlessConsumptionTemplate extends ObjectWithId {
 
   filter_path?: string
 
-  filter_mailrule?: number // PaperlessMailRule.id
+  filter_mailrule?: string // MailRule.id
+
+  match?: string
+
+  matching_algorithm?: number
+
+  is_insensitive?: boolean
+
+  filter_has_tags?: string[] // Tag.id[]
+
+  filter_has_correspondent?: string // Correspondent.id
+
+  filter_has_document_type?: string // DocumentType.id
 
   assign_title?: string
 
-  assign_tags?: number[] // PaperlessTag.id
+  assign_tags?: number[] // Tag.id
 
-  assign_document_type?: number // PaperlessDocumentType.id
+  assign_document_type?: number // DocumentType.id
 
-  assign_correspondent?: number // PaperlessCorrespondent.id
+  assign_correspondent?: number // Correspondent.id
 
-  assign_storage_path?: number // PaperlessStoragePath.id
+  assign_storage_path?: number // StoragePath.id
 
-  assign_owner?: number // PaperlessUser.id
+  assign_custom_fields?: number[] 
+
+  assign_owner?: number // User.id
 
   assign_view_users?: number[] // [PaperlessUser.id]
 

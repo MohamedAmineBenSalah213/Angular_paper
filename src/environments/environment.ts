@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:5046',
+  apiBaseUrl: 'http://localhost:63092',
   apiVersion: '3',
   appTitle: 'Paperless-ngx',
   version: 'DEVELOPMENT',

@@ -136,15 +136,15 @@ export class MailRuleEditDialogComponent extends EditDialogComponent<PaperlessMa
       .pipe(first())
       .subscribe((result) => (this.accounts = result.results))
 
-    correspondentService
-      .listAll()
+     correspondentService
+      .listAll(null,null,"list_correspondent",null)
       .pipe(first())
       .subscribe((result) => (this.correspondents = result.results))
 
     documentTypeService
-      .listAll()
+      .listAll(null,null,"list_types",null)
       .pipe(first())
-      .subscribe((result) => (this.documentTypes = result.results))
+      .subscribe((result) => (this.documentTypes = result.results)) 
   }
 
   getCreateTitle() {

@@ -24,10 +24,10 @@ export interface PaperlessDocument extends ObjectWithPermissions {
 
   documentType?: string
 
-  /* storage_path$?: Observable<PaperlessStoragePath>
+   storage_path$?: Observable<PaperlessStoragePath>
 
-  storage_path?: string */
-  //fileData :string 
+  storage_path?: string 
+  
   title?: string
 
   content?: string

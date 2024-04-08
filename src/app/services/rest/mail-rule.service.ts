@@ -12,12 +12,11 @@ export class MailRuleService extends AbstractPaperlessService<PaperlessMailRule>
   loading: boolean
 
   constructor(http: HttpClient) {
-    super(http, 'mail_rules')
+    super(http, 'mailrule')
   }
-
   private reload() {
     this.loading = true
-    this.listAll().subscribe((r) => {
+    this.listAllCustom("list_mailrule").subscribe((r) => {
       this.mailRules = r.results
       this.loading = false
     })
@@ -30,11 +29,11 @@ export class MailRuleService extends AbstractPaperlessService<PaperlessMailRule>
   }
 
   create(o: PaperlessMailRule) {
-    return super.create(o).pipe(tap(() => this.reload()))
+    return super.create(o,"add_mailrule").pipe(tap(() => this.reload()))
   }
 
   update(o: PaperlessMailRule) {
-    return super.update(o).pipe(tap(() => this.reload()))
+    return super.update(o,"update_mailrule").pipe(tap(() => this.reload()))
   }
 
   patchMany(objects: PaperlessMailRule[]): Observable<PaperlessMailRule[]> {
@@ -44,6 +43,6 @@ export class MailRuleService extends AbstractPaperlessService<PaperlessMailRule>
   }
 
   delete(o: PaperlessMailRule) {
-    return super.delete(o).pipe(tap(() => this.reload()))
+    return super.delete(o,"delete_mailrule").pipe(tap(() => this.reload()))
   }
 }

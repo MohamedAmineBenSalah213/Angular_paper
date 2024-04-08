@@ -12,12 +12,12 @@ export class MailAccountService extends AbstractPaperlessService<PaperlessMailAc
   loading: boolean
 
   constructor(http: HttpClient) {
-    super(http, 'mail_accounts')
+    super(http, 'mailaccount')
   }
 
   private reload() {
     this.loading = true
-    this.listAll().subscribe((r) => {
+    this.listAll(null, null, "list_mailaccount",null).subscribe((r) => {
       this.mailAccounts = r.results
       this.loading = false
     })
@@ -30,11 +30,11 @@ export class MailAccountService extends AbstractPaperlessService<PaperlessMailAc
   }
 
   create(o: PaperlessMailAccount) {
-    return super.create(o).pipe(tap(() => this.reload()))
+    return super.create(o,"add_mailaccount").pipe(tap(() => this.reload()))
   }
 
   update(o: PaperlessMailAccount) {
-    return super.update(o).pipe(tap(() => this.reload()))
+    return super.update(o,"update_mailaccount").pipe(tap(() => this.reload()))
   }
 
   patchMany(
@@ -46,7 +46,7 @@ export class MailAccountService extends AbstractPaperlessService<PaperlessMailAc
   }
 
   delete(o: PaperlessMailAccount) {
-    return super.delete(o).pipe(tap(() => this.reload()))
+    return super.delete(o,"delete_mailaccount").pipe(tap(() => this.reload()))
   }
 
   test(o: PaperlessMailAccount) {

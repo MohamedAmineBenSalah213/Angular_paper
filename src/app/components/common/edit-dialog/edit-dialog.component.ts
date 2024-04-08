@@ -139,8 +139,14 @@ export abstract class EditDialogComponent<
    abstract getAction()
    abstract getActionupdate()
    splitIntoList(input: string): string[] {
-    return input.split(' '); 
-  }
+    // Remove spaces and commas from the input string
+   // let cleanedInput = input.replace(/[,\s]+/g, '');
+ 
+    // Split the cleaned input into words based on word boundaries
+  let words = input.split(/\s+/).filter(word => word !== '' && word !== ',');
+ 
+    return words;
+}
   save() {
     this.error = null
      const formValues = Object.assign({}, this.objectForm.value)
@@ -166,10 +172,12 @@ export abstract class EditDialogComponent<
           serverResponse = this.service.create(newObject,this.getAction())
         } 
         if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_AUTO ){
-        newObject.match = this.splitIntoList(newObject.match); 
-        console.log(newObject.match) 
-        newObject.DocumentTags = [];
-        newObject.DocumentTypes =[];
+          if(newObject.match!=""){
+          newObject.match = this.splitIntoList(newObject.match); 
+          console.log(newObject.match) 
+          }
+          else
+           newObject.match=[]
         newObject.owner="user";
         console.log(newObject);
         
@@ -181,12 +189,22 @@ export abstract class EditDialogComponent<
         console.log(serverResponse)
         break
       case EditDialogMode.EDIT:
-        if(newObject.matching_algorithm!= null){
-       newObject.match = this.splitIntoList(newObject.match); 
+        debugger
+        if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_NONE){
+            if(newObject.match){
+            newObject.match = this.splitIntoList(newObject.match); 
+            }
+          
         //newObject.DocumentTags = [];
         newObject.owner="user";
         console.log(this.getActionupdate())
         serverResponse = this.service.update(newObject,this.getActionupdate())
+        }
+        if(newObject.matching_algorithm== MATCH_NONE){
+          newObject.match= [];
+          newObject.owner="user";
+          console.log(this.getActionupdate())
+          serverResponse = this.service.update(newObject,this.getActionupdate())
         }
         else{
           serverResponse = this.service.update(newObject,this.getActionupdate())

@@ -402,7 +402,7 @@ export class DocumentDetailComponent
     this.requiresPassword = false
     // this.customFields = doc.custom_fields.concat([])
     this.updateFormForCustomFields()
-    this.documentsService
+    /* this.documentsService
       .getMetadata(doc.id)
       .pipe(first())
       .subscribe({
@@ -416,14 +416,14 @@ export class DocumentDetailComponent
             error
           )
         },
-      })
-    if (
+      }) */
+    /* if (
       this.permissionsService.currentUserHasObjectPermissions(
         PermissionAction.Change,
         doc
       )
     ) {
-      this.documentsService
+      /* this.documentsService
         .getSuggestions(doc.id)
         .pipe(first(), takeUntil(this.unsubscribeNotifier))
         .subscribe({
@@ -437,8 +437,8 @@ export class DocumentDetailComponent
               error
             )
           },
-        })
-    }
+        }) 
+    } */
     this.title = this.documentTitlePipe.transform(doc.title)
     const docFormValues = Object.assign({}, doc)
     docFormValues['permissions_form'] = {

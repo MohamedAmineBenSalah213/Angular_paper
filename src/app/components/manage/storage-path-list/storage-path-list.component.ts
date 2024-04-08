@@ -37,7 +37,7 @@ export class StoragePathListComponent extends ManagementListComponent<PaperlessS
       $localize`storage path`,
       $localize`storage paths`,
       PermissionType.StoragePath,
-      "storage_path",
+      'list_storage_paths',
       [
         {
           key: 'path',
@@ -54,6 +54,6 @@ export class StoragePathListComponent extends ManagementListComponent<PaperlessS
     return $localize`Do you really want to delete the storage path "${object.name}"?`
   }
   getAction(){
-    return "delete_storage";
+    return 'delete_storage_path';
   }
 }
