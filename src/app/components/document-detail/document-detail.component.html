@@ -107,13 +107,13 @@
                             <pngx-input-date i18n-title title="Date created" formControlName="created_date" [suggestions]="suggestions?.dates" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 [error]="error?.created_date"></pngx-input-date>
                           <!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Correspondent }" -->
-                                <pngx-input-select [items]="correspondents" i18n-title title="Correspondent" formControlName="correspondent" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
+                                <pngx-input-select [items]="correspondents" i18n-title title="Correspondent" formControlName="correspondentId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 (createNew)="createCorrespondent($event)" [suggestions]="suggestions?.correspondents"></pngx-input-select>
                            <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.DocumentType }" -->
-                                <pngx-input-select [items]="documentTypes" i18n-title title="Document type" formControlName="document_type" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
+                                <pngx-input-select [items]="documentTypes" i18n-title title="Document type" formControlName="documentTypeId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 (createNew)="createDocumentType($event)" [suggestions]="suggestions?.document_types" ></pngx-input-select>
                                 <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.StoragePath }" -->
-                            <pngx-input-select [items]="storagePaths" i18n-title title="Storage path" formControlName="storage_path" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
+                            <pngx-input-select [items]="storagePaths" i18n-title title="Storage path" formControlName="storagePathId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 (createNew)="createStoragePath($event)" [suggestions]="suggestions?.storage_paths" i18n-placeholder placeholder="Default" ></pngx-input-select>
                             <pngx-input-tags formControlName="tags" [suggestions]="suggestions?.tags" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)" ></pngx-input-tags>
                             <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Tag }" -->
@@ -217,10 +217,10 @@
                     </ng-template>
                 </li>
 
-                <li [ngbNavItem]="DocumentDetailNavIDs.Notes" *ngIf="notesEnabled">
+                <li [ngbNavItem]="DocumentDetailNavIDs.Notes" ><!-- *ngIf="notesEnabled" -->
                     <a class="text-nowrap" ngbNavLink i18n>Notes <span *ngIf="document?.notes.length" class="badge text-bg-secondary ms-1">{{document.notes.length}}</span></a>
                     <ng-template ngbNavContent>
-                        <pngx-document-notes [documentId]="documentId" [notes]="document?.notes" [addDisabled]="!userCanEdit" (updated)="notesUpdated($event)"></pngx-document-notes>
+                        <pngx-document-notes [documentId]="documentId" [notes]="document?.notes" (updated)="notesUpdated($event)"></pngx-document-notes><!--  [addDisabled]="!userCanEdit" -->
                     </ng-template>
                 </li>
 

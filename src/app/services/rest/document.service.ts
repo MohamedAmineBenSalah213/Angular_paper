@@ -70,8 +70,8 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
         doc.correspondentId,"list_correspondent"
       )
     }
-    if (doc.documentType) {
-      doc.document_type$ = this.documentTypeService.getCached(doc.documentType,"list_types")
+    if (doc.documentTypeId) {
+      doc.document_type$ = this.documentTypeService.getCached(doc.documentTypeId,"list_types")
     }
     if (doc.tags) {
       doc.tags$ = this.tagService
@@ -164,10 +164,10 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     return this.http.get<number>(this.getResourceUrl(null, 'next_asn'))
   }
 
-  update(o: PaperlessDocument): Observable<PaperlessDocument> {
+  update(o: PaperlessDocument,action:string): Observable<PaperlessDocument> {
     // we want to only set created_date
     /* o.created = undefined */
-    return super.update(o)
+    return super.update(o,action)
   }
 
   uploadDocument(formData : FormData) {

@@ -55,7 +55,7 @@ export class TagsComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     
-    this.tagService.listAll(null, null, "list_tags",null).subscribe((result) => {
+    this.tagService.listAllCustom("list_tags").subscribe((result) => {
       this.tags = result.results
     })
   }
@@ -94,7 +94,8 @@ export class TagsComponent implements OnInit, ControlValueAccessor {
 
   getTag(id: string) {
     if (this.tags) {
-      return this.tags.find((tag) => tag.id == id)
+
+      return this.tags.find((tag) => tag.id === id)
     } else {
       return null
     }

@@ -79,11 +79,18 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
 
   private getFields() {
     this.customFieldsService
-      .listAll(null,null,"list_customfield",null)
+      .listAllCustom()
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => {
-        this.customFields = result.results
-        this.updateUnusedFields()
+        console.log(result.results)
+        if (Array.isArray(result.results)) {
+          this.customFields = result.results;
+          console.log(this.customFields)
+          this.updateUnusedFields();
+        } else {
+          console.error("result.results is not an array");
+          // Handle the case when result.results is not an array
+        }
       })
   }
 
@@ -94,6 +101,7 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
   }
 
   private updateUnusedFields() {
+    console.log(this.customFields)
     this.unusedFields = this.customFields.filter(
       (f) =>
         !this.existingFields?.find(

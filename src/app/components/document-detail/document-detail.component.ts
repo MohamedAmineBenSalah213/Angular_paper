@@ -120,9 +120,9 @@ export class DocumentDetailComponent
     title: new FormControl(''),
     content: new FormControl(''),
     created_date: new FormControl(),
-    correspondent: new FormControl(),
-    document_type: new FormControl(),
-    storage_path: new FormControl(),
+    correspondentId: new FormControl(''),
+    documentTypeId: new FormControl(),
+    storagePathId: new FormControl(),
     archive_serial_number: new FormControl(),
     tags: new FormControl([]),
     permissions_form: new FormControl(null),
@@ -210,6 +210,7 @@ export class DocumentDetailComponent
   }
 
   ngOnInit(): void {
+    debugger
     this.documentForm.valueChanges
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe(() => {
@@ -232,12 +233,12 @@ export class DocumentDetailComponent
       .listAll(null,null,"list_types",null)
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => (this.documentTypes = result.results))
-   /*  this.storagePathService
-      .listAll()
+    this.storagePathService
+      .listAll(null,null,"list_storage_paths",null)
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => (this.storagePaths = result.results))
 
-    this.userService
+   /* this.userService
       .listAll()
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => (this.users = result.results)) */
@@ -283,13 +284,13 @@ export class DocumentDetailComponent
           if (openDocument) {
             if (this.documentForm.dirty) {
               Object.assign(openDocument, this.documentForm.value)
-              /* openDocument['owner'] =
+               openDocument['owner'] =
                 this.documentForm.get('permissions_form').value['owner']
               openDocument['permissions'] =
                 this.documentForm.get('permissions_form').value[
                   'set_permissions'
                 ]
-              delete openDocument['permissions_form'] */
+              delete openDocument['permissions_form'] 
             }
             this.updateComponent(openDocument)
           } else {
@@ -330,8 +331,8 @@ export class DocumentDetailComponent
             content: doc.content,
             created_date: doc.created,
             correspondent: doc.correspondentId,
-            document_type: doc.documentType,
-            //storage_path: doc.storage_path,
+            document_type: doc.documentTypeId,
+            storage_path: doc.storagePathId,
             archive_serial_number: doc.archive_serial_number,
             tags: [...doc.tags],
             permissions_form: {
@@ -370,7 +371,10 @@ export class DocumentDetailComponent
           (navID) => navID.toLowerCase() == section
         )
         if (navIDKey) {
+      
+          
           this.activeNavID = DocumentDetailNavIDs[navIDKey]
+          console.log(this.activeNavID);
         }
       } else if (paramMap.get('id')) {
         this.router.navigate(['documents', paramMap.get('id'), 'details'], {
@@ -447,6 +451,7 @@ export class DocumentDetailComponent
     }
 
     this.documentForm.patchValue(docFormValues, { emitEvent: false })
+    console.log(this.documentForm)
     if (!this.userCanEdit) this.documentForm.disable()
   }
 
@@ -546,7 +551,7 @@ export class DocumentDetailComponent
   save(close: boolean = false) {
     this.networkActive = true
     this.documentsService
-      .update(this.document)
+      .update(this.document,"save")
       .pipe(first())
       .subscribe({
         next: () => {
@@ -574,7 +579,7 @@ export class DocumentDetailComponent
     this.networkActive = true
     this.store.next(this.documentForm.value)
     this.documentsService
-      .update(this.document)
+      .update(this.document,"save")
       .pipe(
         switchMap((updateResult) => {
           return this.documentListViewService
@@ -755,7 +760,7 @@ export class DocumentDetailComponent
     )
   }
 
-  get notesEnabled(): boolean {
+  /* get notesEnabled(): boolean {
     return (
       this.settings.get(SETTINGS_KEYS.NOTES_ENABLED) &&
       this.permissionsService.currentUserCan(
@@ -763,7 +768,7 @@ export class DocumentDetailComponent
         PermissionType.Note
       )
     )
-  }
+  } */
 
   notesUpdated(notes: PaperlessDocumentNote[]) {
     this.document.notes = notes
@@ -780,7 +785,7 @@ export class DocumentDetailComponent
   }
 
   get userCanEdit(): boolean {
-    let doc: PaperlessDocument = Object.assign({}, this.document)
+  /*   let doc: PaperlessDocument = Object.assign({}, this.document)
     // dont disable while editing
     if (this.document && this.store?.value.permissions_form?.owner) {
       doc.owner = this.store?.value.permissions_form?.owner
@@ -791,7 +796,8 @@ export class DocumentDetailComponent
         PermissionAction.Change,
         doc
       )
-    )
+    ) */
+    return true
   }
 
   filterDocuments(items: ObjectWithId[] | NgbDateStruct[]) {
@@ -844,8 +850,9 @@ export class DocumentDetailComponent
   }
 
   private getCustomFields() {
+
     this.customFieldsService
-      .listAll()
+      .listAllCustom()
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => (this.customFields = result.results))
   }

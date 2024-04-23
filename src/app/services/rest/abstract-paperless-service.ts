@@ -81,7 +81,7 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
     }
     return this._listAll
   }
-  listAllCustom(action: string): Observable<Results<T>> {
+  listAllCustom(action?: string): Observable<Results<T>> {
     return this.http.get<T[]>(this.getResourceUrl(null, action)).pipe(
       map(data => {
         // Assuming Results<PaperlessCustomField> structure has count, results, and all properties

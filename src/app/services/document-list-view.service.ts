@@ -511,6 +511,7 @@ export class DocumentListViewService {
   }
 
   selectAll() {
+    debugger
     this.documentService
       .listAllFilteredIds(this.filterRules)
       .subscribe((ids) => ids.forEach((id) => this.selected.add(id)))

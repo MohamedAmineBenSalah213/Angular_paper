@@ -82,8 +82,8 @@
               </svg>
               <small>{{(document.document_type$ | async)?.name}}</small>
             </button>
-            <button *ngIf="document.storage_path" type="button" class="list-group-item btn btn-sm bg-light text-dark p-1 border-0 me-2" title="Filter by storage path" i18n-title
-             (click)="clickStoragePath.emit(document.storage_path);$event.stopPropagation()">
+            <button *ngIf="document.storagePathId" type="button" class="list-group-item btn btn-sm bg-light text-dark p-1 border-0 me-2" title="Filter by storage path" i18n-title
+             (click)="clickStoragePath.emit(document.StoragePathId);$event.stopPropagation()">
               <svg class="metadata-icon me-2 text-muted" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#archive"/>
               </svg>

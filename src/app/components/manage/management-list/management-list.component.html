@@ -33,10 +33,10 @@
   <thead>
     <tr>
       <th scope="col">
-        <!-- <div class="form-check m-0 ms-2 me-n2">
+        <div class="form-check m-0 ms-2 me-n2">
           <input type="checkbox" class="form-check-input" id="all-objects" [disabled]="data.length === 0" (click)="toggleAll($event); $event.stopPropagation();">
           <label class="form-check-label" for="all-objects"></label>
-        </div> -->
+        </div>
       </th>
       <th scope="col" class="fw-normal" pngxSortable="name" [currentSortField]="sortField" [currentSortReverse]="sortReverse" (sort)="onSort($event)" i18n>Name</th>
       <th scope="col" class="fw-normal d-none d-sm-table-cell" pngxSortable="matching_algorithm" [currentSortField]="sortField" [currentSortReverse]="sortReverse" (sort)="onSort($event)" i18n>Matching</th>

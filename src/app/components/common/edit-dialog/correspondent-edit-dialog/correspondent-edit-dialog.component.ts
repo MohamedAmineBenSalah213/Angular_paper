@@ -14,12 +14,7 @@ import { SettingsService } from 'src/app/services/settings.service'
   styleUrls: ['./correspondent-edit-dialog.component.scss'],
 })
 export class CorrespondentEditDialogComponent extends EditDialogComponent<PaperlessCorrespondent> {
-  getActionupdate() {
-    return "update_correspondent";
-  }
-  getAction() {
-   return "post_correspondent"
-  }
+ 
   constructor(
     service: CorrespondentService,
     activeModal: NgbActiveModal,
@@ -45,5 +40,11 @@ export class CorrespondentEditDialogComponent extends EditDialogComponent<Paperl
       is_insensitive: new FormControl(true),
       permissions_form: new FormControl(null),
     })
+  }
+  getActionupdate() {
+    return "update_correspondent";
+  }
+  getAction() {
+   return "post_correspondent"
   }
 }

@@ -134,7 +134,9 @@ import localeSr from '@angular/common/locales/sr'
 import localeSv from '@angular/common/locales/sv'
 import localeTr from '@angular/common/locales/tr'
 import localeUk from '@angular/common/locales/uk'
-import localeZh from '@angular/common/locales/zh'
+import localeZh from '@angular/common/locales/zh';
+import { ConfigComponent } from './components/admin/config/config.component';
+
 
 registerLocaleData(localeAf)
 registerLocaleData(localeAr)
@@ -256,6 +258,8 @@ function initializeApp(settings: SettingsService) {
     CustomFieldsComponent,
     CustomFieldEditDialogComponent,
     CustomFieldsDropdownComponent,
+    ConfigComponent,
+   
   ],
   imports: [
     BrowserModule,
