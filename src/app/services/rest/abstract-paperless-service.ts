@@ -42,7 +42,7 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
   ): Observable<Results<T>> {
     let httpParams = new HttpParams()
     if (page) {
-      httpParams = httpParams.set('pageNumber', page.toString())
+      httpParams = httpParams.set('page', page.toString())
     }
     if (pageSize) {
       httpParams = httpParams.set('pageSize', pageSize.toString())

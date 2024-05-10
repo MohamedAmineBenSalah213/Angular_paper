@@ -64,7 +64,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
   }
 
   addObservablesToDocument(doc: PaperlessDocument) {
-    debugger
+    //debugger
       if (doc.correspondentId) {
       doc.correspondent$ = this.correspondentService.getCached(
         doc.correspondentId,"list_correspondent"
@@ -109,6 +109,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
       
     ).pipe(
       map((results) => {
+        console.log(page);
         console.log('Results object:', results); // Log the entire results object
         console.log('Results results:', results.results ); // Log the results.results property
         results.results.forEach((doc) => this.addObservablesToDocument(doc));

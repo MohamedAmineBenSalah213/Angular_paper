@@ -56,12 +56,12 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
     return $localize`No unused fields found`
   }
 
-  get canCreateFields(): boolean {
+  /* get canCreateFields(): boolean {
     return this.permissionsService.currentUserCan(
       PermissionAction.Add,
       PermissionType.CustomField
     )
-  }
+  } */
 
   constructor(
     private customFieldsService: CustomFieldsService,

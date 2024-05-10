@@ -218,6 +218,7 @@
                 </li>
 
                 <li [ngbNavItem]="DocumentDetailNavIDs.Notes" ><!-- *ngIf="notesEnabled" -->
+                    {{document?.notes.length}}
                     <a class="text-nowrap" ngbNavLink i18n>Notes <span *ngIf="document?.notes.length" class="badge text-bg-secondary ms-1">{{document.notes.length}}</span></a>
                     <ng-template ngbNavContent>
                         <pngx-document-notes [documentId]="documentId" [notes]="document?.notes" (updated)="notesUpdated($event)"></pngx-document-notes><!--  [addDisabled]="!userCanEdit" -->

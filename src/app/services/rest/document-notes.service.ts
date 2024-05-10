@@ -9,7 +9,7 @@ import { Observable } from 'rxjs'
 })
 export class DocumentNotesService extends AbstractPaperlessService<PaperlessDocumentNote> {
   constructor(http: HttpClient) {
-    super(http, 'documents')
+    super(http, 'document')
   }
 
   getNotes(documentId: string): Observable<PaperlessDocumentNote[]> {

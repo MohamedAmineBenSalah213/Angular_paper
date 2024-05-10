@@ -1,5 +1,5 @@
 <pngx-page-header title="Dashboard" [subTitle]="subtitle" i18n-title>
- 
+  <input type="image" src="assets/icons8-fichier-120.png" width="100px" margin-left="50%">
 </pngx-page-header>
 
 <div class="row">
@@ -9,15 +9,15 @@
       [cdkDropListDisabled]="settingsService.globalDropzoneActive"
       (cdkDropListDropped)="onDrop($event)"
       tourAnchor="tour.dashboard"
-    ><!--  -->
+    >
      <!--  <div  class="col"><!-- *ngIf="savedViewService.loading" 
         <div class="spinner-border spinner-border-sm me-2" role="status"></div>
         <ng-container i18n>Loading...</ng-container>
       </div> -->
 
-     <!--  <div class="col"><!-- *ngIf="settingsService.offerTour()" 
+     <div class="col"><!-- *ngIf="settingsService.offerTour()" -->
         <pngx-welcome-widget (dismiss)="completeTour()"></pngx-welcome-widget>
-      </div> -->
+      </div> 
  
       <ng-container ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }" -->
         <div *ngFor="let v of dashboardViews" class="col">
@@ -31,6 +31,7 @@
       </ng-container>
     </div>
   </div>
+ 
   <div class="col-auto col-lg-4 col-xl-3 col-sidebar">
     <div class="row row-cols-1 g-4 mb-4 sticky-lg-top z-0">
       <div class="col">

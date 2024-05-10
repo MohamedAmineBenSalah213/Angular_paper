@@ -771,6 +771,7 @@ export class DocumentDetailComponent
   } */
 
   notesUpdated(notes: PaperlessDocumentNote[]) {
+    console.log(this.document.notes)
     this.document.notes = notes
     this.openDocumentService.refreshDocument(this.documentId)
   }

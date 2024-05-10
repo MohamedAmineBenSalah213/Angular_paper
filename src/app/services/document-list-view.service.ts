@@ -222,8 +222,8 @@ export class DocumentListViewService {
     let activeListViewState = this.activeListViewState
     console.log( this.documentService
       .listFiltered(
-          null,
-          null,
+        activeListViewState.currentPage,
+        this.currentPageSize,
           null,
           null,
           null,
@@ -233,8 +233,8 @@ export class DocumentListViewService {
     
       this.documentService
       .listFiltered(
-      null,
-      null,
+        activeListViewState.currentPage,
+        this.currentPageSize,
       null,
       null,
       null,

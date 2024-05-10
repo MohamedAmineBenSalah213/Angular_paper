@@ -165,7 +165,7 @@ export abstract class EditDialogComponent<
     var serverResponse: Observable<T>
     switch (this.dialogMode) {
       case EditDialogMode.CREATE:
-        debugger
+       // debugger
          if (newObject.matching_algorithm== MATCH_AUTO){
           newObject.DocumentTags = [];
           newObject.owner="user";
@@ -189,7 +189,7 @@ export abstract class EditDialogComponent<
         console.log(serverResponse)
         break
       case EditDialogMode.EDIT:
-        debugger
+       // debugger
         if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_NONE){
             if(newObject.match){
             newObject.match = this.splitIntoList(newObject.match); 

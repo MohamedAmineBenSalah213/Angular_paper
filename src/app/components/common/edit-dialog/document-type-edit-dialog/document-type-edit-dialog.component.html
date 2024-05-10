@@ -12,6 +12,12 @@
         <pngx-input-text *ngIf="patternRequired" i18n-title title="Matching pattern" formControlName="match" [error]="error?.match"></pngx-input-text>
         <pngx-input-check *ngIf="patternRequired" i18n-title title="Case insensitive" formControlName="is_insensitive"></pngx-input-check>
       </div>
+      <pngx-custom-fields-dropdown
+      
+        class="me-5"
+        (created)="refreshCustomFields()"
+        (added)="addField($event)">
+    </pngx-custom-fields-dropdown>
 <!-- *pngxIfOwner="object" -->
       <div >
         <pngx-permissions-form [users]="users" accordion="true" formControlName="permissions_form"></pngx-permissions-form>

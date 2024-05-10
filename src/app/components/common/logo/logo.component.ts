@@ -13,6 +13,6 @@ export class LogoComponent {
   height = '6em'
 
   getClasses() {
-    return ['logo'].concat(this.extra_classes).join(' ')
+    return /* ['logo'].concat(this.extra_classes).join(' ') */ null
   }
 }

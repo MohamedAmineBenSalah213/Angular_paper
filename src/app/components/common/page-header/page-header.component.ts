@@ -15,7 +15,8 @@ export class PageHeaderComponent {
   @Input()
   set title(title: string) {
     this._title = title
-    this.titleService.setTitle(`${this.title} - ${environment.appTitle}`)
+    /* ${environment.appTitle} */
+    this.titleService.setTitle(`${this.title} `)
   }
 
   get title() {

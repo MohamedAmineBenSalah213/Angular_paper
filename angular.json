@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "paperless-ui": {
+    "PFE-project": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -52,7 +52,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/paperless-ui",
+            "outputPath": "dist/PFE-project",
             "outputHashing": "none",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -60,7 +60,7 @@
             "tsConfig": "tsconfig.app.json",
             "localize": true,
             "assets": [
-              "src/favicon.ico",
+              
               "src/apple-touch-icon.png",
               "src/assets",
               "src/manifest.webmanifest",
@@ -124,18 +124,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "paperless-ui:build:en-US"
+            "browserTarget": "PFE-project:build:en-US"
           },
           "configurations": {
             "production": {
-              "browserTarget": "paperless-ui:build:production"
+              "browserTarget": "PFE-project:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "paperless-ui:build"
+            "browserTarget": "PFE-project:build"
           }
         },
         "test": {
@@ -143,8 +143,8 @@
           "options": {
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              "src/favicon.ico",
-              "src/apple-touch-icon.png",
+              
+             
               "src/assets",
               "src/manifest.webmanifest"
             ],

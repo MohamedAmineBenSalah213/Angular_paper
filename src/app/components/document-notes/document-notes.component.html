@@ -1,5 +1,5 @@
 <div *ngIf="notes">
-    <form [formGroup]="noteForm" class="needs-validation mt-3" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.Note }" novalidate>
+    <form [formGroup]="noteForm" class="needs-validation mt-3"  novalidate><!-- *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.Note }" -->
         <div class="form-group">
             <textarea class="form-control form-control-sm" [class.is-invalid]="newNoteError" rows="3" formControlName="newNote" placeholder="Enter note" i18n-placeholder (keydown)="noteFormKeydown($event)" required></textarea>
             <div class="invalid-feedback" i18n>
