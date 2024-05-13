@@ -136,6 +136,7 @@ import localeTr from '@angular/common/locales/tr'
 import localeUk from '@angular/common/locales/uk'
 import localeZh from '@angular/common/locales/zh';
 import { ConfigComponent } from './components/admin/config/config.component';
+import { DataExtractionDropdownComponent } from './components/common/data-extraction-dropdown/data-extraction-dropdown.component';
 
 
 registerLocaleData(localeAf)
@@ -259,6 +260,7 @@ function initializeApp(settings: SettingsService) {
     CustomFieldEditDialogComponent,
     CustomFieldsDropdownComponent,
     ConfigComponent,
+    DataExtractionDropdownComponent,
    
   ],
   imports: [

@@ -4,8 +4,9 @@ import {
   Input,
   OnDestroy,
   Output,
+  ViewChild,
 } from '@angular/core'
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { NgbDropdown, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { Subject, first, takeUntil } from 'rxjs'
 import { PaperlessCustomField } from 'src/app/data/paperless-custom-field'
 import { PaperlessCustomFieldInstance } from 'src/app/data/paperless-custom-field-instance'
@@ -47,7 +48,7 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
   public field: string
 
   private unsubscribeNotifier: Subject<any> = new Subject()
-
+  @ViewChild('fieldDropdown') fieldDropdown: NgbDropdown;
   get placeholderText(): string {
     return $localize`Choose field`
   }
@@ -79,7 +80,7 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
 
   private getFields() {
     this.customFieldsService
-      .listAllCustom()
+      .listAllCustom("list_customfield")
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => {
         console.log(result.results)
@@ -93,7 +94,10 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
         }
       })
   }
-
+  toggleDropdown(event: Event) {
+    event.stopPropagation();
+    this.fieldDropdown.toggle(); // Toggle the dropdown manually
+}
   public getCustomFieldFromInstance(
     instance: PaperlessCustomFieldInstance
   ): PaperlessCustomField {

@@ -110,7 +110,7 @@
                                 <pngx-input-select [items]="correspondents" i18n-title title="Correspondent" formControlName="correspondentId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 (createNew)="createCorrespondent($event)" [suggestions]="suggestions?.correspondents"></pngx-input-select>
                            <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.DocumentType }" -->
-                                <pngx-input-select [items]="documentTypes" i18n-title title="Document type" formControlName="documentTypeId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
+                                <pngx-input-select [items]="documentTypes" i18n-title title="Document type" formControlName="documentTypeId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)" (click)="onExtactedData($event)"
                                 (createNew)="createDocumentType($event)" [suggestions]="suggestions?.document_types" ></pngx-input-select>
                                 <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.StoragePath }" -->
                             <pngx-input-select [items]="storagePaths" i18n-title title="Storage path" formControlName="storagePathId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
@@ -128,10 +128,25 @@
                                     <pngx-input-url *ngSwitchCase="PaperlessCustomFieldDataType.Url" formControlName="value" [title]="getCustomFieldFromInstance(fieldInstance)?.name" [removable]="true" (removed)="removeField(fieldInstance)" [horizontal]="true" [error]="getCustomFieldError(i)"></pngx-input-url>
                                 </div>
                             </ng-container>
+                            <ng-container *ngFor="let fieldInstance of customfiledlist; let i = index">
+                                {{fieldInstance.id}}
+                                {{getCustomFieldFromInstance(fieldInstance)?.data_type}}
+                                <div [formGroup]="customFieldFormFields.controls[i]" [ngSwitch]="getCustomFieldFromInstance(fieldInstance)?.data_type">
+                                    <pngx-input-text *ngSwitchCase="PaperlessCustomFieldDataType.String" formControlName="value" [title]="getCustomFieldFromInstance(fieldInstance)?.name" [removable]="true" (removed)="removeField(fieldInstance)" [horizontal]="true" [error]="getCustomFieldError(i)"></pngx-input-text>
+                                    <pngx-input-date *ngSwitchCase="PaperlessCustomFieldDataType.Date" formControlName="value" [title]="getCustomFieldFromInstance(fieldInstance)?.name" [removable]="true" (removed)="removeField(fieldInstance)" [horizontal]="true" [error]="getCustomFieldError(i)"></pngx-input-date>
+                                    <pngx-input-number *ngSwitchCase="PaperlessCustomFieldDataType.Integer" formControlName="value" [title]="getCustomFieldFromInstance(fieldInstance)?.name" [removable]="true" (removed)="removeField(fieldInstance)" [horizontal]="true" [showAdd]="false" [error]="getCustomFieldError(i)"></pngx-input-number>
+                                    <pngx-input-number *ngSwitchCase="PaperlessCustomFieldDataType.Float" formControlName="value" [title]="getCustomFieldFromInstance(fieldInstance)?.name" [removable]="true" (removed)="removeField(fieldInstance)" [horizontal]="true" [showAdd]="false" [step]=".1" [error]="getCustomFieldError(i)"></pngx-input-number>
+                                    <pngx-input-number *ngSwitchCase="PaperlessCustomFieldDataType.Monetary" formControlName="value" [title]="getCustomFieldFromInstance(fieldInstance)?.name" [removable]="true" (removed)="removeField(fieldInstance)" [horizontal]="true" [showAdd]="false" [step]=".01" [error]="getCustomFieldError(i)"></pngx-input-number>
+                                    <pngx-input-check *ngSwitchCase="PaperlessCustomFieldDataType.Boolean" formControlName="value" [title]="getCustomFieldFromInstance(fieldInstance)?.name" [removable]="true" (removed)="removeField(fieldInstance)" [horizontal]="true"></pngx-input-check>
+                                    <pngx-input-url *ngSwitchCase="PaperlessCustomFieldDataType.Url" formControlName="value" [title]="getCustomFieldFromInstance(fieldInstance)?.name" [removable]="true" (removed)="removeField(fieldInstance)" [horizontal]="true" [error]="getCustomFieldError(i)"></pngx-input-url>
+                                </div>
+                            </ng-container>
                         </div>
                     </ng-template>
                 </li>
-
+                <div >
+                  fqsd
+                  </div>
                 <li [ngbNavItem]="DocumentDetailNavIDs.Content">
                     <a ngbNavLink i18n>Content</a>
                     <ng-template ngbNavContent>
@@ -140,7 +155,7 @@
                         </div>
                     </ng-template>
                 </li>
-
+                
                 <li [ngbNavItem]="DocumentDetailNavIDs.Metadata">
                     <a ngbNavLink i18n>Metadata</a>
                     <ng-template ngbNavContent>

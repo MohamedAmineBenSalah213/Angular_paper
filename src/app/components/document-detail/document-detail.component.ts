@@ -201,8 +201,7 @@ export class DocumentDetailComponent
       this.getContentType()
     )
   }
-
-  get isRTL() {
+get isRTL() {
     if (!this.metadata || !this.metadata.lang) return false
     else {
       return ['ar', 'he', 'fe'].includes(this.metadata.lang)
@@ -210,7 +209,7 @@ export class DocumentDetailComponent
   }
 
   ngOnInit(): void {
-    debugger
+   // debugger
     this.documentForm.valueChanges
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe(() => {
@@ -400,7 +399,34 @@ export class DocumentDetailComponent
         foundNavIDkey.toLowerCase(),
       ])
   }
-
+   customfiledlist: PaperlessCustomField[] =[];
+  onExtactedData(event)
+  {
+    const extractedDataList: string[] = [];
+  
+    if (this.documentForm.get('documentTypeId').value !== null) {
+      const foundDocumentType = this.documentTypes.find(type => type.id === this.documentForm.get('documentTypeId').value);
+      if(foundDocumentType.extractedData != null)
+        {
+          foundDocumentType.extractedData.forEach(data => {
+            extractedDataList.push(data);
+          });
+          extractedDataList.forEach(extractedData => {
+            const foundCustomField = this.customFields?.find((customField) => customField.id == extractedData);
+             if (foundCustomField) {
+              this.customfiledlist.push(foundCustomField);
+              console.log('Custom Field Found:', foundCustomField);
+            } else {
+              console.log('Custom Field Not Found for Extracted Data:', extractedData);
+            }}) 
+        }
+      
+    }
+    else {
+      // documentTypeId is null
+      console.log('documentTypeId is null');
+    }
+  }
   updateComponent(doc: PaperlessDocument) {
     this.document = doc
     this.requiresPassword = false
@@ -853,7 +879,7 @@ export class DocumentDetailComponent
   private getCustomFields() {
 
     this.customFieldsService
-      .listAllCustom()
+      .listAllCustom("list_customfield")
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => (this.customFields = result.results))
   }

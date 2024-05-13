@@ -167,10 +167,16 @@ export abstract class EditDialogComponent<
       case EditDialogMode.CREATE:
        // debugger
          if (newObject.matching_algorithm== MATCH_AUTO){
+           if(newObject.ExtractedData)
+            {
+              console.log(newObject.ExtractedData);
+              
+            }
           newObject.DocumentTags = [];
           newObject.owner="user";
           serverResponse = this.service.create(newObject,this.getAction())
         } 
+
         if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_AUTO ){
           if(newObject.match!=""){
           newObject.match = this.splitIntoList(newObject.match); 
