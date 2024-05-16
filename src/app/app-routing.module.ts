@@ -26,6 +26,7 @@ import { MailComponent } from './components/manage/mail/mail.component'
 import { UsersAndGroupsComponent } from './components/admin/users-groups/users-groups.component'
 import { CustomFieldsComponent } from './components/manage/custom-fields/custom-fields.component'
 import { ConfigComponent } from './components/admin/config/config.component'
+import { FileShareListComponent } from './components/manage/file-share-list/file-share-list.component'
 
 
 export const routes: Routes = [
@@ -182,8 +183,8 @@ export const routes: Routes = [
         }, */
       },
       {
-        path: 'config',
-        component: ConfigComponent,
+        path: 'fileshare',
+        component: FileShareListComponent,
       /*  canActivate: [PermissionsGuard],
          data: {
           requiredPermission: {

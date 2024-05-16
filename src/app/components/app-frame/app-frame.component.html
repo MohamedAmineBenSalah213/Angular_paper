@@ -4,9 +4,9 @@
     (click)="isMenuCollapsed = !isMenuCollapsed">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand col-auto col-md-3 col-lg-2 me-0 px-3 py-3 order-sm-0" [ngClass]="slimSidebarEnabled ? 'slim' : 'col-auto col-md-3 col-lg-2'" routerLink="/dashboard" tourAnchor="tour.intro">
+  <a class="navbar-brand col-auto col-md-3 col-lg-2 me-0 px-3 py-2 order-sm-0" [ngClass]="slimSidebarEnabled ? 'slim' : 'col-auto col-md-3 col-lg-2'" routerLink="/dashboard" tourAnchor="tour.intro">
+   <img src="../../../assets/fffffff (1).png" width="180px"  />
    
-    <span class="ms-2" [class.visually-hidden]="slimSidebarEnabled" i18n="app title">Title</span>
   </a>
   <div class="search-form-container flex-grow-1 py-2 pb-3 pb-sm-2 px-3 ps-md-4 me-sm-auto order-3 order-sm-1"><!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Document }" -->
     <form (ngSubmit)="search()" class="form-inline flex-grow-1">
@@ -61,13 +61,13 @@
 <div class="container-fluid">
   <div class="row">
     <nav id="sidebarMenu" class="d-md-block bg-light sidebar collapse" [ngClass]="slimSidebarEnabled ? 'slim' : 'col-md-3 col-lg-2 col-xxxl-1'" [class.animating]="slimSidebarAnimating" [ngbCollapse]="isMenuCollapsed">
-      <button class="btn btn-sm btn-dark sidebar-slim-toggler" (click)="toggleSlimSidebar()">
+      <!-- <button class="btn btn-sm btn-dark sidebar-slim-toggler" (click)="toggleSlimSidebar()">
         <svg class="sidebaricon-sm" fill="currentColor">
           <use *ngIf="slimSidebarEnabled" xlink:href="assets/bootstrap-icons.svg#chevron-double-right"/>
           <use *ngIf="!slimSidebarEnabled" xlink:href="assets/bootstrap-icons.svg#chevron-double-left"/>
         </svg>
-      </button>
-      <div class="sidebar-sticky pt-3 d-flex flex-column justify-space-around">
+      </button> -->
+      <div class="sidebar-sticky pt-5 d-flex flex-column justify-space-around">
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link" routerLink="dashboard" routerLinkActive="active" (click)="closeMenu()" ngbPopover="Dashboard" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
@@ -84,7 +84,7 @@
             </a>
           </li>
         </ul>
-        <ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }">
+        <ng-container>  <!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }" -->
           <h6 class="sidebar-heading px-3 mt-3 mb-1 text-muted" *ngIf='savedViewService.loading || savedViewService.sidebarViews?.length > 0'>
             <span i18n>Saved views</span>
             <div *ngIf="savedViewService.loading" class="spinner-border spinner-border-sm fw-normal ms-2" role="status"></div>
@@ -192,14 +192,21 @@
             </a>
           </li>
           <li class="nav-item" ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.User }" -->
-            <a class="nav-link" routerLink="config" routerLinkActive="active" (click)="closeMenu()" ngbPopover="Configuration" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
+            <a class="nav-link" routerLink="fileshare" routerLinkActive="active" (click)="closeMenu()" ngbPopover="Configuration" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
               <svg class="sidebaricon" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#folder-symlink"/>
               </svg><span>&nbsp;<ng-container i18n>File Share</ng-container></span>
             </a>
           </li>
         </ul>
-
+       <!--  <ul class="navbar-nav">
+          <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+              <a routerLinkActive="active" [routerLink]="[menuItem.path]" class="nav-link">
+                  <i class="ni {{menuItem.icon}}"></i>
+                  {{menuItem.title}}
+              </a>
+          </li>
+      </ul> -->
         <h6 class="sidebar-heading px-3 mt-auto pt-4 mb-1 text-muted">
           <span i18n>Administration</span>
         </h6>

@@ -56,7 +56,7 @@ export class OpenDocumentsService {
   }
 
   getOpenDocument(id: string): PaperlessDocument {
-    console.log(this.openDocuments.forEach(d=>d.id))
+    console.log(this.openDocuments.forEach(d=>d.id ==id))
     return this.openDocuments.find((d) => d.id == id)
   }
 

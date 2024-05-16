@@ -137,6 +137,8 @@ import localeUk from '@angular/common/locales/uk'
 import localeZh from '@angular/common/locales/zh';
 import { ConfigComponent } from './components/admin/config/config.component';
 import { DataExtractionDropdownComponent } from './components/common/data-extraction-dropdown/data-extraction-dropdown.component';
+import { FileShareListComponent } from './components/manage/file-share-list/file-share-list.component';
+import { FileShareEditDialogComponent } from './components/common/edit-dialog/file-share-edit-dialog/file-share-edit-dialog.component';
 
 
 registerLocaleData(localeAf)
@@ -261,6 +263,8 @@ function initializeApp(settings: SettingsService) {
     CustomFieldsDropdownComponent,
     ConfigComponent,
     DataExtractionDropdownComponent,
+    FileShareListComponent,
+    FileShareEditDialogComponent,
    
   ],
   imports: [

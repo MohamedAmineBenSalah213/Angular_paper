@@ -1,7 +1,5 @@
 <pngx-page-header title="Dashboard" [subTitle]="subtitle" i18n-title>
-  <input type="image" src="assets/icons8-fichier-120.png" width="100px" margin-left="50%">
 </pngx-page-header>
-
 <div class="row">
   <div class="col-12 col-lg-8 col-xl-9 mb-4">
     <div class="row row-cols-1 g-4" 
@@ -15,9 +13,9 @@
         <ng-container i18n>Loading...</ng-container>
       </div> -->
 
-     <div class="col"><!-- *ngIf="settingsService.offerTour()" -->
+   <!--   <div class="col"><!-- *ngIf="settingsService.offerTour()" 
         <pngx-welcome-widget (dismiss)="completeTour()"></pngx-welcome-widget>
-      </div> 
+      </div>  -->
  
       <ng-container ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }" -->
         <div *ngFor="let v of dashboardViews" class="col">

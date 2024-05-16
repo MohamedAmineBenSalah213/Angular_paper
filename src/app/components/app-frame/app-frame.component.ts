@@ -39,6 +39,12 @@ import {
   CdkDragDrop,
   moveItemInArray,
 } from '@angular/cdk/drag-drop'
+declare interface RouteInfo {
+  path: string;
+  title: string;
+  icon: string;
+  class: string;
+}
 
 @Component({
   selector: 'pngx-app-frame',
@@ -82,12 +88,12 @@ export class AppFrameComponent
       this.savedViewService.initialize()
     }
   }
-
   ngOnInit(): void {
     if (this.settingsService.get(SETTINGS_KEYS.UPDATE_CHECKING_ENABLED)) {
       this.checkForUpdates()
     }
     this.tasksService.reload()
+
   }
 
   toggleSlimSidebar(): void {

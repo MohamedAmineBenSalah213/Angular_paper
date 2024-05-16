@@ -127,6 +127,7 @@ export class DocumentDetailComponent
     tags: new FormControl([]),
     permissions_form: new FormControl(null),
     custom_fields: new FormArray([]),
+    extract_data: new FormArray([]),
   })
 
   previewCurrentPage: number = 1
@@ -312,6 +313,7 @@ get isRTL() {
 
                 this.title = titleValue
                 this.documentForm.patchValue({ title: titleValue })
+
               },
               complete: () => {
                 // doc changed so we manually check dirty in case title was changed
@@ -323,7 +325,9 @@ get isRTL() {
                 }
               },
             })
-
+            
+          console.log(this.store);
+          
           // Initialize dirtyCheck
           this.store = new BehaviorSubject({
             title: doc.title,
@@ -345,6 +349,8 @@ get isRTL() {
             this.documentForm,
             this.store.asObservable()
           )
+          console.log(this.documentForm);
+          
 
           return this.isDirty$.pipe(
             takeUntil(this.unsubscribeNotifier),
@@ -415,6 +421,13 @@ get isRTL() {
             const foundCustomField = this.customFields?.find((customField) => customField.id == extractedData);
              if (foundCustomField) {
               this.customfiledlist.push(foundCustomField);
+              this.document.custom_fields.push({
+                field: foundCustomField.id,
+                value: null,
+                document: this.documentId,
+                created: new Date(),
+              })
+              console.log(this.document.custom_fields);
               console.log('Custom Field Found:', foundCustomField);
             } else {
               console.log('Custom Field Not Found for Extracted Data:', extractedData);
@@ -427,11 +440,15 @@ get isRTL() {
       console.log('documentTypeId is null');
     }
   }
+  public getCustomFieldForExtractionDataFromInstance(
+    instance: string
+  ): PaperlessCustomField {
+    return this.customfiledlist?.find((f) => f.id === instance)
+  }
   updateComponent(doc: PaperlessDocument) {
     this.document = doc
     this.requiresPassword = false
-    // this.customFields = doc.custom_fields.concat([])
-    this.updateFormForCustomFields()
+     this.updateFormForCustomFields()
     /* this.documentsService
       .getMetadata(doc.id)
       .pipe(first())
@@ -480,7 +497,10 @@ get isRTL() {
     console.log(this.documentForm)
     if (!this.userCanEdit) this.documentForm.disable()
   }
-
+  get CutomFieldsFormFieldsForExtractData (): FormArray
+  {
+    return this.documentForm.get('extract_data') as FormArray
+  }
   get customFieldFormFields(): FormArray {
     return this.documentForm.get('custom_fields') as FormArray
   }
@@ -576,6 +596,8 @@ get isRTL() {
 
   save(close: boolean = false) {
     this.networkActive = true
+    console.log(this.document);
+    
     this.documentsService
       .update(this.document,"save")
       .pipe(first())
@@ -899,11 +921,10 @@ get isRTL() {
     const fieldError = this.error?.custom_fields?.[index]
     return fieldError?.['non_field_errors'] ?? fieldError?.['value']
   }
-
-  private updateFormForCustomFields(emitEvent: boolean = false) {
-    this.customFieldFormFields.clear({ emitEvent: false })
+  private updateFormForCustomFieldsForExtractData(emitEvent: boolean = false) {
+    this.CutomFieldsFormFieldsForExtractData.clear({ emitEvent: false })
     this.document.custom_fields?.forEach((fieldInstance) => {
-      this.customFieldFormFields.push(
+      this.CutomFieldsFormFieldsForExtractData.push(
         new FormGroup({
           field: new FormControl(
             this.getCustomFieldFromInstance(fieldInstance)?.id
@@ -914,14 +935,51 @@ get isRTL() {
       )
     })
   }
+  private updateFormForCustomFields(emitEvent: boolean = false) {
+   this.customFieldFormFields.clear({ emitEvent: false })
+    console.log(this.customFieldFormFields);
+    
+        this.document.custom_fields?.forEach((fieldInstance) => {
+      this.customFieldFormFields.push(
+        new FormGroup({
+          field: new FormControl(
+            this.getCustomFieldFromInstance(fieldInstance)?.id
+          ),
+          value: new FormControl(fieldInstance.value),
+        }),
+        { emitEvent }
+      )
+    })
+    console.log(this.customFieldFormFields);
+    
+  }
 
   public addField(field: PaperlessCustomField) {
+    console.log(field);
+    const customfiled = {
+      field: field.id,
+      value: null,
+      document: this.documentId,
+      created: new Date()
+    }
+    console.log(customfiled);
+    /* this.document.custom_fields = [] */
+    console.log( 
+      (this.document.custom_fields == null
+        
+      ));
     this.document.custom_fields.push({
       field: field.id,
       value: null,
       document: this.documentId,
-      created: new Date(),
+      created: new Date()
     })
+    console.log( 
+      (this.document.custom_fields.length
+        
+      ));
+    
+    
     this.updateFormForCustomFields(true)
   }
 

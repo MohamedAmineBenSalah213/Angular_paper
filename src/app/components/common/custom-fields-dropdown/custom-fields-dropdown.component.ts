@@ -57,12 +57,13 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
     return $localize`No unused fields found`
   }
 
-  /* get canCreateFields(): boolean {
-    return this.permissionsService.currentUserCan(
+   get canCreateFields(): boolean {
+  /*   return this.permissionsService.currentUserCan(
       PermissionAction.Add,
       PermissionType.CustomField
-    )
-  } */
+    ) */
+    return true
+  } 
 
   constructor(
     private customFieldsService: CustomFieldsService,
@@ -120,6 +121,8 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
   }
 
   addField() {
+    console.log(this.customFields.find((f) => f.id === this.field));
+    
     this.added.emit(this.customFields.find((f) => f.id === this.field))
   }
 
