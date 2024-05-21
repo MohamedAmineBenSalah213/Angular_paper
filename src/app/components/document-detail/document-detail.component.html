@@ -116,7 +116,7 @@
                                 <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.StoragePath }" -->
                             <pngx-input-select [items]="storagePaths" i18n-title title="Storage path" formControlName="storagePathId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 (createNew)="createStoragePath($event)" [suggestions]="suggestions?.storage_paths" i18n-placeholder placeholder="Default" ></pngx-input-select>
-                            <pngx-input-tags formControlName="tags" [suggestions]="suggestions?.tags" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)" ></pngx-input-tags>
+                            <pngx-input-tags  formControlName="tags" [suggestions]="suggestions?.tags" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)" ></pngx-input-tags>
                             <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Tag }" -->
                          <!--  -->
                        
@@ -235,10 +235,9 @@
                 </li>
 
                 <li [ngbNavItem]="DocumentDetailNavIDs.Notes" ><!-- *ngIf="notesEnabled" -->
-                    {{document?.notes.length}}
                     <a class="text-nowrap" ngbNavLink i18n>Notes <span *ngIf="document?.notes.length" class="badge text-bg-secondary ms-1">{{document.notes.length}}</span></a>
                     <ng-template ngbNavContent>
-                        <pngx-document-notes [documentId]="documentId" [notes]="document?.notes" (updated)="notesUpdated($event)"></pngx-document-notes><!--  [addDisabled]="!userCanEdit" -->
+                        <pngx-document-notes [documentId]="documentId" [notes]="document?.notes" (updated)="notesUpdated($event)" [addDisabled]="!userCanEdit"></pngx-document-notes><!--   -->
                     </ng-template>
                 </li>
 

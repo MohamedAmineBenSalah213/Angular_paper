@@ -33,14 +33,11 @@ export class OpenDocumentsService {
   private dirtyDocuments: Set<string> = new Set<string>()
 
   refreshDocument(id: string) {
-    console.log(this.openDocuments.forEach(d => console.log(d.id)
-    ))
-    let index = this.openDocuments.findIndex((doc) => doc.id === id)
+    let index = this.openDocuments.findIndex((doc) => doc.id == id)
     if (index > -1) {
-      this.documentService.getlist(id,"get_document").subscribe({
+      this.documentService.get(id).subscribe({
         next: (doc) => {
           this.openDocuments[index] = doc
-          console.log(this.openDocuments)
           this.save()
         },
         error: () => {
@@ -48,23 +45,19 @@ export class OpenDocumentsService {
           this.save()
         },
       })
-    } 
- }
+    }
+  }
 
   getOpenDocuments(): PaperlessDocument[] {
     return this.openDocuments
   }
 
   getOpenDocument(id: string): PaperlessDocument {
-    console.log(this.openDocuments.forEach(d=>d.id ==id))
     return this.openDocuments.find((d) => d.id == id)
   }
 
   openDocument(doc: PaperlessDocument): Observable<boolean> {
-    if (this.openDocuments.find((d) => d.id === doc.id)) 
-    {
-      console.log("true");
-      
+    if (this.openDocuments.find((d) => d.id == doc.id) == null) {
       if (this.openDocuments.length == this.MAX_OPEN_DOCUMENTS) {
         // at max, ensure changes arent lost
         const docToRemove = this.openDocuments[this.MAX_OPEN_DOCUMENTS - 1]
@@ -88,11 +81,9 @@ export class OpenDocumentsService {
   }
 
   setDirty(doc: PaperlessDocument, dirty: boolean) {
-    console.log(doc.id +"***"+dirty);
-    
     if (!this.openDocuments.find((d) => d.id == doc.id)) return
     if (dirty) this.dirtyDocuments.add(doc.id)
-   // else this.dirtyDocuments.delete(doc.id)
+    else this.dirtyDocuments.delete(doc.id)
   }
 
   hasDirty(): boolean {

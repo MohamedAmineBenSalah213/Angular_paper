@@ -112,7 +112,7 @@
         </ng-container>
 
         <ng-container> <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Document }" -->
-          <h6 class="sidebar-heading px-3 mt-3 mb-1 text-muted" ><!-- *ngIf='openDocuments.length > 0'> -->
+          <h6 class="sidebar-heading px-3 mt-3 mb-1 text-muted"  *ngIf='openDocuments.length > 0'>
             <span i18n>Open documents</span>
           </h6>
           <ul class="nav flex-column mb-2">

@@ -70,6 +70,7 @@ import {
 } from 'src/app/data/paperless-custom-field'
 import { PaperlessCustomFieldInstance } from 'src/app/data/paperless-custom-field-instance'
 import { CustomFieldsService } from 'src/app/services/rest/custom-fields.service'
+import { TagService } from 'src/app/services/rest/tag.service'
 
 enum DocumentDetailNavIDs {
   Details = 1,
@@ -237,7 +238,7 @@ get isRTL() {
       .listAll(null,null,"list_storage_paths",null)
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => (this.storagePaths = result.results))
-
+   
    /* this.userService
       .listAll()
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
@@ -470,7 +471,7 @@ get isRTL() {
         doc
       )
     ) {
-      /* this.documentsService
+      /*this.documentsService
         .getSuggestions(doc.id)
         .pipe(first(), takeUntil(this.unsubscribeNotifier))
         .subscribe({
@@ -808,15 +809,15 @@ get isRTL() {
     )
   }
 
-  /* get notesEnabled(): boolean {
-    return (
+   get notesEnabled(): boolean {
+    return true/*  (
       this.settings.get(SETTINGS_KEYS.NOTES_ENABLED) &&
       this.permissionsService.currentUserCan(
         PermissionAction.View,
         PermissionType.Note
       )
-    )
-  } */
+    ) */ 
+  } 
 
   notesUpdated(notes: PaperlessDocumentNote[]) {
     console.log(this.document.notes)

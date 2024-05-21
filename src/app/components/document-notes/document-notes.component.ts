@@ -16,7 +16,7 @@ export class DocumentNotesComponent extends ComponentWithPermissions {
   noteForm: FormGroup = new FormGroup({
     newNote: new FormControl(''),
   })
-
+  
   networkActive = false
   newNoteError: boolean = false
 
@@ -31,7 +31,7 @@ export class DocumentNotesComponent extends ComponentWithPermissions {
 
   @Output()
   updated: EventEmitter<PaperlessDocumentNote[]> = new EventEmitter()
-  users: PaperlessUser[]
+  //users: PaperlessUser[]
 
   constructor(
     private notesService: DocumentNotesService,
@@ -39,11 +39,11 @@ export class DocumentNotesComponent extends ComponentWithPermissions {
     private usersService: UserService
   ) {
     super()
-    this.usersService.listAll().subscribe({
+    /* this.usersService.listAll().subscribe({
       next: (users) => {
         this.users = users.results
       },
-    })
+    }) */
   }
 
   addNote() {
@@ -83,7 +83,7 @@ export class DocumentNotesComponent extends ComponentWithPermissions {
   }
 
   displayName(note: PaperlessDocumentNote): string {
-    if (!note.user) return ''
+/*     if (!note.user) return ''
     const user = this.users?.find((u) => u.id === note.user)
     if (!user) return ''
     const nameComponents = []
@@ -93,7 +93,8 @@ export class DocumentNotesComponent extends ComponentWithPermissions {
       if (nameComponents.length > 0) nameComponents.push(`(${user.username})`)
       else nameComponents.push(user.username)
     }
-    return nameComponents.join(' ')
+    return nameComponents.join(' ') */
+    return 'user';
   }
 
   noteFormKeydown(event: KeyboardEvent) {
