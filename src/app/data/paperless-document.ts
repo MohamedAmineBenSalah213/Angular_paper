@@ -38,7 +38,7 @@ export interface PaperlessDocument extends ObjectWithPermissions {
   tags?: string[]
  
   // UTC
-  created?: Date
+  createdOn?: Date
 
   // localized date
   created_date?: Date

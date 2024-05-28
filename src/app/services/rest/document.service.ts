@@ -85,7 +85,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
    /*  if (doc.storage_path) {
       doc.storage_path$ = this.storagePathService.getCached(doc.storage_path,"")
     }  */ 
-    console.log(doc);
+   
      return doc
    
   }
@@ -109,10 +109,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
       
     ).pipe(
       map((results) => {
-        console.log(page);
-        console.log('Results object:', results); // Log the entire results object
-        console.log('Results results:', results.results ); // Log the results.results property
-        results.results.forEach((doc) => this.addObservablesToDocument(doc));
+         results.results.forEach((doc) => this.addObservablesToDocument(doc));
          return results
       })
     ) 

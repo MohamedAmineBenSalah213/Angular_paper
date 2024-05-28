@@ -111,7 +111,7 @@
           </div>
         </div>
 
-        <div class="row mb-3">
+        <!-- <div class="row mb-3">
           <div class="col-md-3 col-form-label pt-0">
             <span i18n>Theme Color</span>
           </div>
@@ -125,9 +125,9 @@
               </svg><ng-container i18n>Reset</ng-container>
             </button>
           </div>
-        </div>
+        </div> -->
 
-        <h4 class="mt-4" id="update-checking" i18n>Update checking</h4>
+       <!--  <h4 class="mt-4" id="update-checking" i18n>Update checking</h4>
 
         <div class="row mb-3">
           <div class="offset-md-3 col">
@@ -140,16 +140,16 @@
             </p>
             <pngx-input-check i18n-title title="Enable update checking" formControlName="updateCheckingEnabled"></pngx-input-check>
           </div>
-        </div>
+        </div> -->
 
-        <h4 class="mt-4" i18n>Bulk editing</h4>
+      <!--   <h4 class="mt-4" i18n>Bulk editing</h4>
 
         <div class="row mb-3">
           <div class="offset-md-3 col">
             <pngx-input-check i18n-title title="Show confirmation dialogs" formControlName="bulkEditConfirmationDialogs" i18n-hint hint="Deleting documents will always ask for confirmation."></pngx-input-check>
             <pngx-input-check i18n-title title="Apply on close" formControlName="bulkEditApplyOnClose"></pngx-input-check>
           </div>
-        </div>
+        </div> -->
 
         <h4 class="mt-4" i18n>Notes</h4>
 
@@ -314,6 +314,6 @@
   </ul>
 
   <div [ngbNavOutlet]="nav" class="border-start border-end border-bottom p-3 mb-3 shadow-sm"></div>
-
-  <button type="submit" class="btn btn-primary mb-2" *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.UISettings }" [disabled]="(isDirty$ | async) === false" i18n>Save</button>
+<!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.UISettings }" -->
+  <button type="submit" class="btn btn-primary mb-2"  [disabled]="(isDirty$ | async) === false" i18n>Save</button>
 </form>

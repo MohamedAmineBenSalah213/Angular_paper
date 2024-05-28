@@ -333,7 +333,7 @@ get isRTL() {
           this.store = new BehaviorSubject({
             title: doc.title,
             content: doc.content,
-            created_date: doc.created,
+            created_date: doc.createdOn,
             correspondent: doc.correspondentId,
             document_type: doc.documentTypeId,
             storage_path: doc.storagePathId,

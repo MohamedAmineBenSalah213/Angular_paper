@@ -30,7 +30,7 @@ export class DocumentCardSmallComponent extends ComponentWithPermissions impleme
     super()
   }
   ngOnInit(): void {
-   console.log(this.document.id+'data'+ this.document.title) ;
+
    
   }
 
@@ -90,17 +90,17 @@ export class DocumentCardSmallComponent extends ComponentWithPermissions impleme
   }
 
   getTagsLimited$() {
-    /* const limit = this.document.notes.length > 0 ? 6 : 7
+ const limit = this.document.notes.length > 0 ? 6 : 7
     return this.document.tags$.pipe(
       map((tags) => {
         if (tags.length > limit) {
           this.moreTags = tags.length - (limit - 1)
-          return tags$.slice(0, limit - 1)
+          return tags.slice(0, limit - 1)
         } else {
           return tags
         }
-      })
-    ) */
+      }) 
+    ) 
   }
 
   mouseEnterPreview() {

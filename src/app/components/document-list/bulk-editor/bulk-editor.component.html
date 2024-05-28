@@ -21,12 +21,13 @@
       </button>
     </div>
   </div>
+ 
     <div class="d-flex align-items-center gap-2" ><!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Document }" -->
       <label class="me-2" i18n>Edit:</label>
       <pngx-filterable-dropdown title="Tags" icon="tag-fill" i18n-title
         filterPlaceholder="Filter tags" i18n-filterPlaceholder
         [items]="tags"
-        [disabled]="!userCanEditAll"
+      
         [editing]="true"
         [manyToOne]="true"
         [applyOnClose]="applyOnClose"

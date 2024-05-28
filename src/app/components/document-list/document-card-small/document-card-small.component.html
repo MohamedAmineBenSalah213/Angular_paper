@@ -9,21 +9,22 @@
           <label class="form-check-label" for="smallCardCheck{{document.id}}"></label>
         </div>
       </div>
-
+     
       <div class="tags d-flex flex-column text-end position-absolute me-1 fs-6">
         <pngx-tag *ngFor="let t of getTagsLimited$() | async" [tag]="t" (click)="clickTag.emit(t.id);$event.stopPropagation()" [clickable]="true" linkTitle="Toggle tag filter" i18n-linkTitle></pngx-tag>
+        
         <div *ngIf="moreTags">
           <span class="badge text-dark">+ {{moreTags}}</span>
         </div>
       </div>
     </div>
-   <!--  <a *ngIf="notesEnabled && document.notes.length" routerLink="/documents/{{document.id}}/notes" class="document-card-notes py-2 px-1">
+    <a *ngIf="notesEnabled && document.notes.length" routerLink="/documents/{{document.id}}/notes" class="document-card-notes py-2 px-1">
       <span class="badge rounded-pill bg-light border text-primary">
       <svg class="metadata-icon ms-1 me-1" fill="currentColor">
         <use xlink:href="assets/bootstrap-icons.svg#chat-left-text"/>
       </svg>
       {{document.notes.length}}</span>
-    </a> -->
+    </a> 
     
     <div class="card-body bg-light p-2">
       <p class="card-text">
@@ -35,14 +36,23 @@
     </div>
     <div class="card-footer pt-0 pb-2 px-2">
       <div class="list-group list-group-flush border-0 pt-1 pb-2 card-info">
-        <button  type="button" class="list-group-item list-group-item-action bg-transparent ps-0 p-1 border-0" title="Toggle document type filter" i18n-title
+        <button  *ngIf="document.documentTypeId"  type="button" class="list-group-item list-group-item-action bg-transparent ps-0 p-1 border-0" title="Toggle document type filter" i18n-title
         >
           <svg class="metadata-icon me-2 text-muted" fill="currentColor">
             <use xlink:href="assets/bootstrap-icons.svg#file-earmark"/>
           </svg>
-        
+        <small> {{(document.document_type$ | async)?.name}} </small>
+        </button>
+        <button  *ngIf="document.storagePathId"  type="button" class="list-group-item list-group-item-action bg-transparent ps-0 p-1 border-0" title="Toggle document type filter" i18n-title
+        >
+        <svg class="metadata-icon me-2 text-muted" fill="currentColor">
+          <use xlink:href="assets/bootstrap-icons.svg#folder"/>
+        </svg>
+
+        <small> {{(document.correspondent$ | async)?.name}} </small>
         </button>
        
+        {{document.storage_path$ }}
         <div class="list-group-item bg-transparent p-0 border-0 d-flex flex-wrap-reverse justify-content-between">
           <ng-template #dateTooltip>
             <div class="d-flex flex-column text-light">
@@ -56,7 +66,7 @@
             <svg class="metadata-icon me-2 text-muted" fill="currentColor">
               <use xlink:href="assets/bootstrap-icons.svg#calendar-event"/>
             </svg>
-            <small>{{document.created | customDate:'mediumDate'}}</small>
+            <small>{{document.createdOn | customDate:'mediumDate'}}</small>
           </div>
         </div>
         <div *ngIf="document.archive_serial_number " class="ps-0 p-1">

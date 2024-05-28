@@ -5,6 +5,7 @@ import {
   Output,
   ElementRef,
   ViewChild,
+  OnInit,
 } from '@angular/core'
 import { FilterPipe } from 'src/app/pipes/filter.pipe'
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap'
@@ -29,7 +30,8 @@ export enum Intersection {
   Exclude = 'exclude',
 }
 
-export class FilterableDropdownSelectionModel {
+export class FilterableDropdownSelectionModel  {
+ 
   changed = new Subject<FilterableDropdownSelectionModel>()
 
   manyToOne = false
@@ -322,7 +324,7 @@ export class FilterableDropdownSelectionModel {
   templateUrl: './filterable-dropdown.component.html',
   styleUrls: ['./filterable-dropdown.component.scss'],
 })
-export class FilterableDropdownComponent {
+export class FilterableDropdownComponent implements OnInit {
   @ViewChild('listFilterTextInput') listFilterTextInput: ElementRef
   @ViewChild('dropdown') dropdown: NgbDropdown
   @ViewChild('buttonItems') buttonItems: ElementRef
@@ -427,6 +429,10 @@ export class FilterableDropdownComponent {
       this.modelIsDirty = updatedModel.isDirty()
     })
   }
+  ngOnInit(): void {
+    console.log(this.items);
+    
+  }
 
   applyClicked() {
     if (this.selectionModel.isDirty()) {
@@ -456,6 +462,7 @@ export class FilterableDropdownComponent {
   }
 
   listFilterEnter(): void {
+    console.log(this.items)
     let filtered = this.filterPipe.transform(this.items, this.filterText)
     if (filtered.length == 1) {
       this.selectionModel.toggle(filtered[0].id)

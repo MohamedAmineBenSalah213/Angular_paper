@@ -91,7 +91,7 @@ export class BulkEditorComponent
   )
 
   get userCanEditAll(): boolean {
-    let canEdit: boolean = this.permissionService.currentUserCan(
+   /*  let canEdit: boolean = this.permissionService.currentUserCan(
       PermissionAction.Change,
       PermissionType.Document
     )
@@ -104,7 +104,9 @@ export class BulkEditorComponent
         d
       )
     )
-    return canEdit
+     canEdit */
+   
+    return true
   }
 
  /*  get userOwnsAll(): boolean {
@@ -115,23 +117,31 @@ export class BulkEditorComponent
   } */
 
   ngOnInit() {
-   /*  this.tagService
-      .listAll()
-      .pipe(first())
-      .subscribe((result) => (this.tags = result.results))
+    
+    this.tagService
+    .listAll(null, null, "list_tags", null)
+    .pipe(first())
+    .subscribe((result) => {
+        this.tags = result.results;
+        // Itérer sur this.tags une fois qu'elle est assignée
+        for (let tag of this.tags) {
+            console.log(tag);
+        }
+    });
+      
     this.correspondentService
-      .listAll()
+    .listAll(null,null,"list_correspondent",null)
       .pipe(first())
       .subscribe((result) => (this.correspondents = result.results))
     this.documentTypeService
-      .listAll()
+    .listAll(null,null,"list_types",null)
       .pipe(first())
       .subscribe((result) => (this.documentTypes = result.results))
     this.storagePathService
       .listAll()
       .pipe(first())
       .subscribe((result) => (this.storagePaths = result.results))
- */
+ 
     this.downloadForm
       .get('downloadFileTypeArchive')
       .valueChanges.pipe(takeUntil(this.unsubscribeNotifier))

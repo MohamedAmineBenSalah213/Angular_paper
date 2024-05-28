@@ -251,9 +251,7 @@ export class DocumentListViewService {
           this.isReloading = false
           activeListViewState.collectionSize = result.count
           activeListViewState.documents = result.results
-          console.log("act")
-          console.log(activeListViewState.documents);
-         /*  this.documentService
+          /*  this.documentService
             .getSelectionData(result.all)
             .pipe(first())
             .subscribe({
