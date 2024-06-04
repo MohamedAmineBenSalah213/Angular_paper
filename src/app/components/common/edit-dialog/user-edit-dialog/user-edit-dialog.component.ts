@@ -22,7 +22,7 @@ export class UserEditDialogComponent
     throw new Error('Method not implemented.')
   }
   getAction() {
-    throw new Error('Method not implemented.')
+    return 'Registration'
   }
   groups: PaperlessGroup[]
   passwordIsSet: boolean = false
@@ -58,11 +58,12 @@ export class UserEditDialogComponent
     return new FormGroup({
       username: new FormControl(''),
       email: new FormControl(''),
-      password: new FormControl(null),
+      passwordHash: new FormControl(null),
       first_name: new FormControl(''),
       last_name: new FormControl(''),
       is_active: new FormControl(true),
       is_superuser: new FormControl(false),
+
       groups: new FormControl([]),
       user_permissions: new FormControl([]),
     })
@@ -88,8 +89,9 @@ export class UserEditDialogComponent
 
   save(): void {
     this.passwordIsSet =
-      this.objectForm.get('password').value?.toString().replaceAll('*', '')
+      this.objectForm.get('passwordHash').value?.toString().replaceAll('*', '')
         .length > 0
+        console.log(this.objectForm.value);
     super.save()
   }
 }

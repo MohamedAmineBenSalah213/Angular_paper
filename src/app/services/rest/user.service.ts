@@ -13,10 +13,10 @@ export class UserService extends AbstractNameFilterService<PaperlessUser> {
     http: HttpClient,
     private permissionService: PermissionsService
   ) {
-    super(http, 'users')
+    super(http, 'user')
   }
 
-  update(o: PaperlessUser): Observable<PaperlessUser> {
+  /* update(o: PaperlessUser): Observable<PaperlessUser> {
     return this.getCached(o.id,"list_user").pipe(
       switchMap((initialUser) => {
         initialUser.user_permissions?.forEach((perm) => {
@@ -30,5 +30,5 @@ export class UserService extends AbstractNameFilterService<PaperlessUser> {
         return super.update(o)
       })
     )
-  }
+  } */
 }

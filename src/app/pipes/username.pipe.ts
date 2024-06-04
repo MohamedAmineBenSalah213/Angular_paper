@@ -11,7 +11,10 @@ import { PaperlessUser } from '../data/paperless-user'
   name: 'username',
 })
 export class UsernamePipe implements PipeTransform {
-  users: PaperlessUser[]
+  transform(value: any, ...args: any[]) {
+    throw new Error('Method not implemented.')
+  }
+  /* users: PaperlessUser[]
 
   constructor(
     permissionsService: PermissionsService,
@@ -25,18 +28,18 @@ export class UsernamePipe implements PipeTransform {
     ) {
       userService.listAll().subscribe((r) => (this.users = r.results))
     }
-  }
+  } */
 
-  transform(userID: string): string {
+ /*  transform(userID: string): string {
     return this.users
       ? this.getName(this.users.find((u) => u.id === userID)) ?? ''
       : $localize`Shared`
-  }
-
+  } */
+/* 
   getName(user: PaperlessUser): string {
     if (!user) return ''
     const name = [user.first_name, user.last_name].join(' ')
     if (name.length > 1) return name.trim()
-    return user.username
-  }
+    return user.userName
+  } */
 }

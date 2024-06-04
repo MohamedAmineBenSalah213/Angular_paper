@@ -51,7 +51,7 @@ export class PermissionsSelectComponent
       : []
 
     if (this._inheritedPermissions !== newInheritedPermissions) {
-      this._inheritedPermissions = newInheritedPermissions
+      this._inheritedPermissions = newInheritedPermissions      
       this.writeValue(this.permissions) // updates visual checks etc.
     }
 
@@ -72,7 +72,7 @@ export class PermissionsSelectComponent
   }
 
   writeValue(permissions: string[]): void {
-    if (this.permissions === permissions) {
+       if (this.permissions === permissions) {
       return
     }
 
@@ -125,6 +125,7 @@ export class PermissionsSelectComponent
 
   ngOnInit(): void {
     this.form.valueChanges.subscribe((newValue) => {
+         
       let permissions = []
       Object.entries(newValue).forEach(([typeKey, typeValue]) => {
         // e.g. [Document, { Add: true, View: true ... }]
@@ -156,6 +157,8 @@ export class PermissionsSelectComponent
 
   toggleAll(event, type) {
     const typeGroup = this.form.get(type)
+    console.log(typeGroup.value);
+    
     if (event.target.checked) {
       Object.keys(PermissionAction).forEach((action) => {
         typeGroup.get(action).patchValue(true)

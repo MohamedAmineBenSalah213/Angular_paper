@@ -13,6 +13,7 @@ import { GroupEditDialogComponent } from '../../common/edit-dialog/group-edit-di
 import { UserEditDialogComponent } from '../../common/edit-dialog/user-edit-dialog/user-edit-dialog.component'
 import { ComponentWithPermissions } from '../../with-permissions/with-permissions.component'
 import { SettingsService } from 'src/app/services/settings.service'
+import { Results } from 'src/app/data/results'
 
 @Component({
   selector: 'pngx-users-groups',
@@ -41,18 +42,21 @@ export class UsersAndGroupsComponent
 
   ngOnInit(): void {
     this.usersService
-      .listAll(null, null, null,{ full_perms: true })
+      .listAllCustom("list_user")
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe({
         next: (r) => {
           this.users = r.results
+          console.log(this.users.forEach(e=> console.log(
+           e.userName +" "+e.normalizedUserName)));
+          
         },
         error: (e) => {
           this.toastService.showError($localize`Error retrieving users`, e)
         },
       })
 
-    this.groupsService
+   /*  this.groupsService
       .listAll(null, null, null,{ full_perms: true })
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe({
@@ -62,7 +66,7 @@ export class UsersAndGroupsComponent
         error: (e) => {
           this.toastService.showError($localize`Error retrieving groups`, e)
         },
-      })
+      }) */
   }
 
   ngOnDestroy() {
@@ -93,7 +97,7 @@ export class UsersAndGroupsComponent
           }, 2500)
         } else {
           this.toastService.showInfo(
-            $localize`Saved user "${newUser.username}".`
+            $localize`Saved user "${newUser.userName}".`
           )
           this.usersService.listAll().subscribe((r) => {
             this.users = r.results
