@@ -12,7 +12,7 @@ import { PaperlessTag } from 'src/app/data/paperless-tag'
 import { PaperlessCorrespondent } from 'src/app/data/paperless-correspondent'
 import { PaperlessDocumentType } from 'src/app/data/paperless-document-type'
 import { Subject, Subscription } from 'rxjs'
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, filter, first } from 'rxjs/operators'
 import { DocumentTypeService } from 'src/app/services/rest/document-type.service'
 import { TagService } from 'src/app/services/rest/tag.service'
 import { CorrespondentService } from 'src/app/services/rest/correspondent.service'
@@ -69,6 +69,7 @@ import {
   OwnerFilterType,
   PermissionsSelectionModel,
 } from '../../common/permissions-filter-dropdown/permissions-filter-dropdown.component'
+import { Results } from 'src/app/data/results'
 
 const TEXT_FILTER_TARGET_TITLE = 'title'
 const TEXT_FILTER_TARGET_TITLE_CONTENT = 'title-content'
@@ -851,19 +852,25 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
   subscription: Subscription
 
   ngOnInit() {
-    /* this.tagService
-      .listAll()
-      .subscribe((result) => (this.tags = result.results))
+    this.tagService.listAll(null,null,"list_tags",null).subscribe((result:Results<PaperlessTag>) => {
+      console.log(result.count);
+      
+      this.tags = result.results
+    })
+      
     this.correspondentService
-      .listAll()
+    .listAll(null,null,"list_correspondent",null)
+      .pipe(first())
       .subscribe((result) => (this.correspondents = result.results))
     this.documentTypeService
-      .listAll()
+    .listAll(null,null,"list_types",null)
+      .pipe(first())
       .subscribe((result) => (this.documentTypes = result.results))
     this.storagePathService
       .listAll()
+      .pipe(first())
       .subscribe((result) => (this.storagePaths = result.results))
- */
+
     this.textFilterDebounce = new Subject<string>()
 
     this.subscription = this.textFilterDebounce

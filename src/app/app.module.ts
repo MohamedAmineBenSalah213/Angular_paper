@@ -139,6 +139,8 @@ import { ConfigComponent } from './components/admin/config/config.component';
 import { DataExtractionDropdownComponent } from './components/common/data-extraction-dropdown/data-extraction-dropdown.component';
 import { FileShareListComponent } from './components/manage/file-share-list/file-share-list.component';
 import { FileShareEditDialogComponent } from './components/common/edit-dialog/file-share-edit-dialog/file-share-edit-dialog.component';
+import { AuthModule, LogLevel } from 'angular-auth-oidc-client'
+import { AuthInterceptorInterceptor } from './interceptors/auth.interceptor'
 
 
 registerLocaleData(localeAf)
@@ -268,6 +270,22 @@ function initializeApp(settings: SettingsService) {
    
   ],
   imports: [
+    AuthModule.forRoot({
+      config: {
+        authority: 'https://localhost:44313',
+        clientId: 'angularclient',
+        redirectUrl: window.location.origin,
+        postLogoutRedirectUri: window.location.origin,
+        responseType: 'code',
+        scope: 'openid email profile roles dataEventRecords offline_access',
+        logLevel: LogLevel.Debug,
+        silentRenew: true,
+        renewTimeBeforeTokenExpiresInSeconds: 30,
+        useRefreshToken: true,
+        // authWellknownEndpointUrl:
+        //   'http://localhost:44395/.well-known/openid-configuration',
+      },
+    }),
     BrowserModule,
     AppRoutingModule,
     NgbModule,
@@ -283,18 +301,26 @@ function initializeApp(settings: SettingsService) {
   ],
   providers: [
     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorInterceptor,
+      multi:true
+    },
+    {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
       deps: [SettingsService],
       multi: true,
     },
+
     DatePipe,
     CookieService,
+    
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CsrfInterceptor,
       multi: true,
     },
+       
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiVersionInterceptor,

@@ -34,12 +34,13 @@ export class DashboardComponent extends ComponentWithPermissions {
   }
 
   get subtitle() {
-   /*  if (this.settingsService.displayName) {
+  //  debugger
+     if (this.settingsService.displayName) {
       return $localize`Hello ${this.settingsService.displayName} `
     } else {
       return $localize
-    } */
-    return "Hello"
+    }  
+    //return "Hello"
   }
 
   completeTour() {

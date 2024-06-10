@@ -1,6 +1,6 @@
 <div class="d-flex flex-wrap gap-4">
   <div class="d-flex align-items-center" role="group" aria-label="Select">
-    <button class="btn btn-sm btn-outline-secondary" (click)="list.selectNone()">
+    <!--  --><button class="btn btn-sm btn-outline-secondary" (click)="list.selectNone()">
       <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
         <use xlink:href="assets/bootstrap-icons.svg#slash-circle" />
       </svg>&nbsp;<ng-container i18n>Cancel</ng-container>
@@ -22,12 +22,12 @@
     </div>
   </div>
  
-    <div class="d-flex align-items-center gap-2" ><!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Document }" -->
+    <div class="d-flex align-items-center gap-2" *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Document }"  ><!-- -->
       <label class="me-2" i18n>Edit:</label>
       <pngx-filterable-dropdown title="Tags" icon="tag-fill" i18n-title
         filterPlaceholder="Filter tags" i18n-filterPlaceholder
         [items]="tags"
-      
+        [disabled]="!userCanEditAll"
         [editing]="true"
         [manyToOne]="true"
         [applyOnClose]="applyOnClose"
@@ -36,6 +36,7 @@
         [documentCounts]="tagDocumentCounts"
         (apply)="setTags($event)">
       </pngx-filterable-dropdown>
+   
       <pngx-filterable-dropdown title="Correspondent" icon="person-fill" i18n-title
         filterPlaceholder="Filter correspondents" i18n-filterPlaceholder
         [items]="correspondents"

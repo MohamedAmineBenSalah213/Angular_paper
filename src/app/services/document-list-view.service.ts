@@ -239,7 +239,7 @@ export class DocumentListViewService {
       null,
       null,
         "list_document",
-       null
+        activeListViewState.filterRules
       )
       
       
@@ -251,7 +251,7 @@ export class DocumentListViewService {
           this.isReloading = false
           activeListViewState.collectionSize = result.count
           activeListViewState.documents = result.results
-          /*  this.documentService
+           this.documentService
             .getSelectionData(result.all)
             .pipe(first())
             .subscribe({
@@ -261,7 +261,7 @@ export class DocumentListViewService {
               error: () => {
                 this.selectionData = null
               },
-            }) */
+            }) 
 
          /*  if (updateQueryParams && !this._activeSavedViewId) {
             let base = ['/documents']
@@ -318,7 +318,7 @@ export class DocumentListViewService {
       this.currentPageSize,
       activeListViewState.sortField,
       activeListViewState.sortReverse,
-      activeListViewState.filterRules,
+   ,
       { truncate_content: true } */
     
 }

@@ -34,6 +34,7 @@ import {
 } from 'src/app/services/permissions.service'
 import { FormControl, FormGroup } from '@angular/forms'
 import { first, Subject, takeUntil } from 'rxjs'
+import { Results } from 'src/app/data/results'
 
 @Component({
   selector: 'pngx-bulk-editor',
@@ -91,7 +92,7 @@ export class BulkEditorComponent
   )
 
   get userCanEditAll(): boolean {
-   /*  let canEdit: boolean = this.permissionService.currentUserCan(
+    let canEdit: boolean = this.permissionService.currentUserCan(
       PermissionAction.Change,
       PermissionType.Document
     )
@@ -104,30 +105,23 @@ export class BulkEditorComponent
         d
       )
     )
-     canEdit */
-   
-    return true
+    return canEdit
   }
 
- /*  get userOwnsAll(): boolean {
+  get userOwnsAll(): boolean {
     let ownsAll: boolean = true
     const docs = this.list.documents.filter((d) => this.list.selected.has(d.id))
     ownsAll = docs.every((d) => this.permissionService.currentUserOwnsObject(d))
     return ownsAll
-  } */
+  }
 
   ngOnInit() {
-    
-    this.tagService
-    .listAll(null, null, "list_tags", null)
-    .pipe(first())
-    .subscribe((result) => {
-        this.tags = result.results;
-        // Itérer sur this.tags une fois qu'elle est assignée
-        for (let tag of this.tags) {
-            console.log(tag);
-        }
-    });
+   
+    this.tagService.listAll(null,null,"list_tags",null).subscribe((result:Results<PaperlessTag>) => {
+      console.log(result.count);
+      
+      this.tags = result.results
+    })
       
     this.correspondentService
     .listAll(null,null,"list_correspondent",null)
@@ -215,6 +209,7 @@ export class BulkEditorComponent
   }
 
   openTagsDropdown() {
+    debugger
     this.documentService
       .getSelectionData(Array.from(this.list.selected))
       .pipe(first())

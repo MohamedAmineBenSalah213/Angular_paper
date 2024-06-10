@@ -17,7 +17,7 @@ export class AbstractInputComponent<T> implements OnInit, ControlValueAccessor {
 
   constructor() {}
 
-  onChange = (newValue: T) => {}
+  onChange = (newValue: T) => { console.log(this.value);}
 
   onTouched = () => {}
 

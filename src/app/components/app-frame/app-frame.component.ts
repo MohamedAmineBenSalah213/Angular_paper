@@ -39,6 +39,7 @@ import {
   CdkDragDrop,
   moveItemInArray,
 } from '@angular/cdk/drag-drop'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 declare interface RouteInfo {
   path: string;
   title: string;
@@ -75,7 +76,8 @@ export class AppFrameComponent
     public settingsService: SettingsService,
     public tasksService: TasksService,
     private readonly toastService: ToastService,
-    permissionsService: PermissionsService
+    permissionsService: PermissionsService,
+    
   ) {
     super()
 
@@ -93,7 +95,7 @@ export class AppFrameComponent
       this.checkForUpdates()
     }
     this.tasksService.reload()
-
+ 
   }
 
   toggleSlimSidebar(): void {

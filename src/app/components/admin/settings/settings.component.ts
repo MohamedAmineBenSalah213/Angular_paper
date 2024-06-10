@@ -528,6 +528,7 @@ export class SettingsComponent
   }
 
   saveSettings() {
+    debugger
     // only patch views that have actually changed
     const changed: PaperlessSavedView[] = []
     Object.values(this.savedViewGroup.controls)

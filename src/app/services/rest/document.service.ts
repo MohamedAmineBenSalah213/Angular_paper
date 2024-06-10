@@ -120,7 +120,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
   sortField,
   sortReverse,
   action,
-  Object.assign(extraParams, queryParamsFromFilterRules(filterRules)) */
+  */
  
 
   listAllFilteredIds(filterRules?: FilterRule[]): Observable<string[]> {
@@ -192,10 +192,11 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
   }
 
   getSelectionData(ids: string[]): Observable<SelectionData> {
-    return this.http.post<SelectionData>(
+    return this.http.get<SelectionData>(
       this.getResourceUrl(null, 'selection_data'),
-      { documents: ids }
+   
     )
+    //   { documents: ids }
   }
 
   getSuggestions(id: string): Observable<PaperlessDocumentSuggestions> {

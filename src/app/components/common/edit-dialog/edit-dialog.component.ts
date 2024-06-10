@@ -16,6 +16,7 @@ import { UserService } from 'src/app/services/rest/user.service'
 import { PermissionsFormObject } from '../input/permissions/permissions-form/permissions-form.component'
 import { SettingsService } from 'src/app/services/settings.service'
 import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 export enum EditDialogMode {
   CREATE = 0,
@@ -31,7 +32,8 @@ export abstract class EditDialogComponent<
     protected service: AbstractPaperlessService<T>,
     private activeModal: NgbActiveModal,
     private userService: UserService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+   
   ) {}
 
   users: PaperlessUser[]
@@ -61,6 +63,7 @@ export abstract class EditDialogComponent<
   ngOnInit(): void {
      if (this.object != null) {
       if (this.object['permissions']) {
+        debugger
         console.log(this.object['permissions']);
         
         this.object['user_permissions'] = this.object['permissions']
@@ -106,7 +109,7 @@ export abstract class EditDialogComponent<
       this.closeEnabled = true
     })
 
-    this.userService.listAll().subscribe((r) => {
+    this.userService.listAllCustom("list_user").subscribe((r) => {
       this.users = r.results
     }) 
   }
@@ -152,6 +155,7 @@ export abstract class EditDialogComponent<
     return words;
 }
   save() {
+    debugger
     this.error = null
      const formValues = Object.assign({}, this.objectForm.value)
     const permissionsObject: PermissionsFormObject =
@@ -177,7 +181,7 @@ export abstract class EditDialogComponent<
               
             }
           newObject.DocumentTags = [];
-          newObject.owner="user";
+          
           serverResponse = this.service.create(newObject,this.getAction())
         } 
 
@@ -188,7 +192,7 @@ export abstract class EditDialogComponent<
           }
           else
            newObject.match=[]
-        newObject.owner="user";
+   
         console.log(newObject);
         
         serverResponse = this.service.create(newObject,this.getAction())
@@ -205,15 +209,13 @@ export abstract class EditDialogComponent<
             newObject.match = this.splitIntoList(newObject.match); 
             }
           
-        //newObject.DocumentTags = [];
-        newObject.owner="user";
+        
         console.log(this.getActionupdate())
         serverResponse = this.service.update(newObject,this.getActionupdate())
         }
         if(newObject.matching_algorithm== MATCH_NONE){
           newObject.match= [];
-          newObject.owner="user";
-          console.log(this.getActionupdate())
+           console.log(this.getActionupdate())
           serverResponse = this.service.update(newObject,this.getActionupdate())
         }
         else{

@@ -27,13 +27,17 @@ import { UsersAndGroupsComponent } from './components/admin/users-groups/users-g
 import { CustomFieldsComponent } from './components/manage/custom-fields/custom-fields.component'
 import { ConfigComponent } from './components/admin/config/config.component'
 import { FileShareListComponent } from './components/manage/file-share-list/file-share-list.component'
+import { LoginComponent } from './components/admin/login/login.component'
+import { authGuard } from './guards/auth.guard'
 
 
 export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: '',
     component: AppFrameComponent,
+    canActivate : [authGuard],
    /*  canDeactivate: [DirtyDocGuard], */
     children: [
       { path: 'dashboard', component: DashboardComponent },
@@ -49,6 +53,7 @@ export const routes: Routes = [
           },
         }, */
       },
+      
       {
         path: 'view/:id',
         component: DocumentListComponent,

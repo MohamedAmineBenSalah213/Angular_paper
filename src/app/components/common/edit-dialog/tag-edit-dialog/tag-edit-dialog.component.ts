@@ -8,6 +8,7 @@ import { randomColor } from 'src/app/utils/color'
 import { DEFAULT_MATCHING_ALGORITHM } from 'src/app/data/matching-model'
 import { UserService } from 'src/app/services/rest/user.service'
 import { SettingsService } from 'src/app/services/settings.service'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 @Component({
   selector: 'pngx-tag-edit-dialog',
@@ -26,6 +27,7 @@ export class TagEditDialogComponent extends EditDialogComponent<PaperlessTag> {
     activeModal: NgbActiveModal,
     userService: UserService,
     settingsService: SettingsService,
+   
     private fb: FormBuilder
   ) {
     super(service, activeModal, userService, settingsService)
@@ -47,6 +49,7 @@ export class TagEditDialogComponent extends EditDialogComponent<PaperlessTag> {
       match: new FormControl(['']),
       is_insensitive: new FormControl(true),
       permissions_form: new FormControl(null),
+      
     })
   }
   

@@ -1,18 +1,38 @@
 import { ObjectWithId } from './object-with-id'
 
 export interface PaperlessUser extends ObjectWithId {
-  userName?: string
-   first_name?: string
-  last_name?: string
-  email?:string
-  normalizedUserName?:string
-  passwordHash?:string
-  date_joined?: Date
-  is_staff?: boolean
-  is_active?: boolean
-  is_superuser?: boolean
-  groups?: string[] // PaperlessGroup[]
-  user_permissions?: string[]
-  inherited_permissions?: string[] 
-}
+  username?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  email?: string | null;
+  normalizedUserName?: string | null;
+  passwordHash?: string | null;
+  date_joined?: Date | null;
+  is_staff?: boolean | null;
+  is_active?: boolean | null;
+  is_superuser?: boolean | null;
+  groups?: string[] | null; // PaperlessGroup[]
+  user_permissions?: string[] | null;
+  inherited_permissions?: string[] | null;
 
+  superuserStatus: boolean;
+  active: boolean;
+  firstName: string | null;
+  lastName: string | null;
+
+  permissions: string[];
+  userName: string;
+
+ 
+  normalizedEmail: string;
+  emailConfirmed: boolean;
+ 
+  securityStamp: string;
+  concurrencyStamp: string;
+  phoneNumber: string | null;
+  phoneNumberConfirmed: boolean;
+  twoFactorEnabled: boolean;
+  lockoutEnd: Date | null;
+  lockoutEnabled: boolean;
+  accessFailedCount: number;
+}

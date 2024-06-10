@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 import { first } from 'rxjs'
 import { EditDialogComponent } from 'src/app/components/common/edit-dialog/edit-dialog.component'
 import { PaperlessGroup } from 'src/app/data/paperless-group'
@@ -31,6 +32,7 @@ export class UserEditDialogComponent
     service: UserService,
     activeModal: NgbActiveModal,
     groupsService: GroupService,
+    
     settingsService: SettingsService
   ) {
     super(service, activeModal, service, settingsService)
@@ -63,7 +65,7 @@ export class UserEditDialogComponent
       last_name: new FormControl(''),
       is_active: new FormControl(true),
       is_superuser: new FormControl(false),
-
+     
       groups: new FormControl([]),
       user_permissions: new FormControl([]),
     })

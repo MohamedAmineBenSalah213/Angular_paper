@@ -25,9 +25,28 @@ export class PermissionsUserComponent extends AbstractInputComponent<
 
   constructor(userService: UserService, settings: SettingsService) {
     super()
-    userService
-      .listAll()
+   
+  userService
+  .listAllCustom("list_user")
+  .pipe(first())
+  .subscribe({
+    next: (r) => {
+      //debugger
+      this.users = r.results
+      console.log(this.users.forEach(e=> console.log(
+       e)));
+      
+    },
+    error: (e) => {
+     console.log(e);
+     
+    },
+  })
+}
+}
+ /* userService
+      .listAllCustom("list_user")
       .pipe(first())
       .subscribe((result) => (this.users = result.results))
   }
-}
+  } */

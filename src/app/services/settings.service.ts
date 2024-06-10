@@ -26,6 +26,7 @@ import { PaperlessUser } from '../data/paperless-user'
 import { PermissionsService } from './permissions.service'
 import { ToastService } from './toast.service'
 import { PaperlessSavedView } from '../data/paperless-saved-view'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 export interface LanguageOption {
   code: string
@@ -42,7 +43,7 @@ export interface LanguageOption {
   providedIn: 'root',
 })
 export class SettingsService {
-  protected baseUrl: string = environment.apiBaseUrl + 'ui_settings/'
+  protected baseUrl: string = environment.apiBaseUrl + '/uisettings'
 
   private settings: Object = {}
   currentUser: PaperlessUser
@@ -59,9 +60,10 @@ export class SettingsService {
   public globalDropzoneEnabled: boolean = true
   public globalDropzoneActive: boolean = false
   public organizingSidebarSavedViews: boolean = false
-
+  id: string
   constructor(
     rendererFactory: RendererFactory2,
+    private oidcSecurityService: OidcSecurityService,
     @Inject(DOCUMENT) private document,
     private cookieService: CookieService,
     private meta: Meta,
@@ -75,29 +77,45 @@ export class SettingsService {
 
   // this is called by the app initializer in app.module
   public initializeSettings(): Observable<PaperlessUiSettings> {
-  /*   return this.http.get<PaperlessUiSettings>(this.baseUrl).pipe(
+   //debugger
+   
+    // Step 1: Retrieve the object from session storage
+     this.oidcSecurityService
+   .getUserData()
+   .subscribe((userInfo: any) => {
+     console.log('User Info:', userInfo);
+     // Access specific claims (e.g., email, sub, etc.)
+     this.id = userInfo.sub;
+   });
+   const url = `${this.baseUrl}/get_ui_settings_details`;
+   const params = { id: this.id };
+
+   return this.http.get<PaperlessUiSettings>(url,{params}).pipe(
       first(),
       tap((uisettings) => {
         Object.assign(this.settings, uisettings.settings)
         this.maybeMigrateSettings()
+        console.log(uisettings);
+        
         // to update lang cookie
         if (this.settings['language']?.length)
           this.setLanguage(this.settings['language'])
+       // debugger
         this.currentUser = uisettings.user
         this.permissionsService.initialize(
           uisettings.permissions,
           this.currentUser
         )
-      }) */
-
-    return null;
+      })
+    )  
+   return null;
   }
 
   get displayName(): string {
-    return (
-     
-      ''
-    ).trim()
+    return this.currentUser.username 
+      
+      //this.currentUser.userName 
+    
   }
 
   public updateAppearanceSettings(
@@ -364,14 +382,18 @@ export class SettingsService {
   }
 
   getLanguage(): string {
+    debugger
     return this.get(SETTINGS_KEYS.LANGUAGE)
   }
 
   setLanguage(language: string) {
+   debugger
     this.set(SETTINGS_KEYS.LANGUAGE, language)
     if (language?.length) {
       // for Django
       this.cookieService.set(this.getLanguageCookieName(), language)
+     
+     
     } else {
       this.cookieService.delete(this.getLanguageCookieName())
     }
@@ -437,6 +459,8 @@ export class SettingsService {
 
   set(key: string, value: any) {
     // parse key:key:key into nested object
+    console.log(this.settings);
+    
     let settingObj = this.settings
     const keys = key.replace('general-settings:', '').split(':')
     keys.forEach((keyPart, index) => {
@@ -453,13 +477,16 @@ export class SettingsService {
   }
 
   storeSettings(): Observable<any> {
-    return this.http.post(this.baseUrl, { settings: this.settings }).pipe(
+    //debugger
+    const url = `${this.baseUrl}/store_settings?id=${this.id}`;
+     return this.http.put(url, { settings: this.settings }).pipe(
       tap((results) => {
         if (results.success) {
           this.settingsSaved.emit()
         }
       })
-    )
+    ) 
+    
   }
 
   maybeMigrateSettings() {

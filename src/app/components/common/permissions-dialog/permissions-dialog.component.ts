@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
+import { first } from 'rxjs'
 import { ObjectWithPermissions } from 'src/app/data/object-with-permissions'
 import { PaperlessUser } from 'src/app/data/paperless-user'
 import { UserService } from 'src/app/services/rest/user.service'
@@ -18,7 +19,22 @@ export class PermissionsDialogComponent {
     public activeModal: NgbActiveModal,
     private userService: UserService
   ) {
-    this.userService.listAll().subscribe((r) => (this.users = r.results))
+    this. userService
+    .listAllCustom("list_user")
+    .pipe(first())
+    .subscribe({
+      next: (r) => {
+      //  debugger
+        this.users = r.results
+        console.log(this.users.forEach(e=> console.log(
+         e)));
+        
+      },
+      error: (e) => {
+       console.log(e);
+       
+      },
+    })
   }
 
   @Output()

@@ -194,7 +194,8 @@
                 <span class="d-block pt-1" i18n>Users:</span>
               </div>
               <div class="col">
-                <ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.User }">
+                <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.User }" -->
+                <ng-container >
                   <pngx-permissions-user type="view" formControlName="defaultPermsViewUsers"></pngx-permissions-user>
                 </ng-container>
               </div>
@@ -204,7 +205,7 @@
                 <span class="d-block pt-1" i18n>Groups:</span>
               </div>
               <div class="col">
-                <ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Group }">
+                <ng-container ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Group }" -->
                   <pngx-permissions-group type="view" formControlName="defaultPermsViewGroups"></pngx-permissions-group>
                 </ng-container>
               </div>
@@ -221,7 +222,8 @@
                 <span class="d-block pt-1" i18n>Users:</span>
               </div>
               <div class="col">
-                <ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.User }">
+                <!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.User }" -->
+                <ng-container>
                   <pngx-permissions-user type="view" formControlName="defaultPermsEditUsers"></pngx-permissions-user>
                 </ng-container>
               </div>
@@ -231,7 +233,7 @@
                 <span class="d-block pt-1" i18n>Groups:</span>
               </div>
               <div class="col">
-                <ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Group }">
+                <ng-container ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Group }" -->
                   <pngx-permissions-group type="view" formControlName="defaultPermsEditGroups"></pngx-permissions-group>
                 </ng-container>
               </div>

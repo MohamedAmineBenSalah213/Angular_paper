@@ -48,7 +48,7 @@ export class UsersAndGroupsComponent
         next: (r) => {
           this.users = r.results
           console.log(this.users.forEach(e=> console.log(
-           e.userName +" "+e.normalizedUserName)));
+           e.username +" "+e.normalizedUserName)));
           
         },
         error: (e) => {
@@ -97,7 +97,7 @@ export class UsersAndGroupsComponent
           }, 2500)
         } else {
           this.toastService.showInfo(
-            $localize`Saved user "${newUser.userName}".`
+            $localize`Saved user "${newUser.username}".`
           )
           this.usersService.listAll().subscribe((r) => {
             this.users = r.results

@@ -2,17 +2,18 @@ import { Component, forwardRef, Input, OnInit } from '@angular/core'
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { PaperlessUser } from 'src/app/data/paperless-user'
 import { AbstractInputComponent } from '../../abstract-input'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 export interface PermissionsFormObject {
-  owner?: number
+  owner?: string
   set_permissions?: {
     view?: {
-      users?: number[]
-      groups?: number[]
+      users?: string[]
+      groups?: string[]
     }
     change?: {
-      users?: number[]
-      groups?: number[]
+      users?: string[]
+      groups?: string[]
     }
   }
 }
@@ -35,10 +36,10 @@ export class PermissionsFormComponent
 {
   @Input()
   users: PaperlessUser[]
-
+  username: string;
   @Input()
   accordion: boolean = false
-
+  
   form = new FormGroup({
     owner: new FormControl(null),
     set_permissions: new FormGroup({
@@ -52,18 +53,32 @@ export class PermissionsFormComponent
       }),
     }),
   })
-
-  constructor() {
+ 
+  constructor(
+    private oidcSecurityService: OidcSecurityService,
+  ) {
     super()
   }
 
   ngOnInit(): void {
-    this.form.valueChanges.subscribe((value) => {
+   
+    this.oidcSecurityService.getUserData().subscribe((userInfo: any) => {
+      this.username = userInfo.email;
+      this.form.get('owner').setValue(this.username);
+    });
+     this.form.valueChanges.subscribe((value) => {
+      debugger
       this.onChange(value)
-    })
+    }) 
+   
+    
+    
   }
 
   writeValue(newValue: any): void {
+    debugger
     this.form.patchValue(newValue, { emitEvent: false })
   }
+
+ 
 }

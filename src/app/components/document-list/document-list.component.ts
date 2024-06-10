@@ -35,6 +35,7 @@ import { ToastService } from 'src/app/services/toast.service'
 import { ComponentWithPermissions } from '../with-permissions/with-permissions.component'
 import { FilterEditorComponent } from './filter-editor/filter-editor.component'
 import { SaveViewConfigDialogComponent } from './save-view-config-dialog/save-view-config-dialog.component'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 @Component({
   selector: 'pngx-document-list',
@@ -54,7 +55,8 @@ export class DocumentListComponent
     private modalService: NgbModal,
     private consumerStatusService: ConsumerStatusService,
     public openDocumentsService: OpenDocumentsService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+   
   ) {
     super()
   }
@@ -131,7 +133,7 @@ export class DocumentListComponent
   }
 
   ngOnInit(): void {
-    console.log(this.list)
+
        // debugger
 
     if (localStorage.getItem('document-list:displayMode') != null) {
