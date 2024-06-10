@@ -134,7 +134,7 @@ export class DocumentListComponent
 
   ngOnInit(): void {
 
-       // debugger
+       debugger
 
     if (localStorage.getItem('document-list:displayMode') != null) {
       this.displayMode = localStorage.getItem('document-list:displayMode')

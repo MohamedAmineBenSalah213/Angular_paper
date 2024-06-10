@@ -230,16 +230,16 @@ export class DocumentListViewService {
           "list_document",
           null
       ));
-    
+    debugger
       this.documentService
       .listFiltered(
         activeListViewState.currentPage,
         this.currentPageSize,
-      null,
-      null,
-      null,
+        activeListViewState.sortField,
+        activeListViewState.sortReverse,
+        activeListViewState.filterRules,
         "list_document",
-        activeListViewState.filterRules
+        { truncate_content: true }
       )
       
       
@@ -409,6 +409,7 @@ export class DocumentListViewService {
   }
 
   quickFilter(filterRules: FilterRule[]) {
+    debugger
     this._activeSavedViewId = null
     this.filterRules = filterRules
     this.router.navigate(['documents'])

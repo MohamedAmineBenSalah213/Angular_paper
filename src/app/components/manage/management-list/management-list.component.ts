@@ -195,6 +195,7 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
   abstract getDeleteMessage(object: T)
   abstract getAction()
   filterDocuments(object: ObjectWithId) {
+   // debugger
     this.documentListViewService.quickFilter([
       { rule_type: this.filterRuleType, value: object.id.toString() },
     ])

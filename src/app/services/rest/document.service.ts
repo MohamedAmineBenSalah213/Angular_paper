@@ -105,7 +105,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
       null,
       null,
       action,
-      null,
+      Object.assign(extraParams, queryParamsFromFilterRules(filterRules)),
       
     ).pipe(
       map((results) => {
@@ -168,12 +168,12 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     return super.update(o,action)
   }
 
-  uploadDocument(formData : FormData) {
-
+  uploadDocument(formData : FormData, id :string) {
+    const params = new HttpParams().set('id', id);
       return this.http.post(`${environment.apiBaseUrl}/document/Upload`
       ,
       formData,
-      { reportProgress: true, observe: 'events' }
+      {params, reportProgress: true, observe: 'events' }
     )
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { HttpEventType } from '@angular/common/http'
+import { HttpEventType, HttpParams } from '@angular/common/http'
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop'
 import {
   ConsumerStatusService,
@@ -7,6 +7,7 @@ import {
 } from './consumer-status.service'
 import { DocumentService } from './rest/document.service'
 import { Subscription } from 'rxjs'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +17,10 @@ export class UploadDocumentsService {
 
   constructor(
     private documentService: DocumentService,
+    private oidcSecurityService: OidcSecurityService,
     private consumerStatusService: ConsumerStatusService
   ) {}
-
+  id:string ="";
   onNgxFileDrop(files: NgxFileDropEntry[]) {
     for (const droppedFile of files) {
       if (droppedFile.fileEntry.isFile) {
@@ -35,6 +37,14 @@ export class UploadDocumentsService {
   }
 
   private uploadFile(file: File) {
+    // get id
+    this.oidcSecurityService
+   .getUserData()
+   .subscribe((userInfo: any) => {
+     console.log('User Info:', userInfo);
+     // Access specific claims (e.g., email, sub, etc.)
+    this.id = userInfo.sub;
+   }); 
     let formData = new FormData()
     formData.append('formData', file, file.name);
 
@@ -50,7 +60,7 @@ console.log(fileData.name);
 
      this.uploadSubscriptions[file.name] = 
     this.documentService
-      .uploadDocument(formData)
+      .uploadDocument(formData,this.id)
       .subscribe({
         next: (event) => {
          console.log(event.type)
