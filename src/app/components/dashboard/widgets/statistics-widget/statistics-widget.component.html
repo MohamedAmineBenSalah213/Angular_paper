@@ -58,8 +58,8 @@
           <span class="badge bg-secondary text-light rounded-pill">{{statistics?.correspondent_count | number}}</span>
         </a>
       </ng-container>
-      <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.DocumentType }" -->
-      <ng-container >
+      <!-- -->
+      <ng-container  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.DocumentType }" >
         <a *ngIf="statistics?.document_type_count > 0" class="list-group-item d-flex justify-content-between align-items-center" routerLink="/documenttypes/">
           <ng-container i18n>Document Types</ng-container>:
           <span class="badge bg-secondary text-light rounded-pill">{{statistics?.document_type_count | number}}</span>

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/* import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -61,4 +61,98 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
     }
     return next.handle(request);
   }
-}
+} */
+  import { Injectable } from '@angular/core';
+  import {
+    HttpRequest,
+    HttpHandler,
+    HttpEvent,
+    HttpInterceptor,
+    HttpErrorResponse,
+  } from '@angular/common/http';
+  import { Observable, throwError } from 'rxjs';
+  import { catchError, switchMap } from 'rxjs/operators';
+  import { OidcSecurityService } from 'angular-auth-oidc-client';
+  import { Router } from '@angular/router';
+  
+  @Injectable()
+  export class AuthInterceptorInterceptor implements HttpInterceptor {
+    token: any;
+  
+    constructor(
+      private oidcSecurityService: OidcSecurityService,
+      private router: Router
+    ) {}
+  
+    intercept(
+      request: HttpRequest<unknown>,
+      next: HttpHandler
+    ): Observable<HttpEvent<unknown>> {
+      this.token = sessionStorage.getItem('0-angularclient');
+  
+      if (this.token) {
+        const tokenObject = JSON.parse(this.token);
+        const accessToken = tokenObject?.authnResult?.access_token;
+  
+        if (accessToken) {
+          request = request.clone({
+            setHeaders: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+  
+          // Optionally handle token expiration here
+          const expiresIn = tokenObject?.authnResult?.expires_in;
+          if (expiresIn && this.isTokenExpired(expiresIn)) {
+            return this.oidcSecurityService.forceRefreshSession().pipe(
+              switchMap(() => {
+                // After refreshing the session, get the new token
+                const refreshedToken = sessionStorage.getItem('0-angularclient');
+                const refreshedTokenObject = JSON.parse(refreshedToken);
+                const newAccessToken = refreshedTokenObject?.authnResult?.access_token;
+  
+                if (newAccessToken) {
+                  request = request.clone({
+                    setHeaders: {
+                      Authorization: `Bearer ${newAccessToken}`,
+                    },
+                  });
+                }
+                return next.handle(request);
+              }),
+              catchError((error) => {
+                // Handle errors, possibly redirect to login
+                this.handleAuthError();
+                return throwError(error);
+              })
+            );
+          }
+        } else {
+          console.error('Access token is not available.');
+          this.handleAuthError();
+        }
+      } else {
+        console.error('Access token is not available.');
+        this.handleAuthError();
+      }
+  
+      return next.handle(request).pipe(
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            this.handleAuthError();
+          }
+          return throwError(error);
+        })
+      );
+    }
+  
+    private isTokenExpired(expiresIn: number): boolean {
+      const expirationDate = new Date().getTime() + expiresIn * 1000;
+      return expirationDate < new Date().getTime();
+    }
+  
+    private handleAuthError() {
+      this.router.navigate(['/login']);
+    }
+  }
+  

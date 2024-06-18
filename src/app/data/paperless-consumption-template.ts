@@ -6,9 +6,9 @@ export enum DocumentSource {
   MailFetch = 3,
 }
 export enum WorkflowTriggerType {
-  Consumption = 1,
-  DocumentAdded = 2,
-  DocumentUpdated = 3,
+  Consumption = 0,
+  DocumentAdded = 1,
+  DocumentUpdated = 2,
 }
 
 export interface PaperlessConsumptionTemplate extends ObjectWithId {

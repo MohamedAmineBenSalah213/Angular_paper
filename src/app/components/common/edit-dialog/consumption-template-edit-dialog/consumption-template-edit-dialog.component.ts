@@ -83,17 +83,17 @@ export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<
       .subscribe((result) => (this.correspondents = result.results))
 
     documentTypeService
-      .listAll()
+    .listAll(null,null,"list_types",null)
       .pipe(first())
       .subscribe((result) => (this.documentTypes = result.results))
 
     storagePathService
-      .listAll()
+    .listAll(null,null,"list_storage_paths",null)
       .pipe(first())
       .subscribe((result) => (this.storagePaths = result.results))
 
     mailRuleService
-      .listAll()
+    .listAll(null,null,"list_mailrule",null)
       .pipe(first())
       .subscribe((result) => (this.mailRules = result.results))
   }
@@ -155,6 +155,6 @@ export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<
     throw new Error('Method not implemented.')
   }
   getAction() {
-    throw new Error('Method not implemented.')
+    "add_template"
   }
 }

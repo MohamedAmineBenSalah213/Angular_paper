@@ -226,20 +226,20 @@ export class DocumentListViewService {
         this.currentPageSize,
           null,
           null,
-          null,
+          activeListViewState.filterRules,
           "list_document",
-          null
+          { truncate_content: true }
       ));
-    debugger
+   // debugger
       this.documentService
       .listFiltered(
         activeListViewState.currentPage,
         this.currentPageSize,
-        activeListViewState.sortField,
-        activeListViewState.sortReverse,
-        activeListViewState.filterRules,
-        "list_document",
-        { truncate_content: true }
+        null,
+          null,
+          activeListViewState.filterRules,
+          "list_document",
+          { truncate_content: true }
       )
       
       

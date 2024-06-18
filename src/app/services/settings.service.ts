@@ -51,6 +51,7 @@ export class SettingsService {
   public settingsSaved: EventEmitter<any> = new EventEmitter()
 
   private _renderer: Renderer2
+  isAuthenticated: boolean
   public get renderer(): Renderer2 {
     return this._renderer
   }
@@ -80,7 +81,12 @@ export class SettingsService {
    //debugger
    
     // Step 1: Retrieve the object from session storage
-     this.oidcSecurityService
+    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
+      this.isAuthenticated = isAuthenticated;
+      console.log('app authenticated', isAuthenticated);
+    });
+    if (this.isAuthenticated) {
+    this.oidcSecurityService
    .getUserData()
    .subscribe((userInfo: any) => {
      console.log('User Info:', userInfo);
@@ -107,8 +113,12 @@ export class SettingsService {
           this.currentUser
         )
       })
-    )  
-   return null;
+    )   
+  }
+  else{
+    return null;
+  }
+  
   }
 
   get displayName(): string {

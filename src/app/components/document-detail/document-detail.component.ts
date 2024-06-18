@@ -465,13 +465,13 @@ get isRTL() {
           )
         },
       }) */
-    /* if (
+     if (
       this.permissionsService.currentUserHasObjectPermissions(
         PermissionAction.Change,
         doc
       )
     ) {
-      /*this.documentsService
+     this.documentsService
         .getSuggestions(doc.id)
         .pipe(first(), takeUntil(this.unsubscribeNotifier))
         .subscribe({
@@ -486,7 +486,7 @@ get isRTL() {
             )
           },
         }) 
-    } */
+    }
     this.title = this.documentTitlePipe.transform(doc.title)
     const docFormValues = Object.assign({}, doc)
     docFormValues['permissions_form'] = {

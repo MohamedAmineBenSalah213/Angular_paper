@@ -1,11 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'
 import { Router } from '@angular/router'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
-import { first } from 'rxjs'
+import { Subject, first, takeUntil } from 'rxjs'
 import { PaperlessTask } from 'src/app/data/paperless-task'
 import { TasksService } from 'src/app/services/tasks.service'
 import { ConfirmDialogComponent } from '../../common/confirm-dialog/confirm-dialog.component'
 import { ComponentWithPermissions } from '../../with-permissions/with-permissions.component'
+import { FixDocumentsDropdownComponent } from '../../common/fix-documents-dropdown/fix-documents-dropdown.component'
+import { EditDialogMode } from '../../common/edit-dialog/edit-dialog.component'
+import { ToastService } from 'src/app/services/toast.service'
 
 @Component({
   selector: 'pngx-tasks',
@@ -16,10 +19,12 @@ export class TasksComponent
   extends ComponentWithPermissions
   implements OnInit, OnDestroy
 {
+  @ViewChild('fixDropdown') fixDropdown: any;
+  isDropdownVisible = false;
   public activeTab: string
   public selectedTasks: Set<string> = new Set()
   public expandedTask: string
-
+  unsubscribeNotifier: Subject<any> = new Subject();
   public pageSize: number = 25
   public page: number = 1
 
@@ -34,14 +39,20 @@ export class TasksComponent
   constructor(
     public tasksService: TasksService,
     private modalService: NgbModal,
+    private toastService: ToastService,
     private readonly router: Router
   ) {
     super()
   }
 
   ngOnInit() {
+    
     this.tasksService.reload()
     this.toggleAutoRefresh()
+  }
+  onFixButtonClick(event: Event): void {
+    this.isDropdownVisible = !this.isDropdownVisible;
+    event.stopPropagation();
   }
 
   ngOnDestroy() {
@@ -78,13 +89,37 @@ export class TasksComponent
 
   dismissAndGo(task: PaperlessTask) {
     this.dismissTask(task)
-    this.router.navigate(['documents', task.related_document])
+    this.router.navigate(['documents', task.task_document.id])
   }
 
   expandTask(task: PaperlessTask) {
     this.expandedTask = this.expandedTask == task.id ? undefined : task.id
   }
+  fixproblem(task: PaperlessTask)
+  {
+    const modal = this.modalService.open(FixDocumentsDropdownComponent, {
+      backdrop: 'static',
+    
+    }); 
+    modal.componentInstance.dialogMode =  EditDialogMode.EDIT
+    modal.componentInstance.task = task 
+    modal.componentInstance.succeeded
+    .pipe(takeUntil(this.unsubscribeNotifier))
+    .subscribe((newFileShare) => {
+      this.toastService.showInfo(
+        $localize`Saved file share "${newFileShare.name}".`
+      );
+     // this.tasksService.clearCache();
+      this.tasksService.reload()
+      
 
+    });
+  modal.componentInstance.failed
+    .pipe(takeUntil(this.unsubscribeNotifier))
+    .subscribe((e) => {
+      this.toastService.showError($localize`Error saving file share.`, e);
+    });
+  }
   toggleSelected(task: PaperlessTask) {
     this.selectedTasks.has(task.id)
       ? this.selectedTasks.delete(task.id)
@@ -103,16 +138,17 @@ export class TasksComponent
       case 'completed':
         tasks = this.tasksService.completedFileTasks
         break
-      case 'failed':
-        tasks = this.tasksService.failedFileTasks
-        break
+     
     }
     return tasks
   }
 
   toggleAll(event: PointerEvent) {
     if ((event.target as HTMLInputElement).checked) {
+      debugger
       this.selectedTasks = new Set(this.currentTasks.map((t) => t.id))
+      console.log(this.selectedTasks);
+      
     } else {
       this.clearSelection()
     }
@@ -134,9 +170,10 @@ export class TasksComponent
         return $localize`started`
       case 'completed':
         return $localize`completed`
-      case 'failed':
-        return $localize`failed`
+     
     }
+    console.log(this.activeTab);
+    
   }
 
   toggleAutoRefresh(): void {

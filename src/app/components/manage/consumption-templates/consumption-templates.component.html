@@ -1,5 +1,5 @@
 <pngx-page-header title="Consumption Templates" i18n-title>
-    <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="editTemplate($event)"><!--  *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.ConsumptionTemplate }" -->
+    <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="createTemplate()"><!--  *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.ConsumptionTemplate }" -->
       <svg class="sidebaricon me-1" fill="currentColor">
         <use xlink:href="assets/bootstrap-icons.svg#plus-circle" />
       </svg>
@@ -25,7 +25,7 @@
             <div class="col d-flex align-items-center">{{getSourceList(template)}}</div>
             <div class="col">
                 <div class="btn-group">
-                    <button *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.ConsumptionTemplate }" class="btn btn-sm btn-outline-secondary" type="button" (click)="editTemplate(template)">
+                    <button  class="btn btn-sm btn-outline-secondary" type="button" (click)="editTemplate(template)"><!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.ConsumptionTemplate }" -->
                     <svg class="buttonicon-sm" fill="currentColor">
                         <use xlink:href="assets/bootstrap-icons.svg#pencil" />
                       </svg>&nbsp;<ng-container i18n>Edit</ng-container>

@@ -41,7 +41,7 @@ export class ConsumptionTemplatesComponent
 
   reload() {
     this.consumptionTemplateService
-      .listAll()
+      .listAll(null,null,"list_templates",null)
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe((r) => {
         this.templates = r.results
@@ -53,8 +53,8 @@ export class ConsumptionTemplatesComponent
       .map((id) => DOCUMENT_SOURCE_OPTIONS.find((s) => s.id === id).name)
       .join(', ')
   }
-
-  editTemplate(rule: PaperlessConsumptionTemplate) {
+  createTemplate() {
+   
     const modal = this.modalService.open(
       ConsumptionTemplateEditDialogComponent,
       {
@@ -62,9 +62,33 @@ export class ConsumptionTemplatesComponent
         size: 'xl',
       }
     )
-    modal.componentInstance.dialogMode = rule
-      ? EditDialogMode.EDIT
-      : EditDialogMode.CREATE
+    modal.componentInstance.dialogMode =EditDialogMode.CREATE
+    modal.componentInstance.succeeded
+      .pipe(takeUntil(this.unsubscribeNotifier))
+      .subscribe((newTemplate) => {
+        this.toastService.showInfo(
+          $localize`Successfully created template "${newTemplate.name}".`
+        )
+        this.consumptionTemplateService.clearCache()
+        this.reload()
+      })
+    modal.componentInstance.failed
+      .pipe(takeUntil(this.unsubscribeNotifier))
+      .subscribe((e) => {
+        this.toastService.showError($localize`Error saving template.`, e)
+      })
+  }
+  editTemplate(rule: PaperlessConsumptionTemplate) {
+    debugger
+    const modal = this.modalService.open(
+      ConsumptionTemplateEditDialogComponent,
+      {
+        backdrop: 'static',
+        size: 'xl',
+      }
+    )
+    modal.componentInstance.dialogMode = EditDialogMode.EDIT
+      
     modal.componentInstance.object = rule
     modal.componentInstance.succeeded
       .pipe(takeUntil(this.unsubscribeNotifier))

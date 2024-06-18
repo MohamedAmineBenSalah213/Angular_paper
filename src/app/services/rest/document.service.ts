@@ -14,6 +14,7 @@ import { PaperlessDocumentSuggestions } from 'src/app/data/paperless-document-su
 import { queryParamsFromFilterRules } from '../../utils/query-params'
 import { StoragePathService } from './storage-path.service'
 import { environment } from 'src/environments/environment'
+import { FixOwnerCorrespondent } from 'src/app/data/FixOwnerCorrespondent'
 
 export const DOCUMENT_SORT_FIELDS = [
   { field: 'archive_serial_number', name: $localize`ASN` },
@@ -101,11 +102,11 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
   ): Observable<Results<PaperlessDocument>> {
      return this.list(
       page,
-      null,
-      null,
-      null,
+      pageSize,
+      sortField,
+      sortReverse,
       action,
-      Object.assign(extraParams, queryParamsFromFilterRules(filterRules)),
+      Object.assign(extraParams, queryParamsFromFilterRules(filterRules))
       
     ).pipe(
       map((results) => {
@@ -219,6 +220,12 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
       },
       { responseType: 'blob' }
     )
+  }
+  fixOwnerCorrespondent(id: string, document: FixOwnerCorrespondent): Observable<any> {
+    return this.http.put(this.getResourceUrl(id, 'fix_owner_correspondent'),
+  
+     document
+  );
   }
 
   public set searchQuery(query: string) {

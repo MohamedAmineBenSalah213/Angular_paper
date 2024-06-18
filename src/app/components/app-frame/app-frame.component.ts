@@ -77,7 +77,7 @@ export class AppFrameComponent
     public tasksService: TasksService,
     private readonly toastService: ToastService,
     permissionsService: PermissionsService,
-    
+    private oidcSecurityService: OidcSecurityService,
   ) {
     super()
 
@@ -283,5 +283,12 @@ export class AppFrameComponent
 
   onLogout() {
     this.openDocumentsService.closeAll()
+  }
+  logout() {
+    
+    this.oidcSecurityService
+      .logoff()
+      .subscribe((result) => console.log('okkk', result));
+      sessionStorage.clear()
   }
 }
