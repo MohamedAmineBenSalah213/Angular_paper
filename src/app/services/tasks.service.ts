@@ -8,6 +8,7 @@ import {
   PaperlessTaskType,
 } from 'src/app/data/paperless-task'
 import { environment } from 'src/environments/environment'
+import { DocumentSource } from '../data/paperless-consumption-template'
 
 @Injectable({
   providedIn: 'root',
@@ -30,34 +31,33 @@ export class TasksService {
   }
 
   public get queuedFileTasks(): PaperlessTask[] {
-    return this.fileTasks.filter((t) => t.status == PaperlessTaskStatus.Pending)
+    return this.fileTasks.filter((t) => t.source == DocumentSource.ConsumeFolder)
   }
 
   public get startedFileTasks(): PaperlessTask[] {
-    return this.fileTasks.filter((t) => t.status == PaperlessTaskStatus.Started)
+    return this.fileTasks.filter((t) => t.source == DocumentSource.ApiUpload)
   }
 
   public get completedFileTasks(): PaperlessTask[] {
     return this.fileTasks.filter(
-      (t) => t.status == PaperlessTaskStatus.Complete
+      (t) => t.source == DocumentSource.MailFetch
     )
-  }
-
-  public get failedFileTasks(): PaperlessTask[] {
-    return this.fileTasks.filter((t) => t.status == PaperlessTaskStatus.Failed)
   }
 
   constructor(private http: HttpClient) {}
 
   public reload() {
     this.loading = true
-    // this.http
-    //   .get<PaperlessTask[]>(`${this.baseUrl}tasks/`)
-    //   .pipe(takeUntil(this.unsubscribeNotifer), first())
-    //  .subscribe((r) => {
-    //   this.fileTasks = r.filter((t) => t.type == PaperlessTaskType.File) // they're all File tasks, for now
-    //     this.loading = false
-    //   })
+ //  debugger
+    this.http
+      .get<PaperlessTask[]>(`${this.baseUrl}/filetask/list_file_tasks`)
+      .pipe(takeUntil(this.unsubscribeNotifer), first())
+     .subscribe((r) => {
+      this.fileTasks = r// they're all File tasks, for now
+      console.log(this.fileTasks);
+      
+        this.loading = false
+      })
   }
 
   public dismissTasks(task_ids: Set<string>) {

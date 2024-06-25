@@ -209,13 +209,13 @@ export const routes: Routes = [
       {
         path: 'tasks',
         component: TasksComponent,
-        canActivate: [PermissionsGuard],
+       /*  canActivate: [PermissionsGuard],
         data: {
           requiredPermission: {
             action: PermissionAction.View,
             type: PermissionType.PaperlessTask,
           },
-        },
+        }, */
       },
       {
         path: 'customfields',

@@ -15,6 +15,7 @@ import { UserService } from 'src/app/services/rest/user.service'
 import { PermissionsFormObject } from '../input/permissions/permissions-form/permissions-form.component'
 import { SettingsService } from 'src/app/services/settings.service'
 import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
+import { MsalService } from '@azure/msal-angular'
 
 export enum EditDialogMode {
   CREATE = 0,
@@ -31,6 +32,7 @@ export abstract class EditDialogComponent<
     private activeModal: NgbActiveModal,
     private userService: UserService,
     private settingsService: SettingsService,
+    private msalService:MsalService
    
   ) {}
 
@@ -186,7 +188,7 @@ export abstract class EditDialogComponent<
     console.log("this.dialogMode",this.dialogMode)
     switch (this.dialogMode) {
       case EditDialogMode.CREATE:
-       // debugger
+        debugger
          if (newObject.matching_algorithm== MATCH_AUTO){
            if(newObject.ExtractedData)
             {
@@ -194,20 +196,35 @@ export abstract class EditDialogComponent<
               
             }
           newObject.DocumentTags = [];
-          
+          const userData = sessionStorage.getItem('0-angularclient');
+        if (userData) {
+              // Parse the JSON string into an object
+         const tokenObject = JSON.parse(userData); 
+         // Extract the access token
+         const id = tokenObject?.userData?.sub;
+         newObject.owner = id;
+        }
           serverResponse = this.service.create(newObject,this.getAction())
         } 
 
         if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_AUTO ){
+
           if(newObject.match!=""){
           newObject.match = this.splitIntoList(newObject.match); 
           console.log(newObject.match) 
           }
           else
            newObject.match=[]
-         
-        console.log(newObject);
-        
+   
+        //console.log(newObject);
+        const activeAccount = this.msalService.instance.getActiveAccount();
+        if (activeAccount) {
+              // Parse the JSON string into an object
+
+         // Extract the access token
+         const id = activeAccount.idTokenClaims.oid;
+         newObject.owner = id;
+        }
         serverResponse = this.service.create(newObject,this.getAction())
         }
         else{
@@ -222,13 +239,27 @@ export abstract class EditDialogComponent<
             if(newObject.match){
             newObject.match = this.splitIntoList(newObject.match); 
             }
-          
-        
+       const userData = sessionStorage.getItem('0-angularclient');
+        if (userData) {
+              // Parse the JSON string into an object
+         const tokenObject = JSON.parse(userData); 
+         // Extract the access token
+         const id = tokenObject?.userData?.sub;
+         newObject.owner = id;
+        }
         console.log(this.getActionupdate())
         serverResponse = this.service.update(newObject,this.getActionupdate())
         }
         if(newObject.matching_algorithm== MATCH_NONE){
           newObject.match= [];
+          const userData = sessionStorage.getItem('0-angularclient');
+        if (userData) {
+              // Parse the JSON string into an object
+         const tokenObject = JSON.parse(userData); 
+         // Extract the access token
+         const id = tokenObject?.userData?.sub;
+         newObject.owner = id;
+        }
            console.log(this.getActionupdate())
           serverResponse = this.service.update(newObject,this.getActionupdate())
         }

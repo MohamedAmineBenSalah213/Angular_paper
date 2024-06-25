@@ -14,6 +14,8 @@ import { PaperlessDocumentSuggestions } from 'src/app/data/paperless-document-su
 import { queryParamsFromFilterRules } from '../../utils/query-params'
 import { StoragePathService } from './storage-path.service'
 import { environment } from 'src/environments/environment'
+import { FixOwnerCorrespondent } from 'src/app/data/FixOwnerCorrespondent'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 export const DOCUMENT_SORT_FIELDS = [
   { field: 'archive_serial_number', name: $localize`ASN` },
@@ -52,12 +54,15 @@ selected_storage_paths: SelectionDataItem[]
 })
 export class DocumentService extends AbstractPaperlessService<PaperlessDocument> {
   private _searchQuery: string
+  isAuthenticated: boolean
+  id: any
 
   constructor(
     http: HttpClient,
     private correspondentService: CorrespondentService,
     private documentTypeService: DocumentTypeService,
     private tagService: TagService,
+    private oidcSecurityService: OidcSecurityService,
     private storagePathService: StoragePathService
   ) {
     super(http, 'document')
@@ -97,15 +102,17 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     sortReverse?: boolean,
     filterRules?: FilterRule[],
     action?:string,
+    iduser?:string,
     extraParams = {}
   ): Observable<Results<PaperlessDocument>> {
      return this.list(
       page,
-      null,
-      null,
-      null,
+      pageSize,
+      sortField,
+      sortReverse,
       action,
-      null,
+      iduser,
+      Object.assign(extraParams, queryParamsFromFilterRules(filterRules))
       
     ).pipe(
       map((results) => {
@@ -124,7 +131,20 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
  
 
   listAllFilteredIds(filterRules?: FilterRule[]): Observable<string[]> {
-    return this.listFiltered(1, 100000, null, null, filterRules,null, {
+    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
+      this.isAuthenticated = isAuthenticated;
+      console.log('app authenticated', isAuthenticated);
+    });
+    if (this.isAuthenticated) {
+    this.oidcSecurityService
+   .getUserData()
+   .subscribe((userInfo: any) => {
+     console.log('User Info:', userInfo);
+     // Access specific claims (e.g., email, sub, etc.)
+     this.id = userInfo.sub;
+   });
+  }
+    return this.listFiltered(1, 100000, null, null, filterRules,null,this.id, {
       fields: 'id',
     }).pipe(map((response) => response.results.map((doc) => doc.id)))
   }
@@ -179,7 +199,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
 
   getMetadata(id: string): Observable<PaperlessDocumentMetadata> {
     return this.http.get<PaperlessDocumentMetadata>(
-      this.getResourceUrl(id, 'metadata')
+      this.getResourceUrl(id, 'getmetadata')
     )
   }
 
@@ -192,12 +212,13 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
   }
 
   getSelectionData(ids: string[]): Observable<SelectionData> {
-    return this.http.get<SelectionData>(
+    return this.http.post<SelectionData>(
       this.getResourceUrl(null, 'selection_data'),
-   
+      { documents: ids }
     )
-    //   { documents: ids }
-  }
+    }
+    
+    //   
 
   getSuggestions(id: string): Observable<PaperlessDocumentSuggestions> {
     return this.http.get<PaperlessDocumentSuggestions>(
@@ -219,6 +240,12 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
       },
       { responseType: 'blob' }
     )
+  }
+  fixOwnerCorrespondent(id: string, document: FixOwnerCorrespondent): Observable<any> {
+    return this.http.put(this.getResourceUrl(id, 'fix_owner_correspondent'),
+  
+     document
+  );
   }
 
   public set searchQuery(query: string) {

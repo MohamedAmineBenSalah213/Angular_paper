@@ -312,8 +312,10 @@ export class AppFrameComponent
     this.openDocumentsService.closeAll()
   }
   logout() {
+    
     this.oidcSecurityService
       .logoff()
       .subscribe((result) => console.log('okkk', result));
+      sessionStorage.clear()
   }
 }

@@ -267,6 +267,8 @@ registerLocaleData(localeZh)
     DataExtractionDropdownComponent,
     FileShareListComponent,
     FileShareEditDialogComponent,
+
+
    
   ],
   imports: [

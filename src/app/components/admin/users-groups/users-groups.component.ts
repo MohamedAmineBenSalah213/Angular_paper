@@ -43,8 +43,8 @@ export class UsersAndGroupsComponent
   ngOnInit(): void {
     this.getAllUsers();
 
-   /*  this.groupsService
-      .listAll(null, null, null,{ full_perms: true })
+    this.groupsService
+       .listAllCustom("list_groups")
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe({
         next: (r) => {
@@ -53,7 +53,7 @@ export class UsersAndGroupsComponent
         error: (e) => {
           this.toastService.showError($localize`Error retrieving groups`, e)
         },
-      }) */
+      }) 
   }
   getAllUsers(){
     this.usersService

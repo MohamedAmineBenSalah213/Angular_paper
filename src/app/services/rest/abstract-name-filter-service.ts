@@ -13,6 +13,7 @@ export abstract class AbstractNameFilterService<
     sortReverse?: boolean,
     nameFilter?: string,
     action?:string,
+    iduser?:string,
     fullPerms?: boolean
   ) {
     let params = {}
@@ -22,7 +23,7 @@ export abstract class AbstractNameFilterService<
      /*if (fullPerms) {
       params['full_perms'] = true
     } */
-    return this.list(page, pageSize, null, null, action,params)
+    return this.list(page, pageSize, null, null, action,iduser,params)
     //return this.list(page, pageSize,null,null,action,null)
   // return this.listAllCustom(action)
   }

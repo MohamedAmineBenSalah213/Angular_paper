@@ -18,6 +18,7 @@ import {
   SelectionData,
 } from './rest/document.service'
 import { SettingsService } from './settings.service'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 /**
  * Captures the current state of the list view.
@@ -87,6 +88,8 @@ export class DocumentListViewService {
   private listViewStates: Map<string, ListViewState> = new Map()
 
   private _activeSavedViewId: string = null
+  isAuthenticated: boolean
+  id: any
 
   get activeSavedViewId() {
     return this._activeSavedViewId
@@ -99,6 +102,7 @@ export class DocumentListViewService {
   constructor(
     private documentService: DocumentService,
     private settings: SettingsService,
+    private oidcSecurityService: OidcSecurityService,
     private router: Router
   ) {
     let documentListViewConfigJson = localStorage.getItem(
@@ -232,19 +236,19 @@ export class DocumentListViewService {
         activeListViewState.sortField,
           null,
           null,
-          "list_document",
-          activeListViewState.filterRules
+          "list_document"
       ));
     //debugger
       this.documentService
       .listFiltered(
         activeListViewState.currentPage,
         this.currentPageSize,
-        activeListViewState.sortField,
         null,
-        null,
-        "list_document",
-       null
+          null,
+          activeListViewState.filterRules,
+          "list_document",
+          this.id,
+          { truncate_content: true }
       )
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe({

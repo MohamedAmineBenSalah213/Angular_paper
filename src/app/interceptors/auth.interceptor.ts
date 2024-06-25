@@ -1,22 +1,23 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
+ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
   HttpHeaders,
+  HttpRequest,
 } from '@angular/common/http';
+
 import { Observable, catchError, from, switchMap, take, throwError } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
+import { Injectable } from '@angular/core';
  
 @Injectable()
 export class AuthInterceptorInterceptor implements HttpInterceptor {
-  token: any;
-  angularClient:any
+
   constructor(private oidcSecurityService: OidcSecurityService,private router: Router,private _activatedRoute:ActivatedRoute,private msalService:MsalService,) {}
  
+
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const account = this.msalService.instance.getActiveAccount();
  // console.log(account,"account")
@@ -61,6 +62,8 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
     }
   }
  
+    
+  
   private refreshToken(account: any, request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return from(
       this.msalService.acquireTokenSilent({
@@ -87,57 +90,3 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
     );
   }
 }
-//93d5a0b4-00ab-4543-8b11-e2502e04cebf
-    // return this.oidcSecurityService.getAccessToken().pipe(
-    //   take(1), // Take the latest token value
-    //   switchMap((token) => {
-    //     if (token) {
-    //       request = request.clone({
-    //         setHeaders: {
-    //           Authorization: `Bearer ${token}`,
-    //         },
-    //       });
-    //     }
-    //     const angularClient = sessionStorage.getItem('0-angularclient');
-    //     const tokenObject = JSON.parse(angularClient);
-    //     if (tokenObject?.authnResult?.expires_in == 0) {
-    //       this.oidcSecurityService.forceRefreshSession().subscribe((result) => console.warn(result));
-    //     return next.handle(request);
-
-    //     }
-
-    //     return next.handle(request);
-    //   })
-    // );
-  //}
-
-     
-    
-    // if (!angularClient) {
-    //   console.error('Access token is not available.');
-    //   this.router.navigate(['/login']);
-    //   return next.handle(request);
-    // }
-    // // const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-    // // console.log("redirectURL",redirectURL)
-    // // // // Navigate to the redirect url
-    // //  this.router.navigateByUrl(redirectURL);
-     
-    
-    // const accessToken = tokenObject?.authnResult?.access_token;
-
-    // if (!accessToken) {
-    // //   console.error('Access token is not available.');
-    // //   return next.handle(request);
-    //       request = request.clone({
-    //         setHeaders: {
-    //           Authorization: `Bearer ${accessToken}`,
-    //         },
-    //       });
-
-         
-    //  }
-
-    
-//   }
-//}

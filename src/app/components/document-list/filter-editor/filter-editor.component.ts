@@ -867,7 +867,7 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe((result) => (this.documentTypes = result.results))
     this.storagePathService
-      .listAll()
+      .listAll(null,null,"list_storage_paths",null)
       .pipe(first())
       .subscribe((result) => (this.storagePaths = result.results))
 

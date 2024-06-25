@@ -53,12 +53,13 @@ export class SettingsService {
   public settingsSaved: EventEmitter<any> = new EventEmitter()
 
   private _renderer: Renderer2
+  isAuthenticated: boolean
   public get renderer(): Renderer2 {
     return this._renderer
   }
 
   public dashboardIsEmpty: boolean = false
-  isAuthenticated = false;
+ // isAuthenticated = false;
   public globalDropzoneEnabled: boolean = true
   public globalDropzoneActive: boolean = false
   public organizingSidebarSavedViews: boolean = false

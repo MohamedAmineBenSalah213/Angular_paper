@@ -12,6 +12,7 @@ import { CorrespondentService } from 'src/app/services/rest/correspondent.servic
 import { ToastService } from 'src/app/services/toast.service'
 import { CorrespondentEditDialogComponent } from '../../common/edit-dialog/correspondent-edit-dialog/correspondent-edit-dialog.component'
 import { ManagementListComponent } from '../management-list/management-list.component'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 @Component({
   selector: 'pngx-correspondent-list',
@@ -29,6 +30,7 @@ export class CorrespondentListComponent extends ManagementListComponent<Paperles
     toastService: ToastService,
     documentListViewService: DocumentListViewService,
     permissionsService: PermissionsService,
+     oidcSecurityService: OidcSecurityService,
     private datePipe: CustomDatePipe
   ) {
     super(
@@ -38,6 +40,7 @@ export class CorrespondentListComponent extends ManagementListComponent<Paperles
       toastService,
       documentListViewService,
       permissionsService,
+      oidcSecurityService,
       FILTER_HAS_CORRESPONDENT_ANY,
       $localize`correspondent`,
       $localize`correspondents`,

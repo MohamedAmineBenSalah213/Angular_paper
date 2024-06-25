@@ -1,4 +1,6 @@
 import { ObjectWithId } from './object-with-id'
+import { DocumentSource } from './paperless-consumption-template'
+import { PaperlessDocument } from './paperless-document'
 
 export enum PaperlessTaskType {
   // just file tasks, for now
@@ -9,13 +11,24 @@ export enum PaperlessTaskStatus {
   Pending = 'PENDING',
   Started = 'STARTED',
   Complete = 'SUCCESS',
-  Failed = 'FAILURE',
+  Failed = "Failed",
+  
+}
+export enum Problem
+{
+    NoOwner = 1,
+    NoCorrespondent = 2,
+    NoOwnerNoCorrespondent = 3,
+    None=4
 }
 
 export interface PaperlessTask extends ObjectWithId {
   type: PaperlessTaskType
 
   status: PaperlessTaskStatus
+  task_problem : Problem
+  source: DocumentSource
+  task_document : PaperlessDocument
 
   acknowledged: boolean
 
