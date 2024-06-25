@@ -11,6 +11,7 @@ import { StoragePathService } from 'src/app/services/rest/storage-path.service'
 import { ToastService } from 'src/app/services/toast.service'
 import { StoragePathEditDialogComponent } from '../../common/edit-dialog/storage-path-edit-dialog/storage-path-edit-dialog.component'
 import { ManagementListComponent } from '../management-list/management-list.component'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 @Component({
   selector: 'pngx-storage-path-list',
@@ -24,7 +25,7 @@ export class StoragePathListComponent extends ManagementListComponent<PaperlessS
     toastService: ToastService,
     documentListViewService: DocumentListViewService,
     permissionsService: PermissionsService,
-    
+    oidcSecurityService : OidcSecurityService
   ) {
     super(
       directoryService,
@@ -33,6 +34,7 @@ export class StoragePathListComponent extends ManagementListComponent<PaperlessS
       toastService,
       documentListViewService,
       permissionsService,
+      oidcSecurityService,
       FILTER_HAS_STORAGE_PATH_ANY,
       $localize`storage path`,
       $localize`storage paths`,

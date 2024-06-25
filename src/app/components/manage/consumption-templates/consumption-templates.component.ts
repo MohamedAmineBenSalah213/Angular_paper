@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core'
 import { ConsumptionTemplateService } from 'src/app/services/rest/consumption-template.service'
 import { ComponentWithPermissions } from '../../with-permissions/with-permissions.component'
 import { Subject, takeUntil } from 'rxjs'
-import { PaperlessConsumptionTemplate } from 'src/app/data/paperless-consumption-template'
+import { PaperlessConsumptionTemplate, WorkflowTriggerType } from 'src/app/data/paperless-consumption-template'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { ToastService } from 'src/app/services/toast.service'
 import { PermissionsService } from 'src/app/services/permissions.service'
 import {
   ConsumptionTemplateEditDialogComponent,
   DOCUMENT_SOURCE_OPTIONS,
+  WORKFLOW_TYPE_OPTIONS,
 } from '../../common/edit-dialog/consumption-template-edit-dialog/consumption-template-edit-dialog.component'
 import { ConfirmDialogComponent } from '../../common/confirm-dialog/confirm-dialog.component'
 import { EditDialogMode } from '../../common/edit-dialog/edit-dialog.component'
@@ -48,11 +49,24 @@ export class ConsumptionTemplatesComponent
       })
   }
 
-  getSourceList(template: PaperlessConsumptionTemplate): string {
-    return template.sources
-      .map((id) => DOCUMENT_SOURCE_OPTIONS.find((s) => s.id === id).name)
-      .join(', ')
+  getWorkflowTriggerTypeString(type: WorkflowTriggerType): string {
+    switch (type) {
+      case WorkflowTriggerType.Consumption:
+        return 'Consumption';
+      case WorkflowTriggerType.DocumentAdded:
+        return 'DocumentAdded';
+      case WorkflowTriggerType.DocumentUpdated:
+        return 'DocumentUpdated';
+      default:
+        return 'Unknown';
+    }
   }
+  
+  // Function to get the type as string from PaperlessConsumptionTemplate
+   getSourceList(template: PaperlessConsumptionTemplate): string {
+    return this.getWorkflowTriggerTypeString(template.type);
+  }
+  
   createTemplate() {
    
     const modal = this.modalService.open(

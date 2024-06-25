@@ -15,7 +15,7 @@ export interface PaperlessConsumptionTemplate extends ObjectWithId {
   name: string
 
   order: number
-
+  type : WorkflowTriggerType
   sources: DocumentSource[]
 
   filter_filename: string

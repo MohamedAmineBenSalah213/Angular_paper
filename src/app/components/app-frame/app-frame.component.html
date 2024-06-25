@@ -180,7 +180,7 @@
               </svg><span>&nbsp;<ng-container i18n>Templates</ng-container></span>
             </a>
           </li>
-          <li class="nav-item"  tourAnchor="tour.mail" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailAccount }" ><!-- -->
+          <li class="nav-item"  tourAnchor="tour.mail" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailAccount }" ><!--  -->
             <a class="nav-link" routerLink="mail" routerLinkActive="active" (click)="closeMenu()" ngbPopover="Mail" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
               <svg class="sidebaricon" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#envelope"/>

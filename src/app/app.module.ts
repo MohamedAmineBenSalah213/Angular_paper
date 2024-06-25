@@ -309,12 +309,12 @@ function initializeApp(settings: SettingsService) {
       useClass: AuthInterceptorInterceptor,
       multi:true
     },
-    {
+    /* {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
       deps: [SettingsService],
       multi: true,
-    },
+    }, */
 
     DatePipe,
     CookieService,

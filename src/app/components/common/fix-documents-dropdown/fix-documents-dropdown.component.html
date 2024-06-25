@@ -10,7 +10,7 @@
                 
           
             
-                <pngx-input-select *ngIf="task.task_problem==1 ||task.task_problem==3"  [(ngModel)]="selectedOwner" [items]="owners" i18n-title title="Owner"  [showFilter]="true" [horizontal]="true"  ></pngx-input-select>
+                <pngx-input-select *ngIf="task.task_problem==1 ||task.task_problem==3"   bindLabel="userName" [(ngModel)]="selectedOwner" [items]="owners" i18n-title title="Owner"  [showFilter]="true" [horizontal]="true"  ></pngx-input-select>
             
                 
       

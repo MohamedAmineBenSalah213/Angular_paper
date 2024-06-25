@@ -18,6 +18,7 @@ import {
   SelectionData,
 } from './rest/document.service'
 import { SettingsService } from './settings.service'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 /**
  * Captures the current state of the list view.
@@ -87,6 +88,8 @@ export class DocumentListViewService {
   private listViewStates: Map<string, ListViewState> = new Map()
 
   private _activeSavedViewId: string = null
+  isAuthenticated: boolean
+  id: any
 
   get activeSavedViewId() {
     return this._activeSavedViewId
@@ -99,6 +102,7 @@ export class DocumentListViewService {
   constructor(
     private documentService: DocumentService,
     private settings: SettingsService,
+    private oidcSecurityService: OidcSecurityService,
     private router: Router
   ) {
     let documentListViewConfigJson = localStorage.getItem(
@@ -220,16 +224,19 @@ export class DocumentListViewService {
     this.isReloading = true
     this.error = null
     let activeListViewState = this.activeListViewState
-    console.log( this.documentService
-      .listFiltered(
-        activeListViewState.currentPage,
-        this.currentPageSize,
-          null,
-          null,
-          activeListViewState.filterRules,
-          "list_document",
-          { truncate_content: true }
-      ));
+    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
+      this.isAuthenticated = isAuthenticated;
+      console.log('app authenticated', isAuthenticated);
+    });
+    if (this.isAuthenticated) {
+    this.oidcSecurityService
+   .getUserData()
+   .subscribe((userInfo: any) => {
+     console.log('User Info:', userInfo);
+     // Access specific claims (e.g., email, sub, etc.)
+     this.id = userInfo.sub;
+   });
+  }
    // debugger
       this.documentService
       .listFiltered(
@@ -239,6 +246,7 @@ export class DocumentListViewService {
           null,
           activeListViewState.filterRules,
           "list_document",
+          this.id,
           { truncate_content: true }
       )
       

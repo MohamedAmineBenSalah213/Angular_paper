@@ -29,6 +29,7 @@ import { ConfigComponent } from './components/admin/config/config.component'
 import { FileShareListComponent } from './components/manage/file-share-list/file-share-list.component'
 import { LoginComponent } from './components/admin/login/login.component'
 import { authGuard } from './guards/auth.guard'
+import { SettingsResolver } from './resolvers/settings.resolver'
 
 
 export const routes: Routes = [
@@ -37,6 +38,9 @@ export const routes: Routes = [
   {
     path: '',
     component: AppFrameComponent,
+    resolve: {
+      settings: SettingsResolver
+    },
     canActivate : [authGuard],
    /*  canDeactivate: [DirtyDocGuard], */
     children: [
