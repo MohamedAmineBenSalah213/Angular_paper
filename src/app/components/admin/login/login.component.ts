@@ -23,7 +23,7 @@ export class LoginComponent {
   }
  
   ngOnInit(): void {
-    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
+   /*  this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
       this.isAuthenticated = isAuthenticated;
       console.log('app authenticated', isAuthenticated);
  
@@ -52,7 +52,7 @@ export class LoginComponent {
       //   .subscribe((accesstoken: string) => {
       //     console.log('access token : ', accesstoken);
       //   });
-    });
+    }); */
   }
  
   // private decodeToken(token: string): any {

@@ -223,9 +223,9 @@ export class SettingsComponent
       slimSidebarEnabled: this.settings.get(SETTINGS_KEYS.SLIM_SIDEBAR),
       darkModeUseSystem: this.settings.get(SETTINGS_KEYS.DARK_MODE_USE_SYSTEM),
       darkModeEnabled: this.settings.get(SETTINGS_KEYS.DARK_MODE_ENABLED),
-      darkModeInvertThumbs: this.settings.get(
+      /* darkModeInvertThumbs: this.settings.get(
         SETTINGS_KEYS.DARK_MODE_THUMB_INVERTED
-      ),
+      ), */
       themeColor: this.settings.get(SETTINGS_KEYS.THEME_COLOR),
       useNativePdfViewer: this.settings.get(
         SETTINGS_KEYS.USE_NATIVE_PDF_VIEWER
@@ -410,10 +410,10 @@ export class SettingsComponent
       SETTINGS_KEYS.DARK_MODE_ENABLED,
       (this.settingsForm.value.darkModeEnabled == true).toString()
     )
-    this.settings.set(
+    /* this.settings.set(
       SETTINGS_KEYS.DARK_MODE_THUMB_INVERTED,
       (this.settingsForm.value.darkModeInvertThumbs == true).toString()
-    )
+    ) */
     this.settings.set(
       SETTINGS_KEYS.THEME_COLOR,
       this.settingsForm.value.themeColor.toString()

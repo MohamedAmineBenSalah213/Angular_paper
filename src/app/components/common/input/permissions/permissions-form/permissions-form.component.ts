@@ -61,15 +61,21 @@ export class PermissionsFormComponent
   }
 
   ngOnInit(): void {
+    debugger
    
     this.oidcSecurityService.getUserData().subscribe((userInfo: any) => {
-      this.username = userInfo.email;
-      this.form.get('owner').setValue(this.username);
+      if (userInfo && userInfo.email) {
+        console.log(userInfo.email);
+        this.form.get('owner').setValue(userInfo.email);
+
+      }
     });
-     this.form.valueChanges.subscribe((value) => {
-      debugger
-      this.onChange(value)
-    }) 
+   // Log the initial value of the owner field
+        console.log('Owner set to:', this.form.get('owner').value);
+    // Subscribe to form value changes to propagate them
+    this.form.valueChanges.subscribe((value) => {
+      this.onChange(value);
+    });
    
     
     

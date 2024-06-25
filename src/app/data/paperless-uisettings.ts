@@ -89,11 +89,11 @@ export const SETTINGS: PaperlessUiSetting[] = [
     type: 'boolean',
     default: false,
   },
-  {
+ /*  {
     key: SETTINGS_KEYS.DARK_MODE_THUMB_INVERTED,
     type: 'boolean',
     default: true,
-  },
+  }, */
   {
     key: SETTINGS_KEYS.THEME_COLOR,
     type: 'string',

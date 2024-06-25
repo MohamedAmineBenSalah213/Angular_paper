@@ -27,6 +27,7 @@ import { PermissionsService } from './permissions.service'
 import { ToastService } from './toast.service'
 import { PaperlessSavedView } from '../data/paperless-saved-view'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { Router } from '@angular/router'
 
 export interface LanguageOption {
   code: string
@@ -51,6 +52,7 @@ export class SettingsService {
   public settingsSaved: EventEmitter<any> = new EventEmitter()
 
   private _renderer: Renderer2
+  isAuthenticated = false;
   public get renderer(): Renderer2 {
     return this._renderer
   }
@@ -62,6 +64,7 @@ export class SettingsService {
   public organizingSidebarSavedViews: boolean = false
   id: string
   constructor(
+    private router: Router,
     rendererFactory: RendererFactory2,
     private oidcSecurityService: OidcSecurityService,
     @Inject(DOCUMENT) private document,
@@ -78,7 +81,15 @@ export class SettingsService {
   // this is called by the app initializer in app.module
   public initializeSettings(): Observable<PaperlessUiSettings> {
    //debugger
-   
+   this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
+    this.isAuthenticated = isAuthenticated;
+    console.log('app authenticated', isAuthenticated);
+
+    if (isAuthenticated) {
+      // If authenticated, redirect to the success component
+      this.router.navigate(['/dashboard']);
+    }})
+
     // Step 1: Retrieve the object from session storage
      this.oidcSecurityService
    .getUserData()

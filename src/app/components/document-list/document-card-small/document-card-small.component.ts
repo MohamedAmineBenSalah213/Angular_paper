@@ -71,6 +71,7 @@ export class DocumentCardSmallComponent extends ComponentWithPermissions impleme
 
   getThumbUrl(): string {
     if ( this.document.id) {
+   //   debugger
       return this.documentService.getThumbUrl(this.document.id);
     }
    

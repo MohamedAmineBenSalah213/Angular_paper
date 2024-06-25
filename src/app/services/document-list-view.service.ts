@@ -235,11 +235,11 @@ export class DocumentListViewService {
       .listFiltered(
         activeListViewState.currentPage,
         this.currentPageSize,
-        activeListViewState.sortField,
-        activeListViewState.sortReverse,
-        activeListViewState.filterRules,
+        null,
+        null,
+        null,
         "list_document",
-        { truncate_content: true }
+        null
       )
       
       

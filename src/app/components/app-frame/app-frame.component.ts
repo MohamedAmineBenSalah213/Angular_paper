@@ -77,6 +77,7 @@ export class AppFrameComponent
     public tasksService: TasksService,
     private readonly toastService: ToastService,
     permissionsService: PermissionsService,
+    private oidcSecurityService: OidcSecurityService,
     
   ) {
     super()
@@ -91,6 +92,7 @@ export class AppFrameComponent
     }
   }
   ngOnInit(): void {
+    console.log(this.settingsService.currentUser.userName)
     if (this.settingsService.get(SETTINGS_KEYS.UPDATE_CHECKING_ENABLED)) {
       this.checkForUpdates()
     }
@@ -109,8 +111,7 @@ export class AppFrameComponent
   get slimSidebarEnabled(): boolean {
     return this.settingsService.get(SETTINGS_KEYS.SLIM_SIDEBAR)
   }
-
-  set slimSidebarEnabled(enabled: boolean) {
+   set slimSidebarEnabled(enabled: boolean) {
     this.settingsService.set(SETTINGS_KEYS.SLIM_SIDEBAR, enabled)
     this.settingsService
       .storeSettings()
@@ -282,6 +283,9 @@ export class AppFrameComponent
   }
 
   onLogout() {
-    this.openDocumentsService.closeAll()
+    //this.openDocumentsService.closeAll()
+    this.oidcSecurityService
+      .logoff()
+      .subscribe((result) => console.log('okkk', result));
   }
 }

@@ -5,6 +5,7 @@ import { ComponentWithPermissions } from '../with-permissions/with-permissions.c
 import { TourService } from 'ngx-ui-tour-ng-bootstrap'
 import { PaperlessSavedView } from 'src/app/data/paperless-saved-view'
 import { ToastService } from 'src/app/services/toast.service'
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
 import {
   CdkDragDrop,
@@ -15,6 +16,7 @@ import {
 
 @Component({
   selector: 'pngx-dashboard',
+//  imports:  [ CanvasJSAngularChartsModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
@@ -32,7 +34,23 @@ export class DashboardComponent extends ComponentWithPermissions {
       this.dashboardViews = this.savedViewService.dashboardViews
     })
   }
-
+  chartOptions = {
+    animationEnabled: true,
+    exportEnabled: false,  
+	  title: {
+		  text: "Pie Chart in Angular"
+	  },
+	  data: [{
+		type: "pie",
+		dataPoints: [
+		{ label: "Tag",  y: 10  },
+		{ label: "Storage Path", y: 15  },
+		{ label: "Docment Type", y: 25  },
+		{ label: "Correspondent",  y: 30  },
+		
+		]
+	  }]                
+    };
   get subtitle() {
   //  debugger
      if (this.settingsService.displayName) {

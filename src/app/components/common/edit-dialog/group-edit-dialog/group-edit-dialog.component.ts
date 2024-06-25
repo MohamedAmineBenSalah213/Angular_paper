@@ -23,7 +23,8 @@ export class GroupEditDialogComponent extends EditDialogComponent<PaperlessGroup
     service: GroupService,
     activeModal: NgbActiveModal,
     userService: UserService,
-    settingsService: SettingsService
+    settingsService: SettingsService,
+    
   ) {
     super(service, activeModal, userService, settingsService)
   }

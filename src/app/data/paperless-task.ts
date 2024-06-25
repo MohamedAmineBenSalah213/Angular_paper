@@ -1,21 +1,21 @@
 import { ObjectWithId } from './object-with-id'
 
+
 export enum PaperlessTaskType {
   // just file tasks, for now
   File = 'file',
 }
 
-export enum PaperlessTaskStatus {
-  Pending = 'PENDING',
-  Started = 'STARTED',
-  Complete = 'SUCCESS',
-  Failed = 'FAILURE',
+export enum DocumentSource {
+  ConsumeFolder = 1,
+ ApiUpload = 2,
+ MailFetch = 3,
 }
 
 export interface PaperlessTask extends ObjectWithId {
   type: PaperlessTaskType
 
-  status: PaperlessTaskStatus
+  source: DocumentSource
 
   acknowledged: boolean
 

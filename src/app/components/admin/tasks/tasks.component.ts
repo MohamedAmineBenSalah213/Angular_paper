@@ -103,9 +103,7 @@ export class TasksComponent
       case 'completed':
         tasks = this.tasksService.completedFileTasks
         break
-      case 'failed':
-        tasks = this.tasksService.failedFileTasks
-        break
+     
     }
     return tasks
   }

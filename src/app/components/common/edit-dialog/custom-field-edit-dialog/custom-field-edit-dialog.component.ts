@@ -25,6 +25,7 @@ export class CustomFieldEditDialogComponent
     activeModal: NgbActiveModal,
     userService: UserService,
     settingsService: SettingsService
+    
   ) {
     super(service, activeModal, userService, settingsService)
   }

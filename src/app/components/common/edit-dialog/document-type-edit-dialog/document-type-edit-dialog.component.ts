@@ -33,6 +33,7 @@ export class DocumentTypeEditDialogComponent extends EditDialogComponent<Paperle
     userService: UserService,
     settingsService: SettingsService,
     private customFieldsService: CustomFieldsService,
+    
   ) {
     super(service, activeModal, userService, settingsService)
   }

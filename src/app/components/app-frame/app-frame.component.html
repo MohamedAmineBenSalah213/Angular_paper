@@ -173,14 +173,14 @@
               </svg><span>&nbsp;<ng-container i18n>Custom Fields</ng-container></span>
             </a>
           </li>
-          <li class="nav-item"  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.ConsumptionTemplate }" tourAnchor="tour.consumption-templates"><!--  -->
+          <li class="nav-item" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.ConsumptionTemplate }"   tourAnchor="tour.consumption-templates"><!--  -->
             <a class="nav-link" routerLink="templates" routerLinkActive="active" (click)="closeMenu()" ngbPopover="Consumption templates" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
               <svg class="sidebaricon" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#file-earmark-ruled"/>
               </svg><span>&nbsp;<ng-container i18n>Templates</ng-container></span>
             </a>
           </li>
-          <li class="nav-item"  tourAnchor="tour.mail" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailAccount }" ><!-- -->
+          <li class="nav-item"  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailAccount }"  tourAnchor="tour.mail" ><!-- -->
             <a class="nav-link" routerLink="mail" routerLinkActive="active" (click)="closeMenu()" ngbPopover="Mail" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
               <svg class="sidebaricon" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#envelope"/>
@@ -222,12 +222,12 @@
               </svg><span>&nbsp;<ng-container i18n>Users & Groups</ng-container></span>
             </a>
           </li>
-          <li class="nav-item" tourAnchor="tour.file-tasks"><!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.PaperlessTask }" -->
+          <li class="nav-item" tourAnchor="tour.file-tasks"  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.PaperlessTask }" >
             <a class="nav-link" routerLink="tasks" routerLinkActive="active" (click)="closeMenu()" ngbPopover="File Tasks" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
-              <span *ngIf="tasksService.failedFileTasks.length > 0 && slimSidebarEnabled" class="badge bg-danger position-absolute top-0 end-0">{{tasksService.failedFileTasks.length}}</span>
+            <!--   <span *ngIf="tasksService.allFileTasks.length > 0 && slimSidebarEnabled" class="badge bg-danger position-absolute top-0 end-0">{{tasksService.allFileTasks.length}}</span> -->
               <svg class="sidebaricon" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#list-task"/>
-              </svg><span>&nbsp;<ng-container i18n>File Tasks<span *ngIf="tasksService.failedFileTasks.length > 0"><span class="badge bg-danger ms-2">{{tasksService.failedFileTasks.length}}</span></span></ng-container></span>
+              </svg><span>&nbsp;<ng-container i18n>File Tasks<span *ngIf="tasksService.allFileTasks.length > 0"><span class="badge bg-danger ms-2">{{tasksService.allFileTasks.length}}</span></span></ng-container></span>
             </a>
           </li>
           <li class="nav-item" ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Admin }" -->

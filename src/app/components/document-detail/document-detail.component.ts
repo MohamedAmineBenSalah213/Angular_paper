@@ -835,7 +835,7 @@ get isRTL() {
   }
 
   get userCanEdit(): boolean {
-  /*   let doc: PaperlessDocument = Object.assign({}, this.document)
+   let doc: PaperlessDocument = Object.assign({}, this.document)
     // dont disable while editing
     if (this.document && this.store?.value.permissions_form?.owner) {
       doc.owner = this.store?.value.permissions_form?.owner
@@ -846,8 +846,8 @@ get isRTL() {
         PermissionAction.Change,
         doc
       )
-    ) */
-    return true
+    ) 
+    //return true
   }
 
   filterDocuments(items: ObjectWithId[] | NgbDateStruct[]) {

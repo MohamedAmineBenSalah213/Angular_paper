@@ -90,9 +90,9 @@ export class DocumentCardLargeComponent extends ComponentWithPermissions {
     return highlights
   }
 
-  getIsThumbInverted() {
+  /* getIsThumbInverted() {
     return this.settingsService.get(SETTINGS_KEYS.DARK_MODE_THUMB_INVERTED)
-  }
+  } */
 
   getThumbUrl() {
     return this.documentService.getThumbUrl(this.document.id)

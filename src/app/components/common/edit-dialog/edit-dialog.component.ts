@@ -34,10 +34,11 @@ export abstract class EditDialogComponent<
     private userService: UserService,
     private settingsService: SettingsService,
    
+   
   ) {}
 
   users: PaperlessUser[]
-
+  private oidcSecurityService: OidcSecurityService
   @Input()
   dialogMode: EditDialogMode = EditDialogMode.CREATE
 
@@ -57,20 +58,28 @@ export abstract class EditDialogComponent<
   error = null
 
   abstract getForm(): FormGroup
-
+ id:string
   objectForm: FormGroup = this.getForm()
 
   ngOnInit(): void {
+    this.oidcSecurityService
+    .getUserData()
+    .subscribe((userInfo: any) => {
+      console.log('User Info:', userInfo);
+      // Access specific claims (e.g., email, sub, etc.)
+      this.id = userInfo.sub;
+    });
+    
      if (this.object != null) {
       if (this.object['permissions']) {
-        debugger
-        console.log(this.object['permissions']);
+        /* debugger
+        console.log(this.object['permissions']); */
         
         this.object['user_permissions'] = this.object['permissions']
       }
 
       this.object['permissions_form'] = {
-        owner: (this.object as ObjectWithPermissions).owner,
+        owner: this.id,//(this.object as ObjectWithPermissions).owner,
         set_permissions: (this.object as ObjectWithPermissions).permissions,
       }
       
@@ -167,9 +176,7 @@ export abstract class EditDialogComponent<
     }  
 
     var newObject = Object.assign(Object.assign({}, this.object), formValues)
-    console.log(this.object);
     
-    console.log(newObject.name+"***"+this.objectForm.value)
     var serverResponse: Observable<T>
     switch (this.dialogMode) {
       case EditDialogMode.CREATE:
@@ -180,10 +187,20 @@ export abstract class EditDialogComponent<
               console.log(newObject.ExtractedData);
               
             }
-          newObject.DocumentTags = [];
+       
+          /* const userData = sessionStorage.getItem('0-angularclient');
+          if (userData) {
+            // Parse the JSON string into an object
+    const tokenObject = JSON.parse(userData);
+ 
+    // Extract the access token
+    const id = tokenObject?.userData?.sub;
+         //   const user = JSON.parse(userData);
+            
+          newObject.owner = id; */
           
           serverResponse = this.service.create(newObject,this.getAction())
-        } 
+         }
 
         if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_AUTO ){
           if(newObject.match!=""){
@@ -194,6 +211,17 @@ export abstract class EditDialogComponent<
            newObject.match=[]
    
         console.log(newObject);
+       /*  const userData = sessionStorage.getItem('0-angularclient');
+        if (userData) {
+          // Parse the JSON string into an object
+  const tokenObject = JSON.parse(userData);
+
+  // Extract the access token
+  const id = tokenObject?.userData?.sub;
+       //   const user = JSON.parse(userData);
+          
+        newObject.owner = id; 
+        }*/
         
         serverResponse = this.service.create(newObject,this.getAction())
         }
@@ -240,5 +268,13 @@ export abstract class EditDialogComponent<
 
   cancel() {
     this.activeModal.close()
+  }
+  getUserSub(): string | null {
+    const userData = sessionStorage.getItem('userData');
+    if (userData) {
+      const user = JSON.parse(userData);
+      return user.sub;
+    }
+    return null;
   }
 }

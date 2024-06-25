@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core'
 import { Subject } from 'rxjs'
 import { first, takeUntil } from 'rxjs/operators'
 import {
+  DocumentSource,
   PaperlessTask,
-  PaperlessTaskStatus,
   PaperlessTaskType,
 } from 'src/app/data/paperless-task'
 import { environment } from 'src/environments/environment'
@@ -30,30 +30,28 @@ export class TasksService {
   }
 
   public get queuedFileTasks(): PaperlessTask[] {
-    return this.fileTasks.filter((t) => t.status == PaperlessTaskStatus.Pending)
+    return this.fileTasks.filter((t) => t.source == DocumentSource.MailFetch)
   }
 
   public get startedFileTasks(): PaperlessTask[] {
-    return this.fileTasks.filter((t) => t.status == PaperlessTaskStatus.Started)
+    return this.fileTasks.filter((t) => t.source == DocumentSource.ConsumeFolder)
   }
 
   public get completedFileTasks(): PaperlessTask[] {
     return this.fileTasks.filter(
-      (t) => t.status == PaperlessTaskStatus.Complete
-    )
+      (t) => t.source == DocumentSource.ApiUpload   )
   }
 
-  public get failedFileTasks(): PaperlessTask[] {
-    return this.fileTasks.filter((t) => t.status == PaperlessTaskStatus.Failed)
-  }
+ 
 
   constructor(private http: HttpClient) {}
 
   public reload() {
+    debugger
     this.loading = true
 
     this.http
-      .get<PaperlessTask[]>(`${this.baseUrl}tasks/`)
+      .get<any>(`${this.baseUrl}/filetask/list_file_tasks`)
       .pipe(takeUntil(this.unsubscribeNotifer), first())
      .subscribe((r) => {
       this.fileTasks = r.filter((t) => t.type == PaperlessTaskType.File) // they're all File tasks, for now

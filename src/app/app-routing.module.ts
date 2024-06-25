@@ -44,14 +44,14 @@ export const routes: Routes = [
       {
         path: 'documents',
         component: DocumentListComponent,
-       /*  canDeactivate: [DirtySavedViewGuard],
+         canDeactivate: [DirtySavedViewGuard],
         canActivate: [PermissionsGuard],
         data: {
           requiredPermission: {
             action: PermissionAction.View,
             type: PermissionType.Document,
           },
-        }, */
+        }, 
       },
       
       {
@@ -69,13 +69,13 @@ export const routes: Routes = [
       {
         path: 'documents/:id',
         component: DocumentDetailComponent,
-       /*  canActivate: [PermissionsGuard],
+        canActivate: [PermissionsGuard],
         data: {
           requiredPermission: {
             action: PermissionAction.View,
             type: PermissionType.Document,
           },
-        }, */
+        },
       },
       {
         path: 'documents/:id/:section',
@@ -201,13 +201,13 @@ export const routes: Routes = [
       {
         path: 'tasks',
         component: TasksComponent,
-        canActivate: [PermissionsGuard],
+      /*   canActivate: [PermissionsGuard],
         data: {
           requiredPermission: {
             action: PermissionAction.View,
             type: PermissionType.PaperlessTask,
           },
-        },
+        }, */
       },
       {
         path: 'customfields',

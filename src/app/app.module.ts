@@ -141,6 +141,7 @@ import { FileShareListComponent } from './components/manage/file-share-list/file
 import { FileShareEditDialogComponent } from './components/common/edit-dialog/file-share-edit-dialog/file-share-edit-dialog.component';
 import { AuthModule, LogLevel } from 'angular-auth-oidc-client'
 import { AuthInterceptorInterceptor } from './interceptors/auth.interceptor'
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts'
 
 
 registerLocaleData(localeAf)
@@ -287,6 +288,7 @@ function initializeApp(settings: SettingsService) {
       },
     }),
     BrowserModule,
+  
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
@@ -297,6 +299,7 @@ function initializeApp(settings: SettingsService) {
     NgSelectModule,
     ColorSliderModule,
     TourNgBootstrapModule,
+    CanvasJSAngularChartsModule,
     DragDropModule,
   ],
   providers: [

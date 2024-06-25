@@ -38,7 +38,8 @@ export class MailAccountEditDialogComponent extends EditDialogComponent<Paperles
     service: MailAccountService,
     activeModal: NgbActiveModal,
     userService: UserService,
-    settingsService: SettingsService
+    settingsService: SettingsService,
+    
   ) {
     super(service, activeModal, userService, settingsService)
   }

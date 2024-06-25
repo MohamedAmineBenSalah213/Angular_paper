@@ -105,7 +105,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
       null,
       null,
       action,
-      Object.assign(extraParams, queryParamsFromFilterRules(filterRules)),
+    null
       
     ).pipe(
       map((results) => {
@@ -147,6 +147,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
   }
 
   getThumbUrl(id: string): string {
+   // debugger
     return this.getResourceUrl(id, 'thumb')
   }
 

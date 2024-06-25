@@ -16,7 +16,9 @@
    <!--   <div class="col"><!-- *ngIf="settingsService.offerTour()" 
         <pngx-welcome-widget (dismiss)="completeTour()"></pngx-welcome-widget>
       </div>  -->
- 
+      <div>
+        <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
+    </div>
       <ng-container ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }" -->
         <div *ngFor="let v of dashboardViews" class="col">
           <pngx-saved-view-widget

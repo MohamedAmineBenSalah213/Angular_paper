@@ -71,7 +71,7 @@ export class PermissionsFilterDropdownComponent extends ComponentWithPermissions
     private settingsService: SettingsService
   ) {
     super()
-    if (
+   /*  if (
       permissionsService.currentUserCan(
         PermissionAction.View,
         PermissionType.User
@@ -83,7 +83,7 @@ export class PermissionsFilterDropdownComponent extends ComponentWithPermissions
         .subscribe({
           next: (result) => (this.users = result.results),
         })
-    }
+    } */
   }
 
   reset() {
