@@ -51,14 +51,13 @@ export class TasksService {
 
   public reload() {
     this.loading = true
-
-    this.http
-      .get<PaperlessTask[]>(`${this.baseUrl}tasks/`)
-      .pipe(takeUntil(this.unsubscribeNotifer), first())
-     .subscribe((r) => {
-      this.fileTasks = r.filter((t) => t.type == PaperlessTaskType.File) // they're all File tasks, for now
-        this.loading = false
-      })
+    // this.http
+    //   .get<PaperlessTask[]>(`${this.baseUrl}tasks/`)
+    //   .pipe(takeUntil(this.unsubscribeNotifer), first())
+    //  .subscribe((r) => {
+    //   this.fileTasks = r.filter((t) => t.type == PaperlessTaskType.File) // they're all File tasks, for now
+    //     this.loading = false
+    //   })
   }
 
   public dismissTasks(task_ids: Set<string>) {

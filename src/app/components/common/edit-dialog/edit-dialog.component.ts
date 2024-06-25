@@ -4,7 +4,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { Observable } from 'rxjs'
 import {
   MATCHING_ALGORITHMS,
-  MATCH_ALL,
   MATCH_AUTO,
   MATCH_NONE,
 } from 'src/app/data/matching-model'
@@ -16,7 +15,6 @@ import { UserService } from 'src/app/services/rest/user.service'
 import { PermissionsFormObject } from '../input/permissions/permissions-form/permissions-form.component'
 import { SettingsService } from 'src/app/services/settings.service'
 import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
-import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 export enum EditDialogMode {
   CREATE = 0,
@@ -63,7 +61,7 @@ export abstract class EditDialogComponent<
   ngOnInit(): void {
      if (this.object != null) {
       if (this.object['permissions']) {
-        debugger
+        //debugger
         console.log(this.object['permissions']);
         
         this.object['user_permissions'] = this.object['permissions']
@@ -155,7 +153,7 @@ export abstract class EditDialogComponent<
     return words;
 }
   save() {
-    debugger
+   // debugger
     this.error = null
      const formValues = Object.assign({}, this.objectForm.value)
     const permissionsObject: PermissionsFormObject =
@@ -167,10 +165,25 @@ export abstract class EditDialogComponent<
     }  
 
     var newObject = Object.assign(Object.assign({}, this.object), formValues)
-    console.log(this.object);
-    
-    console.log(newObject.name+"***"+this.objectForm.value)
+    console.log(newObject);
+
+  if(newObject?.set_permissions){
+
+    newObject.set_permissions.view.users=
+                               newObject.set_permissions.view.users.length>0?
+                               newObject.set_permissions.view.users.map(user => user.id):[];
+    newObject.set_permissions.change.users=
+                                 newObject.set_permissions.change.users.length>0?
+                                 newObject.set_permissions.change.users.map(user => user.id):[];
+    newObject.set_permissions.view.groups=
+                                   newObject.set_permissions.view.groups.length>0?
+                                   newObject.set_permissions.view.groups.map(group => group.id):[];
+    newObject.set_permissions.change.groups= 
+                                   newObject.set_permissions.change.groups.length>0?
+                                  newObject.set_permissions.change.groups.map(group => group.id):[];
+  }
     var serverResponse: Observable<T>
+    console.log("this.dialogMode",this.dialogMode)
     switch (this.dialogMode) {
       case EditDialogMode.CREATE:
        // debugger
@@ -192,7 +205,7 @@ export abstract class EditDialogComponent<
           }
           else
            newObject.match=[]
-   
+         
         console.log(newObject);
         
         serverResponse = this.service.create(newObject,this.getAction())
@@ -200,6 +213,7 @@ export abstract class EditDialogComponent<
         else{
           serverResponse = this.service.create(newObject,this.getAction())
         } 
+        console.log("newObject",newObject);
         console.log(serverResponse)
         break
       case EditDialogMode.EDIT:
@@ -219,6 +233,7 @@ export abstract class EditDialogComponent<
           serverResponse = this.service.update(newObject,this.getActionupdate())
         }
         else{
+          console.log("this.getActionupdate()",this.getActionupdate())
           serverResponse = this.service.update(newObject,this.getActionupdate())
         }
       default:

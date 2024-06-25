@@ -12,6 +12,7 @@ import {
   CdkDragStart,
   moveItemInArray,
 } from '@angular/cdk/drag-drop'
+import { AzureAdDemoService } from 'src/app/azure-ad-demo.service'
 
 @Component({
   selector: 'pngx-dashboard',
@@ -20,19 +21,24 @@ import {
 })
 export class DashboardComponent extends ComponentWithPermissions {
   public dashboardViews: PaperlessSavedView[] = []
+  isUserLoggedIn:boolean=false
   constructor(
     public settingsService: SettingsService,
     public savedViewService: SavedViewService,
     private tourService: TourService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private azureAdDemoService:AzureAdDemoService
   ) {
     super()
 
-    this.savedViewService.listAll().subscribe(() => {
-      this.dashboardViews = this.savedViewService.dashboardViews
-    })
+    // this.savedViewService.listAll().subscribe(() => {
+    //   this.dashboardViews = this.savedViewService.dashboardViews
+    // })
   }
-
+ngOnInit(){
+  
+  this.azureAdDemoService.isUserLoggedInAzureDemo.subscribe(x=>this.isUserLoggedIn=x)
+}
   get subtitle() {
   //  debugger
      if (this.settingsService.displayName) {

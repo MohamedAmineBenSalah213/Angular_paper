@@ -9,6 +9,7 @@ import {
  
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { MsalService } from '@azure/msal-angular';
  
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,8 @@ export class authGuard implements CanActivate {
   isAuthenticated = false;
   constructor(
     private oidcSecurityService: OidcSecurityService,
-    private route: Router
+    private route: Router,
+    private msalService: MsalService,
   ) {}
  
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

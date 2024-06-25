@@ -49,7 +49,7 @@ export class StatisticsWidgetComponent
   subscription: Subscription
 
   private getStatistics(): Observable<Statistics> {
-    return this.http.get(`${environment.apiBaseUrl}/Statistics/`)
+    return this.http.get(`${environment.apiBaseUrl}/statistics`)
   }
 
   reload() {

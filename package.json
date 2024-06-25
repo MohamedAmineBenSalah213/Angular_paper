@@ -20,6 +20,8 @@
     "@angular/platform-browser": "~16.2.11",
     "@angular/platform-browser-dynamic": "~16.2.11",
     "@angular/router": "~16.2.11",
+    "@azure/msal-angular": "^3.0.20",
+    "@azure/msal-browser": "^3.17.0",
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@ng-select/ng-select": "^11.2.0",
     "@ngneat/dirty-check-forms": "^3.0.3",

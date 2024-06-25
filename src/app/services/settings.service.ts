@@ -10,7 +10,7 @@ import {
 } from '@angular/core'
 import { Meta } from '@angular/platform-browser'
 import { CookieService } from 'ngx-cookie-service'
-import { first, Observable, tap } from 'rxjs'
+import { catchError, first, Observable, tap, throwError } from 'rxjs'
 import {
   BRIGHTNESS,
   estimateBrightnessForColor,
@@ -18,7 +18,6 @@ import {
 } from 'src/app/utils/color'
 import { environment } from 'src/environments/environment'
 import {
-  PaperlessUiSettings,
   SETTINGS,
   SETTINGS_KEYS,
 } from '../data/paperless-uisettings'
@@ -27,6 +26,9 @@ import { PermissionsService } from './permissions.service'
 import { ToastService } from './toast.service'
 import { PaperlessSavedView } from '../data/paperless-saved-view'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { MsalService } from '@azure/msal-angular'
+import { RegistreDto, permissions, permissionsUser } from '../data/registreDto'
+
 
 export interface LanguageOption {
   code: string
@@ -56,68 +58,100 @@ export class SettingsService {
   }
 
   public dashboardIsEmpty: boolean = false
-
+  isAuthenticated = false;
   public globalDropzoneEnabled: boolean = true
   public globalDropzoneActive: boolean = false
   public organizingSidebarSavedViews: boolean = false
-  id: string
+  id: string=null;
   constructor(
     rendererFactory: RendererFactory2,
-    private oidcSecurityService: OidcSecurityService,
     @Inject(DOCUMENT) private document,
     private cookieService: CookieService,
     private meta: Meta,
     @Inject(LOCALE_ID) private localeId: string,
     protected http: HttpClient,
     private toastService: ToastService,
-    private permissionsService: PermissionsService
+    private permissionsService: PermissionsService,
+    private msalService:MsalService,
   ) {
-    this._renderer = rendererFactory.createRenderer(null, null)
-  }
-
-  // this is called by the app initializer in app.module
-  public initializeSettings(): Observable<PaperlessUiSettings> {
-   //debugger
    
-    // Step 1: Retrieve the object from session storage
-     this.oidcSecurityService
-   .getUserData()
-   .subscribe((userInfo: any) => {
-     console.log('User Info:', userInfo);
-     // Access specific claims (e.g., email, sub, etc.)
-     this.id = userInfo.sub;
-   });
-   const url = `${this.baseUrl}/get_ui_settings_details`;
-   const params = { id: this.id };
-
-   return this.http.get<PaperlessUiSettings>(url,{params}).pipe(
-      first(),
-      tap((uisettings) => {
-        Object.assign(this.settings, uisettings.settings)
-        this.maybeMigrateSettings()
-        console.log(uisettings);
-        
-        // to update lang cookie
-        if (this.settings['language']?.length)
-          this.setLanguage(this.settings['language'])
-       // debugger
-        this.currentUser = uisettings.user
-        this.permissionsService.initialize(
-          uisettings.permissions,
-          this.currentUser
-        )
-      })
-    )  
-   return null;
+    this._renderer = rendererFactory.createRenderer(null, null)
+    
   }
+ ngOnInit(){
+  console.log("this.currentUser",this.currentUser)
+ }
+ 
+ public initializeSettings(): Observable<any> {
+  const activeAccount = this.msalService.instance.getActiveAccount();
+ // console.log("activeAccount",activeAccount)
+  if (activeAccount) {
+    const { first_name, last_name } = this.splitFullName(activeAccount.name);
 
+    const registerDto: RegistreDto = {
+      id:activeAccount.idTokenClaims.oid,
+      username: activeAccount.username, 
+      email: activeAccount.username, 
+      is_superuser: false,
+      is_active: true,
+      first_name,
+      last_name,
+      user_permissions: permissionsUser
+    };
+    return this.addUserAndUISettings(registerDto).pipe(
+      tap(uisettings => {
+        this.id=activeAccount.idTokenClaims.oid
+        Object.assign(this.settings, uisettings.settings);
+            this.maybeMigrateSettings();
+            if (this.settings['language']?.length) {
+              this.setLanguage(this.settings['language']);
+            }
+            this.currentUser = uisettings.user;
+            this.permissionsService.initialize(uisettings.permissions, this.currentUser);
+       // console.log('User registered successfully:', uisettings);
+       
+      }),
+      catchError(error => {
+        console.error('Error registering user or fetching settings:', error);
+        return throwError(error); // Propagate the error
+      })
+    );
+  } else {
+    return throwError('No active account');
+  }
+   // const url = `${this.baseUrl}/get_ui_settings_details`;
+        // const params = { id: response.id };
+        // return this.http.get<any>(url, { params }).pipe(
+        //   first(),
+        //   tap((uisettings) => {
+        //     Object.assign(this.settings, uisettings.settings);
+        //     this.maybeMigrateSettings();
+        //     if (this.settings['language']?.length) {
+        //       this.setLanguage(this.settings['language']);
+        //     }
+        //     this.currentUser = uisettings.user;
+        //     this.permissionsService.initialize(uisettings.permissions, this.currentUser);
+        //   })
+        // );
+}
+splitFullName(fullName: string): { first_name: string; last_name: string } {
+  const names = fullName.split(' ');
+  const first_name = names[0];
+  const last_name = names.slice(1).join(' '); // Join remaining parts as last name
+  return { first_name, last_name };
+}
   get displayName(): string {
-    return this.currentUser.username 
+    return this.currentUser?.userName 
       
       //this.currentUser.userName 
     
   }
-
+  addUserAndUISettings(registerdto :RegistreDto): Observable<any> {
+   console.log(registerdto)
+    return this.http.post<any>( `${environment.apiBaseUrl}/user/registration`,
+      registerdto
+    )
+  }
   public updateAppearanceSettings(
     darkModeUseSystem = null,
     darkModeEnabled = null,
@@ -382,12 +416,12 @@ export class SettingsService {
   }
 
   getLanguage(): string {
-    debugger
+    //debugger
     return this.get(SETTINGS_KEYS.LANGUAGE)
   }
 
   setLanguage(language: string) {
-   debugger
+  // debugger
     this.set(SETTINGS_KEYS.LANGUAGE, language)
     if (language?.length) {
       // for Django
@@ -459,7 +493,7 @@ export class SettingsService {
 
   set(key: string, value: any) {
     // parse key:key:key into nested object
-    console.log(this.settings);
+   // console.log(this.settings);
     
     let settingObj = this.settings
     const keys = key.replace('general-settings:', '').split(':')

@@ -39,7 +39,9 @@ import {
   CdkDragDrop,
   moveItemInArray,
 } from '@angular/cdk/drag-drop'
-import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client'
+import { MsalService } from '@azure/msal-angular'
+import { AzureAdDemoService } from 'src/app/azure-ad-demo.service'
 declare interface RouteInfo {
   path: string;
   title: string;
@@ -64,7 +66,7 @@ export class AppFrameComponent
   slimSidebarAnimating: boolean = false
 
   searchField = new FormControl('')
-
+  loginDisplay=false;
   constructor(
     public router: Router,
     private activatedRoute: ActivatedRoute,
@@ -76,24 +78,47 @@ export class AppFrameComponent
     public settingsService: SettingsService,
     public tasksService: TasksService,
     private readonly toastService: ToastService,
-    permissionsService: PermissionsService,
+    private permissionsService: PermissionsService,
+    private oidcSecurityService: OidcSecurityService,
+    private msalService:MsalService, private azureAdDemoService:AzureAdDemoService
+    
     
   ) {
     super()
+    // this.settingsService.initializeSettings().subscribe((uisettings)=>{
+    //   this.permissionsService.initialize(
+    //     uisettings.permissions,
+    //     uisettings.user
+    //   );
+    
+    //   console.log("settings");
+    //   this.permissionsService.currentUserCan(
+    //     PermissionAction.View,
+    //     PermissionType.SavedView
+    //   )
 
-    if (
-      permissionsService.currentUserCan(
-        PermissionAction.View,
-        PermissionType.SavedView
-      )
-    ) {
-      this.savedViewService.initialize()
-    }
+    // })
+   
+    // if (
+    //   permissionsService.currentUserCan(
+    //     PermissionAction.View,
+    //     PermissionType.SavedView
+    //   )
+    // ) {
+    //   this.savedViewService.initialize()
+    // }
   }
   ngOnInit(): void {
+    this.azureAdDemoService.isUserLoggedInAzureDemo.subscribe(x=>this.loginDisplay=x)
     if (this.settingsService.get(SETTINGS_KEYS.UPDATE_CHECKING_ENABLED)) {
-      this.checkForUpdates()
+      this.checkForUpdates();
     }
+
+    // The initializeSettings method is called during APP_INITIALIZER, so permissions are already set at this point
+    if (this.permissionsService.currentUserCan(PermissionAction.View, PermissionType.SavedView)) {
+      this.savedViewService.initialize();
+    }
+
     this.tasksService.reload()
  
   }
@@ -105,7 +130,9 @@ export class AppFrameComponent
       this.slimSidebarAnimating = false
     }, 200) // slightly longer than css animation for slim sidebar
   }
-
+  logoutAzure(){
+    this.msalService.logoutRedirect({postLogoutRedirectUri:"http://localhost:4200"})
+  }
   get slimSidebarEnabled(): boolean {
     return this.settingsService.get(SETTINGS_KEYS.SLIM_SIDEBAR)
   }
@@ -283,5 +310,10 @@ export class AppFrameComponent
 
   onLogout() {
     this.openDocumentsService.closeAll()
+  }
+  logout() {
+    this.oidcSecurityService
+      .logoff()
+      .subscribe((result) => console.log('okkk', result));
   }
 }

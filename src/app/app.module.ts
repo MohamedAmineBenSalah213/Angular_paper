@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser'
-import { APP_INITIALIZER, NgModule } from '@angular/core'
+import { NgModule } from '@angular/core'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import {
@@ -77,7 +77,6 @@ import { DirtyDocGuard } from './guards/dirty-doc.guard'
 import { DirtySavedViewGuard } from './guards/dirty-saved-view.guard'
 import { StoragePathListComponent } from './components/manage/storage-path-list/storage-path-list.component'
 import { StoragePathEditDialogComponent } from './components/common/edit-dialog/storage-path-edit-dialog/storage-path-edit-dialog.component'
-import { SettingsService } from './services/settings.service'
 import { TasksComponent } from './components/admin/tasks/tasks.component'
 import { TourNgBootstrapModule } from 'ngx-ui-tour-ng-bootstrap'
 import { UserEditDialogComponent } from './components/common/edit-dialog/user-edit-dialog/user-edit-dialog.component'
@@ -139,8 +138,12 @@ import { ConfigComponent } from './components/admin/config/config.component';
 import { DataExtractionDropdownComponent } from './components/common/data-extraction-dropdown/data-extraction-dropdown.component';
 import { FileShareListComponent } from './components/manage/file-share-list/file-share-list.component';
 import { FileShareEditDialogComponent } from './components/common/edit-dialog/file-share-edit-dialog/file-share-edit-dialog.component';
-import { AuthModule, LogLevel } from 'angular-auth-oidc-client'
+import { AuthModule } from 'angular-auth-oidc-client'
+import { MsalGuard, MsalInterceptor, MsalModule } from '@azure/msal-angular'
+import { InteractionType, PublicClientApplication } from '@azure/msal-browser'
+import { AzureAdDemoService } from './azure-ad-demo.service'
 import { AuthInterceptorInterceptor } from './interceptors/auth.interceptor'
+import { authority, clientId, isIE, loginRequest, protectedResources, redirectUri } from './components/admin/authConfig/msal-config'
 
 
 registerLocaleData(localeAf)
@@ -174,11 +177,8 @@ registerLocaleData(localeTr)
 registerLocaleData(localeUk)
 registerLocaleData(localeZh)
 
-function initializeApp(settings: SettingsService) {
-  return () => {
-    return settings.initializeSettings()
-  }
-}
+
+
 
 @NgModule({
   declarations: [
@@ -272,18 +272,22 @@ function initializeApp(settings: SettingsService) {
   imports: [
     AuthModule.forRoot({
       config: {
-        authority: 'https://localhost:44313',
-        clientId: 'angularclient',
-        redirectUrl: window.location.origin,
-        postLogoutRedirectUri: window.location.origin,
-        responseType: 'code',
-        scope: 'openid email profile roles dataEventRecords offline_access',
-        logLevel: LogLevel.Debug,
-        silentRenew: true,
-        renewTimeBeforeTokenExpiresInSeconds: 30,
-        useRefreshToken: true,
-        // authWellknownEndpointUrl:
-        //   'http://localhost:44395/.well-known/openid-configuration',
+        clientId:clientId, 
+        authority:authority, 
+        redirectUrl: redirectUri,
+        // authority: 'https://localhost:44313',
+        // clientId: 'angularclient',
+        // redirectUrl: window.location.origin,
+        // postLogoutRedirectUri: window.location.origin,
+        // responseType: 'code',
+        // scope: 'openid email profile roles dataEventRecords offline_access',
+        // logLevel: LogLevel.Debug,
+        // silentRenew: true,
+        // renewTimeBeforeTokenExpiresInSeconds: 30,
+        // useRefreshToken: true,
+        // autoUserInfo: true,
+        // // authWellknownEndpointUrl:
+        // //   'http://localhost:44395/.well-known/openid-configuration',
       },
     }),
     BrowserModule,
@@ -298,20 +302,41 @@ function initializeApp(settings: SettingsService) {
     ColorSliderModule,
     TourNgBootstrapModule,
     DragDropModule,
+   // MsalModule,
+    MsalModule.forRoot(
+      new PublicClientApplication({
+        auth: {
+          clientId:clientId, 
+          authority:authority, 
+          redirectUri: redirectUri,
+        },
+        cache: {
+          cacheLocation: "localStorage",
+          storeAuthStateInCookie: isIE, // Set to true for Internet Explorer 11
+        },
+      }),
+      {
+        interactionType: InteractionType.Redirect,
+        authRequest: loginRequest
+      },
+      {
+        interactionType: InteractionType.Redirect,
+        protectedResourceMap: new Map<string, Array<string>>([
+        [protectedResources.graphMe.endpoint, protectedResources.graphMe.scopes],
+        // ['http://localhost:5046/api/', ['api://79f0aacd-52b2-441e-bfb4-533baf355192/access_as_user']]
+        
+      ])
+      }
+    ),
   ],
   providers: [
+    
+    
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorInterceptor,
       multi:true
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [SettingsService],
-      multi: true,
-    },
-
     DatePipe,
     CookieService,
     
@@ -334,6 +359,22 @@ function initializeApp(settings: SettingsService) {
     DirtyDocGuard,
     DirtySavedViewGuard,
     UsernamePipe,
+    
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true
+    },
+  
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initializeApp,
+    //   deps: [SettingsService],
+    //   multi: true,
+    // },
+    MsalGuard,AzureAdDemoService,
+    
+    
   ],
   bootstrap: [AppComponent],
 })

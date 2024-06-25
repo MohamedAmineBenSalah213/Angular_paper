@@ -51,7 +51,9 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
     if (ordering) {
       httpParams = httpParams.set('ordering', ordering)
     } 
+   // console.log("extraParamKey",extraParams)
      for (let extraParamKey in extraParams) {
+      console.log("extraParamKey",extraParamKey)
       if (extraParams[extraParamKey] != null) {
         httpParams = httpParams.set(extraParamKey, extraParams[extraParamKey])
       }
@@ -121,7 +123,7 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
 
   create(o: T,action?:string): Observable<any> {
     this.clearCache()
-  
+  console.log(action,"action")
    return this.http.post(this.getResourceUrl(o.id,action),o)
     
     
@@ -129,6 +131,7 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
 
   delete(o: T,action?:string): Observable<any> {
     this.clearCache()
+    console.log("action",action)
     return this.http.delete(this.getResourceUrl(o.id,action))
   }
 

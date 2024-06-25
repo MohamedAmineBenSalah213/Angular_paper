@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'
+import { Component, OnInit, OnDestroy, ViewChild, Inject } from '@angular/core'
 import { FormArray, FormControl, FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
@@ -26,7 +26,7 @@ import { ToastService } from 'src/app/services/toast.service'
 import { TextComponent } from '../common/input/text/text.component'
 import { SettingsService } from 'src/app/services/settings.service'
 import { dirtyCheck, DirtyComponent } from '@ngneat/dirty-check-forms'
-import { Observable, Subject, BehaviorSubject } from 'rxjs'
+import { Observable, Subject, BehaviorSubject, throwError } from 'rxjs'
 import {
   first,
   takeUntil,
@@ -35,6 +35,9 @@ import {
   debounceTime,
   distinctUntilChanged,
   tap,
+  filter,
+  mergeMap,
+  catchError,
 } from 'rxjs/operators'
 import { PaperlessDocumentSuggestions } from 'src/app/data/paperless-document-suggestions'
 import {
@@ -58,7 +61,7 @@ import {
 import { PaperlessUser } from 'src/app/data/paperless-user'
 import { UserService } from 'src/app/services/rest/user.service'
 import { PaperlessDocumentNote } from 'src/app/data/paperless-document-note'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { ComponentWithPermissions } from '../with-permissions/with-permissions.component'
 import { EditDialogMode } from '../common/edit-dialog/edit-dialog.component'
 import { ObjectWithId } from 'src/app/data/object-with-id'
@@ -71,6 +74,9 @@ import {
 import { PaperlessCustomFieldInstance } from 'src/app/data/paperless-custom-field-instance'
 import { CustomFieldsService } from 'src/app/services/rest/custom-fields.service'
 import { TagService } from 'src/app/services/rest/tag.service'
+import { MSAL_GUARD_CONFIG, MsalBroadcastService, MsalGuardConfiguration, MsalService } from '@azure/msal-angular'
+import { InteractionStatus, PopupRequest } from '@azure/msal-browser'
+import { AzureAdDemoService } from 'src/app/azure-ad-demo.service'
 
 enum DocumentDetailNavIDs {
   Details = 1,
@@ -162,7 +168,11 @@ export class DocumentDetailComponent
 
   DocumentDetailNavIDs = DocumentDetailNavIDs
   activeNavID: number
-
+  loginDisplay = false;
+  isUserLoginIn=false;
+  private readonly _destroy=new Subject<void>();
+   GRAPH_ENDPOINT = 'https://graph.microsoft.com/v1.0/me';
+   profile!: any;
   constructor(
     private documentsService: DocumentService,
     private route: ActivatedRoute,
@@ -179,11 +189,53 @@ export class DocumentDetailComponent
     private permissionsService: PermissionsService,
     private userService: UserService,
     private customFieldsService: CustomFieldsService,
-    private http: HttpClient
+    private http: HttpClient,
+    @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig:MsalGuardConfiguration,
+    private msalService:MsalService,
+    private msalBroadcastService: MsalBroadcastService,
+    private azureAdDemoService:AzureAdDemoService
   ) {
     super()
   }
+  isLoggedIn():boolean{
+    this.isUserLoginIn=this.msalService.instance.getAllAccounts().length > 0
+    return this.isUserLoginIn;
+ }
+ loginAzure(){
+ 
+    if (this.msalGuardConfig.authRequest){
+      this.msalService.loginPopup({...this.msalGuardConfig.authRequest} as PopupRequest)
+        .subscribe({
+          next: (result) => {
+            console.log(result);
+            this.msalService.instance.setActiveAccount(result.account)
+           this.setLoginDisplay();
+           //this.azureAdDemoService.isUserLoggedInAzureDemo.next(this.loginDisplay)
+           
+          },
+          error: (error) => console.log(error)
+        });
+    } else {
+      this.msalService.loginPopup()
+        .subscribe({
+          next: (result) => {
+            console.log(result+'result');
+            this.setLoginDisplay();
+          },
+          error: (error) => console.log(error)
+        });
+    }
+}
 
+setLoginDisplay() {
+  this.loginDisplay = this.msalService.instance.getAllAccounts().length > 0;
+}
+ logoutAzure(){
+  this.setLoginDisplay();
+  this.msalService.logoutPopup({
+   mainWindowRedirectUri: "http://localhost:4200/documents/"+this.documentId+"/details"
+  });
+ }
   titleKeyUp(event) {
     this.titleSubject.next(event.target?.value)
   }
@@ -203,6 +255,34 @@ export class DocumentDetailComponent
       this.getContentType()
     )
   }
+  getProfile() {
+console.log(this.msalService.instance.getActiveAccount(),"name")
+// const account = this.msalService.instance.getActiveAccount();
+// if (account) {
+//   this.msalService.acquireTokenSilent({
+//       account,
+//       scopes: ['user.read']
+//   }).toPromise()
+//   .then(response => {
+//       const headers = new HttpHeaders({
+//           Authorization: `Bearer ${response.accessToken}`,
+//           Accept: 'application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false'
+//       });
+
+//       this.http.get(this.GRAPH_ENDPOINT, { headers })
+//           .subscribe(profile => {
+//               this.profile = profile;
+//               console.log('User profile:', this.profile);
+//           }, error => {
+//               console.error('Error fetching user profile:', error);
+//           });
+//   }).catch(error => {
+//       console.error('Error acquiring token silently:', error);
+//   });
+// } else {
+//   console.error('No active account!');
+// }
+  }
 get isRTL() {
     if (!this.metadata || !this.metadata.lang) return false
     else {
@@ -211,6 +291,12 @@ get isRTL() {
   }
 
   ngOnInit(): void {
+     // Subscribe to MSAL broadcast service to get login state updates
+    //this.isLoggedIn()
+    console.log('User profile:', this.msalService.instance.getActiveAccount()?.idToken);
+    if(this.loginDisplay)
+      {this.getProfile();} 
+
    // debugger
     this.documentForm.valueChanges
       .pipe(takeUntil(this.unsubscribeNotifier))
@@ -250,9 +336,9 @@ get isRTL() {
       .pipe(
         takeUntil(this.unsubscribeNotifier),
         switchMap((paramMap) => {
-          const documentId = paramMap.get('id')
-          this.docChangeNotifier.next(documentId)
-          return this.documentsService.getlist(documentId,"get_document").pipe(
+          this.documentId = paramMap.get('id')
+          this.docChangeNotifier.next(this.documentId)
+          return this.documentsService.getlist(this.documentId,"get_document").pipe(
             tap(result => console.log('Result of getlist:', result))
           );
         })

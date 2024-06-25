@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { ObjectWithPermissions } from '../data/object-with-permissions'
 import { PaperlessUser } from '../data/paperless-user'
+import { BehaviorSubject, Observable } from 'rxjs'
 
 export enum PermissionAction {
   Add = 'add',
@@ -35,12 +36,13 @@ export enum PermissionType {
 export class PermissionsService {
   private permissions: string[]
   private currentUser: PaperlessUser
-
-  public initialize(permissions: string[], currentUser: PaperlessUser) {
+  constructor() {
+  }
+  public initialize(permissions: string[], currentUser: PaperlessUser) {  
     this.permissions = permissions
     this.currentUser = currentUser
   }
-
+ 
   public currentUserCan(
     action: PermissionAction,
     type: PermissionType

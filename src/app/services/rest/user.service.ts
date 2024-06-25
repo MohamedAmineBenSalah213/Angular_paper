@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Observable, switchMap } from 'rxjs'
 import { PaperlessUser } from 'src/app/data/paperless-user'
 import { PermissionsService } from '../permissions.service'
 import { AbstractNameFilterService } from './abstract-name-filter-service'

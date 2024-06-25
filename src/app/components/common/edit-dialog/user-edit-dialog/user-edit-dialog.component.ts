@@ -20,7 +20,7 @@ export class UserEditDialogComponent
   implements OnInit
 {
   getActionupdate() {
-    throw new Error('Method not implemented.')
+    return 'update_user'
   }
   getAction() {
     return 'Registration'
@@ -96,4 +96,5 @@ export class UserEditDialogComponent
         console.log(this.objectForm.value);
     super.save()
   }
+  
 }

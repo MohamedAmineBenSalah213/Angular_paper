@@ -140,64 +140,64 @@ export class ConsumerStatusService {
   connect() {
      this.disconnect()
 
-    this.statusWebSocket = new WebSocket(
-      `${environment.webSocketProtocol}//${environment.webSocketHost}${environment.webSocketBaseUrl}status/`
-    )
-    this.statusWebSocket.onmessage = (ev) => {
-      let statusMessage: WebsocketConsumerStatusMessage = JSON.parse(ev['data'])
+    // this.statusWebSocket = new WebSocket(
+    //   `${environment.webSocketProtocol}//${environment.webSocketHost}${environment.webSocketBaseUrl}status/`
+    // )
+    // this.statusWebSocket.onmessage = (ev) => {
+    //   let statusMessage: WebsocketConsumerStatusMessage = JSON.parse(ev['data'])
 
-      // fallback if backend didnt restrict message
-      if (
-        statusMessage.owner_id &&
-        statusMessage.owner_id !== this.settingsService.currentUser?.id &&
-        !this.settingsService.currentUser?.is_superuser
-      ) {
-        return
-      }
+    //   // fallback if backend didnt restrict message
+    //   if (
+    //     statusMessage.owner_id &&
+    //     statusMessage.owner_id !== this.settingsService.currentUser?.id &&
+    //     !this.settingsService.currentUser?.is_superuser
+    //   ) {
+    //     return
+    //   }
 
-      let statusMessageGet = this.get(
-        statusMessage.task_id,
-        statusMessage.filename
-      )
-      let status = statusMessageGet.status
-      let created = statusMessageGet.created
+    //   let statusMessageGet = this.get(
+    //     statusMessage.task_id,
+    //     statusMessage.filename
+    //   )
+    //   let status = statusMessageGet.status
+    //   let created = statusMessageGet.created
 
-      status.updateProgress(
-        FileStatusPhase.WORKING,
-        statusMessage.current_progress,
-        statusMessage.max_progress
-      )
-      if (
-        statusMessage.message &&
-        statusMessage.message in FILE_STATUS_MESSAGES
-      ) {
-        status.message = FILE_STATUS_MESSAGES[statusMessage.message]
-      } else if (statusMessage.message) {
-        status.message = statusMessage.message
-      }
-      status.documentId = statusMessage.document_id
+    //   status.updateProgress(
+    //     FileStatusPhase.WORKING,
+    //     statusMessage.current_progress,
+    //     statusMessage.max_progress
+    //   )
+    //   if (
+    //     statusMessage.message &&
+    //     statusMessage.message in FILE_STATUS_MESSAGES
+    //   ) {
+    //     status.message = FILE_STATUS_MESSAGES[statusMessage.message]
+    //   } else if (statusMessage.message) {
+    //     status.message = statusMessage.message
+    //   }
+    //   status.documentId = statusMessage.document_id
 
-      if (statusMessage.status in FileStatusPhase) {
-        status.phase = FileStatusPhase[statusMessage.status]
-      }
+    //   if (statusMessage.status in FileStatusPhase) {
+    //     status.phase = FileStatusPhase[statusMessage.status]
+    //   }
 
-      switch (status.phase) {
-        case FileStatusPhase.STARTED:
-          if (created) this.documentDetectedSubject.next(status)
-          break
+    //   switch (status.phase) {
+    //     case FileStatusPhase.STARTED:
+    //       if (created) this.documentDetectedSubject.next(status)
+    //       break
 
-        case FileStatusPhase.SUCCESS:
-          this.documentConsumptionFinishedSubject.next(status)
-          break
+    //     case FileStatusPhase.SUCCESS:
+    //       this.documentConsumptionFinishedSubject.next(status)
+    //       break
 
-        case FileStatusPhase.FAILED:
-          this.documentConsumptionFailedSubject.next(status)
-          break
+    //     case FileStatusPhase.FAILED:
+    //       this.documentConsumptionFailedSubject.next(status)
+    //       break
 
-        default:
-          break
-      }
-    } 
+    //     default:
+    //       break
+    //   }
+    // } 
   }
 
   fail(status: FileStatus, message: string) {

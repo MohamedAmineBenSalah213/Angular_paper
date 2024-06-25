@@ -88,6 +88,8 @@
                 </div>
 
                 <div class="btn-group ms-auto">
+                  
+
                     <button type="button" class="btn btn-sm btn-outline-secondary" (click)="discard()" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Discard</button>
                     <!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Document }" -->
                     <ng-container >

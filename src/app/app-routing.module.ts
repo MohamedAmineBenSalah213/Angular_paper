@@ -29,15 +29,23 @@ import { ConfigComponent } from './components/admin/config/config.component'
 import { FileShareListComponent } from './components/manage/file-share-list/file-share-list.component'
 import { LoginComponent } from './components/admin/login/login.component'
 import { authGuard } from './guards/auth.guard'
+import { MsalGuard } from '@azure/msal-angular'
+import { BrowserUtils } from '@azure/msal-browser'
+import { SettingsResolver } from './app.resolvers'
 
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+//  { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'dashboard' },
+ //{ path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: '',
     component: AppFrameComponent,
-    canActivate : [authGuard],
+    resolve: {
+      settings: SettingsResolver
+    },
+    //authGuard,
+    canActivate : [MsalGuard],
    /*  canDeactivate: [DirtyDocGuard], */
     children: [
       { path: 'dashboard', component: DashboardComponent },
@@ -257,11 +265,14 @@ export const routes: Routes = [
   },
 
   { path: '404', component: NotFoundComponent },
-  { path: '**', redirectTo: '/404', pathMatch: 'full' },
+ // { path: '**', redirectTo: '/404', pathMatch: 'full' },
 ]
-
+const isIframe = window !== window.parent && !window.opener;
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{initialNavigation: !BrowserUtils.isInIframe() && !BrowserUtils.isInPopup()
+    ? "enabledNonBlocking"
+    : "disabled",})],
   exports: [RouterModule],
 })
+
 export class AppRoutingModule {}

@@ -17,12 +17,14 @@ export class AbstractInputComponent<T> implements OnInit, ControlValueAccessor {
 
   constructor() {}
 
-  onChange = (newValue: T) => { console.log(this.value);}
+  onChange = (newValue: T) => { console.log("value",this.value);}
 
   onTouched = () => {}
 
   writeValue(newValue: any): void {
     this.value = newValue
+    this.onChange(newValue);
+    console.log("value",this.value)
   }
   registerOnChange(fn: any): void {
     this.onChange = fn
@@ -65,6 +67,7 @@ export class AbstractInputComponent<T> implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     this.inputId = uuidv4()
+    console.log("value",this.value,this.inputId )
   }
 
   inputId: string

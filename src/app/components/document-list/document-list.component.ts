@@ -102,6 +102,7 @@ export class DocumentListComponent
   }
 
   getSortFields() {
+
     return isFullTextFilterRule(this.list.filterRules)
       ? DOCUMENT_SORT_FIELDS_FULLTEXT
       : DOCUMENT_SORT_FIELDS
@@ -134,7 +135,7 @@ export class DocumentListComponent
 
   ngOnInit(): void {
 
-       debugger
+      console.log(this.list.selectionData)
 
     if (localStorage.getItem('document-list:displayMode') != null) {
       this.displayMode = localStorage.getItem('document-list:displayMode')
@@ -280,6 +281,7 @@ export class DocumentListComponent
   }
 
   clickTag(tagID: string) {
+    console.log("tagID",)
     this.list.selectNone()
     this.filterEditor.toggleTag(tagID)
   }

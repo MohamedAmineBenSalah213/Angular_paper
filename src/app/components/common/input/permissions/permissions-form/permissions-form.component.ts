@@ -3,21 +3,21 @@ import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { PaperlessUser } from 'src/app/data/paperless-user'
 import { AbstractInputComponent } from '../../abstract-input'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { MsalService } from '@azure/msal-angular'
+import { UserService } from 'src/app/services/rest/user.service'
+import { first } from 'rxjs'
 
 export interface PermissionsFormObject {
   owner?: string
   set_permissions?: {
-    view?: {
-      users?: string[]
-      groups?: string[]
-    }
-    change?: {
-      users?: string[]
-      groups?: string[]
-    }
+    view?: UserGroupPermission;
+    change?: UserGroupPermission;
   }
 }
-
+export interface UserGroupPermission {
+  users?: string[];
+  groups?: string[];
+}
 @Component({
   providers: [
     {
@@ -56,27 +56,53 @@ export class PermissionsFormComponent
  
   constructor(
     private oidcSecurityService: OidcSecurityService,
+    private msalService:MsalService,
+    userService: UserService,
   ) {
     super()
+    userService
+  .listAllCustom("list_user")
+  .pipe(first())
+  .subscribe({
+    next: (r) => {
+      //debugger
+      this.users = r.results
+      console.log(this.users.forEach(e=> console.log(
+       e)));
+      
+    },
+    error: (e) => {
+     console.log(e);
+     
+    },
+  })
   }
 
   ngOnInit(): void {
    
-    this.oidcSecurityService.getUserData().subscribe((userInfo: any) => {
-      this.username = userInfo.email;
-      this.form.get('owner').setValue(this.username);
+    const activeAccount = this.msalService.instance.getActiveAccount();
+    this.username=activeAccount.username;
+    this.form.get('owner').setValue(this.username);
+    const userData =this.form.get('set_permissions').value;
+
+  //   console.log(this.form+"form")
+  //  const transformedUsersView = userData.view.users.map(user => user.id);
+  //   this.form.get('set_permissions.view.users').setValue(transformedUsersView);
+
+     // Log the form value to verify it's set correctly
+
+    this.form.valueChanges.subscribe((value) => {
+      // console.log(this.form.value,transformedUsersView);
+      console.log(value);
+      this.onChange(value);
     });
-     this.form.valueChanges.subscribe((value) => {
-      debugger
-      this.onChange(value)
-    }) 
    
     
     
   }
 
   writeValue(newValue: any): void {
-    debugger
+   // debugger
     this.form.patchValue(newValue, { emitEvent: false })
   }
 

@@ -220,30 +220,32 @@ export class DocumentListViewService {
     this.isReloading = true
     this.error = null
     let activeListViewState = this.activeListViewState
-    console.log( this.documentService
+    // activeListViewState.currentPage,
+    // activeListViewState.pageSize ?? this.pageSize,
+    // activeListViewState.sortField,
+    // activeListViewState.sortReverse,
+    // activeListViewState.filterRules,
+    console.log("document",activeListViewState.filterRules,this.documentService
       .listFiltered(
         activeListViewState.currentPage,
         this.currentPageSize,
-          null,
+        activeListViewState.sortField,
           null,
           null,
           "list_document",
-          null
+          activeListViewState.filterRules
       ));
-    debugger
+    //debugger
       this.documentService
       .listFiltered(
         activeListViewState.currentPage,
         this.currentPageSize,
         activeListViewState.sortField,
-        activeListViewState.sortReverse,
-        activeListViewState.filterRules,
+        null,
+        null,
         "list_document",
-        { truncate_content: true }
+       null
       )
-      
-      
-    
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe({
         next: (result) => {

@@ -28,11 +28,11 @@ export class SavedViewService extends AbstractPaperlessService<PaperlessSavedVie
 
   private reload() {
     this.loading = true
-    this.listAll().subscribe((r) => {
-      this.savedViews = r.results
-      this.loading = false
-      this.settingsService.dashboardIsEmpty = this.dashboardViews.length === 0
-    })
+    // this.listAll().subscribe((r) => {
+    //   this.savedViews = r.results
+    //   this.loading = false
+    //   this.settingsService.dashboardIsEmpty = this.dashboardViews.length === 0
+    // })
   }
 
   private savedViews: PaperlessSavedView[] = []

@@ -5,6 +5,7 @@ import { PaperlessUser } from 'src/app/data/paperless-user'
 import { UserService } from 'src/app/services/rest/user.service'
 import { SettingsService } from 'src/app/services/settings.service'
 import { AbstractInputComponent } from '../../abstract-input'
+import { PaperlessGroup } from 'src/app/data/paperless-group'
 
 @Component({
   providers: [
@@ -25,7 +26,7 @@ export class PermissionsUserComponent extends AbstractInputComponent<
 
   constructor(userService: UserService, settings: SettingsService) {
     super()
-   
+ 
   userService
   .listAllCustom("list_user")
   .pipe(first())
@@ -33,8 +34,8 @@ export class PermissionsUserComponent extends AbstractInputComponent<
     next: (r) => {
       //debugger
       this.users = r.results
-      console.log(this.users.forEach(e=> console.log(
-       e)));
+      // console.log(this.users.forEach(e=> console.log(
+      //  e)));
       
     },
     error: (e) => {
@@ -42,7 +43,14 @@ export class PermissionsUserComponent extends AbstractInputComponent<
      
     },
   })
+  
 }
+onChange: (newValue: any) => void = (newValue: any) => { 
+  console.log("value", newValue); 
+};
+
+
+
 }
  /* userService
       .listAllCustom("list_user")

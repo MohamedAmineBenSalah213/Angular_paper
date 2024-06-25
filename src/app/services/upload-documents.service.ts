@@ -8,6 +8,7 @@ import {
 import { DocumentService } from './rest/document.service'
 import { Subscription } from 'rxjs'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { MsalService } from '@azure/msal-angular'
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ export class UploadDocumentsService {
   constructor(
     private documentService: DocumentService,
     private oidcSecurityService: OidcSecurityService,
-    private consumerStatusService: ConsumerStatusService
+    private consumerStatusService: ConsumerStatusService,
+    private msalService :MsalService
   ) {}
   id:string ="";
   onNgxFileDrop(files: NgxFileDropEntry[]) {
@@ -38,33 +40,32 @@ export class UploadDocumentsService {
 
   private uploadFile(file: File) {
     // get id
-    this.oidcSecurityService
-   .getUserData()
-   .subscribe((userInfo: any) => {
-     console.log('User Info:', userInfo);
-     // Access specific claims (e.g., email, sub, etc.)
-    this.id = userInfo.sub;
-   }); 
+    const activeAccount = this.msalService.instance.getActiveAccount();
+  //   this.oidcSecurityService
+  //  .getUserData()
+  //  .subscribe((userInfo: any) => {
+  //    console.log('User Info:', userInfo);
+  //    // Access specific claims (e.g., email, sub, etc.)
+  //   this.id = userInfo.sub;
+  //  }); 
+    this.id=activeAccount.idTokenClaims.oid;
     let formData = new FormData()
     formData.append('formData', file, file.name);
 
     formData.forEach((value: FormDataEntryValue, key: string) => {
-      console.log(key + ', ' + value);
+    console.log(key + ', ' + value);
   });
   const fileData = formData.get('formData') as File;
-console.log(fileData.name);
-    
-    let status = this.consumerStatusService.newFileUpload(file.name)
-
-    status.message = $localize`Connecting...`
-
-     this.uploadSubscriptions[file.name] = 
+  console.log(fileData.name,this.consumerStatusService.newFileUpload(file.name));
+  let status = this.consumerStatusService.newFileUpload(file.name)
+  status.message = $localize`Connecting...`
+  this.uploadSubscriptions[file.name] = 
     this.documentService
       .uploadDocument(formData,this.id)
       .subscribe({
         next: (event) => {
          console.log(event.type)
-         
+         console.log(event)
           if (event.type === HttpEventType.UploadProgress) {
             status.updateProgress(
               FileStatusPhase.UPLOADING,
@@ -73,9 +74,11 @@ console.log(fileData.name);
             )
             status.message = $localize`Uploading...`
           } else if (event.type === HttpEventType.Response) {
-          status.taskId = event.body['task_id']
+            console.log("event.body",event.body)
+          //    status.taskId = event.body['task_id']
             status.message = $localize`Upload complete, waiting...` 
             this.uploadSubscriptions[file.name]?.complete()
+            console.log(this.uploadSubscriptions[file.name]?.complete()+"complete")
           }
         },
         error: (error) => {

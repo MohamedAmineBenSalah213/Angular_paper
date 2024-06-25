@@ -25,6 +25,9 @@ export class PermissionsGroupComponent extends AbstractInputComponent<PaperlessG
     groupService
       .listAll()
       .pipe(first())
-      .subscribe((result) => (this.groups = result.results))
+      .subscribe((result) => {this.groups = result.results
+
+      })
   }
+ 
 }

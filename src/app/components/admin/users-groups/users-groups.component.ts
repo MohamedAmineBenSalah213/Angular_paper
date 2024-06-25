@@ -41,20 +41,7 @@ export class UsersAndGroupsComponent
   }
 
   ngOnInit(): void {
-    this.usersService
-      .listAllCustom("list_user")
-      .pipe(first(), takeUntil(this.unsubscribeNotifier))
-      .subscribe({
-        next: (r) => {
-          this.users = r.results
-          console.log(this.users.forEach(e=> console.log(
-           e.username +" "+e.normalizedUserName)));
-          
-        },
-        error: (e) => {
-          this.toastService.showError($localize`Error retrieving users`, e)
-        },
-      })
+    this.getAllUsers();
 
    /*  this.groupsService
       .listAll(null, null, null,{ full_perms: true })
@@ -68,7 +55,23 @@ export class UsersAndGroupsComponent
         },
       }) */
   }
-
+  getAllUsers(){
+    this.usersService
+    .listAllCustom("list_user")
+    .pipe(first(), takeUntil(this.unsubscribeNotifier))
+    .subscribe({
+      next: (r) => {
+        this.users = r.results
+        console.log(this.users.forEach(e=> console.log(
+         e)));
+        
+      },
+      error: (e) => {
+        this.toastService.showError($localize`Error retrieving users`, e)
+      },
+    })
+  }
+  
   ngOnDestroy() {
     this.unsubscribeNotifier.next(true)
   }
@@ -78,13 +81,17 @@ export class UsersAndGroupsComponent
       backdrop: 'static',
       size: 'xl',
     })
+    console.log("nwUser",user)
     modal.componentInstance.dialogMode = user
       ? EditDialogMode.EDIT
       : EditDialogMode.CREATE
     modal.componentInstance.object = user
+    console.log("nwUser", modal.componentInstance.dialogMode)
     modal.componentInstance.succeeded
+   
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe((newUser: PaperlessUser) => {
+        console.log("nwUser",modal.componentInstance.dialogMode,user,newUser)
         if (
           newUser.id === this.settings.currentUser.id &&
           (modal.componentInstance as UserEditDialogComponent).passwordIsSet
@@ -99,9 +106,7 @@ export class UsersAndGroupsComponent
           this.toastService.showInfo(
             $localize`Saved user "${newUser.username}".`
           )
-          this.usersService.listAll().subscribe((r) => {
-            this.users = r.results
-          })
+          this.getAllUsers();
         }
       })
     modal.componentInstance.failed
@@ -122,13 +127,10 @@ export class UsersAndGroupsComponent
     modal.componentInstance.btnCaption = $localize`Proceed`
     modal.componentInstance.confirmClicked.subscribe(() => {
       modal.componentInstance.buttonsEnabled = false
-      this.usersService.delete(user).subscribe({
+      this.usersService.delete(user,"delete_user").subscribe({
         next: () => {
           modal.close()
-          this.toastService.showInfo($localize`Deleted user`)
-          this.usersService.listAll().subscribe((r) => {
-            this.users = r.results
-          })
+          this.getAllUsers();
         },
         error: (e) => {
           this.toastService.showError($localize`Error deleting user.`, e)
