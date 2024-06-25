@@ -9,6 +9,7 @@ import { DEFAULT_MATCHING_ALGORITHM } from 'src/app/data/matching-model'
 import { UserService } from 'src/app/services/rest/user.service'
 import { SettingsService } from 'src/app/services/settings.service'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { MsalService } from '@azure/msal-angular'
 
 @Component({
   selector: 'pngx-tag-edit-dialog',
@@ -28,9 +29,10 @@ export class TagEditDialogComponent extends EditDialogComponent<PaperlessTag> {
     userService: UserService,
     settingsService: SettingsService,
    
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    msalService:MsalService
   ) {
-    super(service, activeModal, userService, settingsService)
+    super(service, activeModal, userService, settingsService,msalService)
   }
  
   getCreateTitle() {

@@ -9,6 +9,7 @@ import { CustomFieldsService } from 'src/app/services/rest/custom-fields.service
 import { UserService } from 'src/app/services/rest/user.service'
 import { SettingsService } from 'src/app/services/settings.service'
 import { EditDialogComponent, EditDialogMode } from '../edit-dialog.component'
+import { MsalService } from '@azure/msal-angular'
 
 @Component({
   selector: 'pngx-custom-field-edit-dialog',
@@ -24,9 +25,10 @@ export class CustomFieldEditDialogComponent
     service: CustomFieldsService,
     activeModal: NgbActiveModal,
     userService: UserService,
-    settingsService: SettingsService
+    settingsService: SettingsService,
+    msalService:MsalService
   ) {
-    super(service, activeModal, userService, settingsService)
+    super(service, activeModal, userService, settingsService,msalService)
   }
 
   ngOnInit(): void {

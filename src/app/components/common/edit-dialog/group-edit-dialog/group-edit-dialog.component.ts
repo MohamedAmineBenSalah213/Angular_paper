@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
+import { MsalService } from '@azure/msal-angular'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { EditDialogComponent } from 'src/app/components/common/edit-dialog/edit-dialog.component'
 import { PaperlessGroup } from 'src/app/data/paperless-group'
@@ -23,9 +24,10 @@ export class GroupEditDialogComponent extends EditDialogComponent<PaperlessGroup
     service: GroupService,
     activeModal: NgbActiveModal,
     userService: UserService,
-    settingsService: SettingsService
+    settingsService: SettingsService,
+    msalService:MsalService
   ) {
-    super(service, activeModal, userService, settingsService)
+    super(service, activeModal, userService, settingsService,msalService)
   }
 
   getCreateTitle() {

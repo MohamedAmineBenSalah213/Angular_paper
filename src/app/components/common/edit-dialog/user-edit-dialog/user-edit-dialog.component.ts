@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
+import { MsalService } from '@azure/msal-angular'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
 import { first } from 'rxjs'
@@ -33,9 +34,10 @@ export class UserEditDialogComponent
     activeModal: NgbActiveModal,
     groupsService: GroupService,
     
-    settingsService: SettingsService
+    settingsService: SettingsService,
+     msalService:MsalService
   ) {
-    super(service, activeModal, service, settingsService)
+    super(service, activeModal, service, settingsService,msalService)
 
    /*  groupsService
       .listAll()

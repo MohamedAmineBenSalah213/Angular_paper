@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { FormArray, FormControl, FormGroup } from '@angular/forms'
+import { MsalService } from '@azure/msal-angular'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { Subject } from 'rxjs'
 import { first, takeUntil } from 'rxjs/operators'
@@ -33,8 +34,9 @@ export class DocumentTypeEditDialogComponent extends EditDialogComponent<Paperle
     userService: UserService,
     settingsService: SettingsService,
     private customFieldsService: CustomFieldsService,
+    msalService:MsalService
   ) {
-    super(service, activeModal, userService, settingsService)
+    super(service, activeModal, userService, settingsService,msalService)
   }
   ngOnInit() {
     //super.ngOnInit();

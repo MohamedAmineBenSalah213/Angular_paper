@@ -20,6 +20,7 @@ import { EditDialogComponent } from '../edit-dialog.component'
 import { MailRuleService } from 'src/app/services/rest/mail-rule.service'
 import { PaperlessMailRule } from 'src/app/data/paperless-mail-rule'
 import { DEFAULT_MATCHING_ALGORITHM, MATCHING_ALGORITHMS, MATCH_AUTO } from 'src/app/data/matching-model'
+import { MsalService } from '@azure/msal-angular'
 export const WORKFLOW_TYPE_OPTIONS = [
   {
     id: WorkflowTriggerType.Consumption,
@@ -73,9 +74,10 @@ export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<
     storagePathService: StoragePathService,
     mailRuleService: MailRuleService,
     userService: UserService,
-    settingsService: SettingsService
+    settingsService: SettingsService,
+    msalService:MsalService
   ) {
-    super(service, activeModal, userService, settingsService)
+    super(service, activeModal, userService, settingsService,msalService)
 
     correspondentService
       .listAll(null,null,"list_correspondent",null)

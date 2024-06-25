@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
+import { MsalService } from '@azure/msal-angular'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { first } from 'rxjs'
 import { EditDialogComponent } from 'src/app/components/common/edit-dialog/edit-dialog.component'
@@ -127,9 +128,10 @@ export class MailRuleEditDialogComponent extends EditDialogComponent<PaperlessMa
     correspondentService: CorrespondentService,
     documentTypeService: DocumentTypeService,
     userService: UserService,
-    settingsService: SettingsService
+    settingsService: SettingsService,
+    msalService:MsalService
   ) {
-    super(service, activeModal, userService, settingsService)
+    super(service, activeModal, userService, settingsService,msalService)
 
     accountService
       .listAll()

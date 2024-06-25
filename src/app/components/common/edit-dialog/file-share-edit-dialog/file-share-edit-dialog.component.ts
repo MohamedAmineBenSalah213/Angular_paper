@@ -6,6 +6,7 @@ import { SettingsService } from 'src/app/services/settings.service';
 import { EditDialogComponent } from '../edit-dialog.component';
 import { FileShare } from 'src/app/data/file-share';
 import { FileShareService } from 'src/app/services/rest/file-share.service';
+import { MsalService } from '@azure/msal-angular';
 
 
 @Component({
@@ -18,9 +19,10 @@ export class FileShareEditDialogComponent extends EditDialogComponent<FileShare>
     service: FileShareService ,
    activeModal: NgbActiveModal,
     userService: UserService,
-    settingsService: SettingsService
+    settingsService: SettingsService,
+    msalService:MsalService
   ) {
-    super(service, activeModal, userService, settingsService);
+    super(service, activeModal, userService, settingsService,msalService);
   }
 
   getCreateTitle() {

@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
+import { MsalService } from '@azure/msal-angular'
 import { NgbActiveModal, NgbAlert } from '@ng-bootstrap/ng-bootstrap'
 import { EditDialogComponent } from 'src/app/components/common/edit-dialog/edit-dialog.component'
 import {
@@ -38,9 +39,10 @@ export class MailAccountEditDialogComponent extends EditDialogComponent<Paperles
     service: MailAccountService,
     activeModal: NgbActiveModal,
     userService: UserService,
-    settingsService: SettingsService
+    settingsService: SettingsService,
+    msalService:MsalService
   ) {
-    super(service, activeModal, userService, settingsService)
+    super(service, activeModal, userService, settingsService,msalService)
   }
 
   getCreateTitle() {

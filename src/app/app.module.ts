@@ -144,6 +144,7 @@ import { InteractionType, PublicClientApplication } from '@azure/msal-browser'
 import { AzureAdDemoService } from './azure-ad-demo.service'
 import { AuthInterceptorInterceptor } from './interceptors/auth.interceptor'
 import { authority, clientId, isIE, loginRequest, protectedResources, redirectUri } from './components/admin/authConfig/msal-config'
+import { FixDocumentsDropdownComponent } from './components/common/fix-documents-dropdown/fix-documents-dropdown.component'
 
 
 registerLocaleData(localeAf)
@@ -267,7 +268,7 @@ registerLocaleData(localeZh)
     DataExtractionDropdownComponent,
     FileShareListComponent,
     FileShareEditDialogComponent,
-
+    FixDocumentsDropdownComponent,
 
    
   ],

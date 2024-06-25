@@ -19,6 +19,7 @@ import {
 } from './rest/document.service'
 import { SettingsService } from './settings.service'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { MsalService } from '@azure/msal-angular'
 
 /**
  * Captures the current state of the list view.
@@ -102,7 +103,7 @@ export class DocumentListViewService {
   constructor(
     private documentService: DocumentService,
     private settings: SettingsService,
-    private oidcSecurityService: OidcSecurityService,
+    private msalService: MsalService,
     private router: Router
   ) {
     let documentListViewConfigJson = localStorage.getItem(
@@ -224,21 +225,11 @@ export class DocumentListViewService {
     this.isReloading = true
     this.error = null
     let activeListViewState = this.activeListViewState
-    // activeListViewState.currentPage,
-    // activeListViewState.pageSize ?? this.pageSize,
-    // activeListViewState.sortField,
-    // activeListViewState.sortReverse,
-    // activeListViewState.filterRules,
-    console.log("document",activeListViewState.filterRules,this.documentService
-      .listFiltered(
-        activeListViewState.currentPage,
-        this.currentPageSize,
-        activeListViewState.sortField,
-          null,
-          null,
-          "list_document"
-      ));
-    //debugger
+   
+  
+   debugger
+   const activeAccount = this.msalService.instance.getActiveAccount();
+   this.id=activeAccount.idTokenClaims.oid;
       this.documentService
       .listFiltered(
         activeListViewState.currentPage,
@@ -250,6 +241,9 @@ export class DocumentListViewService {
           this.id,
           { truncate_content: true }
       )
+      
+      
+    
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe({
         next: (result) => {
@@ -328,6 +322,7 @@ export class DocumentListViewService {
       { truncate_content: true } */
     
 }
+
 
   set filterRules(filterRules: FilterRule[]) {
     if (
