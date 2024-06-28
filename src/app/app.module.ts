@@ -140,8 +140,14 @@ import { DataExtractionDropdownComponent } from './components/common/data-extrac
 import { FileShareListComponent } from './components/manage/file-share-list/file-share-list.component';
 import { FileShareEditDialogComponent } from './components/common/edit-dialog/file-share-edit-dialog/file-share-edit-dialog.component';
 import { AuthModule, LogLevel } from 'angular-auth-oidc-client'
+<<<<<<< HEAD
 import { AuthInterceptorInterceptor } from './interceptors/auth.interceptor'
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts'
+=======
+import { AuthInterceptorInterceptor } from './interceptors/auth.interceptor';
+import { FixDocumentsDropdownComponent } from './components/common/fix-documents-dropdown/fix-documents-dropdown.component';
+
+>>>>>>> f54012f75dc7546890ad917257a61b1c305de0bd
 
 
 registerLocaleData(localeAf)
@@ -268,6 +274,8 @@ function initializeApp(settings: SettingsService) {
     DataExtractionDropdownComponent,
     FileShareListComponent,
     FileShareEditDialogComponent,
+    FixDocumentsDropdownComponent,
+
    
   ],
   imports: [
@@ -308,12 +316,12 @@ function initializeApp(settings: SettingsService) {
       useClass: AuthInterceptorInterceptor,
       multi:true
     },
-    {
+    /* {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
       deps: [SettingsService],
       multi: true,
-    },
+    }, */
 
     DatePipe,
     CookieService,

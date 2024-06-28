@@ -11,6 +11,7 @@ import { TagService } from 'src/app/services/rest/tag.service'
 import { ToastService } from 'src/app/services/toast.service'
 import { TagEditDialogComponent } from '../../common/edit-dialog/tag-edit-dialog/tag-edit-dialog.component'
 import { ManagementListComponent } from '../management-list/management-list.component'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 @Component({
   selector: 'pngx-tag-list',
@@ -27,7 +28,7 @@ export class TagListComponent extends ManagementListComponent<PaperlessTag> {
     toastService: ToastService,
     documentListViewService: DocumentListViewService,
     permissionsService: PermissionsService,
-    
+    oidcSecurityService :OidcSecurityService
   ) {
     super(
       tagService,
@@ -36,6 +37,7 @@ export class TagListComponent extends ManagementListComponent<PaperlessTag> {
       toastService,
       documentListViewService,
       permissionsService,
+      oidcSecurityService,
       FILTER_HAS_TAGS_ALL,
       $localize`tag`,
       $localize`tags`,

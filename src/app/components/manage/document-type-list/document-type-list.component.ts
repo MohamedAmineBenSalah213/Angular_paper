@@ -11,6 +11,7 @@ import { DocumentTypeService } from 'src/app/services/rest/document-type.service
 import { ToastService } from 'src/app/services/toast.service'
 import { DocumentTypeEditDialogComponent } from '../../common/edit-dialog/document-type-edit-dialog/document-type-edit-dialog.component'
 import { ManagementListComponent } from '../management-list/management-list.component'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 @Component({
   selector: 'pngx-document-type-list',
@@ -27,7 +28,7 @@ export class DocumentTypeListComponent extends ManagementListComponent<Paperless
     toastService: ToastService,
     documentListViewService: DocumentListViewService,
     permissionsService: PermissionsService,
-   
+    oidcSecurityService: OidcSecurityService
   ) {
     super(
       documentTypeService,
@@ -36,6 +37,7 @@ export class DocumentTypeListComponent extends ManagementListComponent<Paperless
       toastService,
       documentListViewService,
       permissionsService,
+      oidcSecurityService,
       FILTER_HAS_DOCUMENT_TYPE_ANY,
       $localize`document type`,
       $localize`document types`,

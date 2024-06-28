@@ -1,5 +1,9 @@
 <pngx-page-header title="Settings" i18n-title>
-  <button class="btn btn-sm btn-outline-primary" (click)="tourService.start()"><ng-container i18n>Start tour</ng-container></button>
+  <button class="btn btn-sm btn-outline-primary" (click)="tourService.start()">
+    <svg class="sidebaricon" fill="currentColor">
+      <use xlink:href="assets/bootstrap-icons.svg#airplane"/>
+    </svg>&nbsp;<ng-container i18n>Star tour </ng-container>
+  </button>
   
 </pngx-page-header>
 

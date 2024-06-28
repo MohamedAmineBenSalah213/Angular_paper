@@ -10,7 +10,7 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
   protected baseUrl: string = environment.apiBaseUrl
   constructor(
     protected http: HttpClient,
-    protected resourceName: string
+    protected resourceName: string,
   ) {}
 
   protected getResourceUrl(id: string = null, action: string = null): string {
@@ -38,6 +38,7 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
     sortField?: string,
     sortReverse?: boolean,
     path?:string,
+    id?:string,
     extraParams?
   ): Observable<Results<T>> {
     let httpParams = new HttpParams()
@@ -51,6 +52,9 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
     if (ordering) {
       httpParams = httpParams.set('ordering', ordering)
     } 
+    if(id){
+      httpParams = httpParams.set('owner', id)
+    }
      for (let extraParamKey in extraParams) {
       if (extraParams[extraParamKey] != null) {
         httpParams = httpParams.set(extraParamKey, extraParams[extraParamKey])

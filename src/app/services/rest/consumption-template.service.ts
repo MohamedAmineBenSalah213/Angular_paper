@@ -11,12 +11,12 @@ export class ConsumptionTemplateService extends AbstractPaperlessService<Paperle
   loading: boolean
 
   constructor(http: HttpClient) {
-    super(http, 'consumption_templates')
+    super(http, 'template')
   }
 
   public reload() {
     this.loading = true
-    this.listAll().subscribe((r) => {
+    this.listAllCustom("list_templates").subscribe((r) => {
       this.templates = r.results
       this.loading = false
     })
@@ -29,11 +29,11 @@ export class ConsumptionTemplateService extends AbstractPaperlessService<Paperle
   }
 
   create(o: PaperlessConsumptionTemplate) {
-    return super.create(o).pipe(tap(() => this.reload()))
+    return super.create(o,"add_template").pipe(tap(() => this.reload()))
   }
 
   update(o: PaperlessConsumptionTemplate) {
-    return super.update(o).pipe(tap(() => this.reload()))
+    return super.update(o,"").pipe(tap(() => this.reload()))
   }
 
   delete(o: PaperlessConsumptionTemplate) {

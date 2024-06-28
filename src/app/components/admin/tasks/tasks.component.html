@@ -34,7 +34,7 @@
         </th>
         <th scope="col" i18n>Name</th>
         <th scope="col" class="d-none d-lg-table-cell" i18n>Created</th>
-        <th scope="col" class="d-none d-lg-table-cell" *ngIf="activeTab !== 'started' && activeTab !== 'queued'" i18n>Results</th>
+        <th scope="col" class="d-none d-lg-table-cell" i18n>Problem</th>
         <th scope="col" class="d-table-cell d-lg-none" i18n>Info</th>
         <th scope="col" i18n>Actions</th>
       </tr>
@@ -48,18 +48,46 @@
             <label class="form-check-label" for="task{{task.id}}"></label>
           </div>
         </td>
-        <td class="overflow-auto name-col">{{ task.task_file_name }}</td>
-        <td class="d-none d-lg-table-cell">{{ task.date_created | customDate:'short' }}</td>
-        <td class="d-none d-lg-table-cell" *ngIf="activeTab !== 'started' && activeTab !== 'queued'">
-          <div *ngIf="task.result?.length > 50" class="result" (click)="expandTask(task); $event.stopPropagation();"
-            [ngbPopover]="resultPopover" popoverClass="shadow small mobile" triggers="mouseenter:mouseleave" container="body">
-            <span class="small d-none d-md-inline-block font-monospace text-muted">{{ task.result | slice:0:50 }}&hellip;</span>
+        <td class="overflow-auto name-col">{{ task.task_document.title }}</td>
+        <td class="d-none d-lg-table-cell">{{ task.task_document.createdOn | customDate:'short' }}</td>
+        <td class="d-none d-lg-table-cell">
+          <div  *ngIf="task.task_problem == 1 "class="result" 
+           popoverClass="shadow small mobile" triggers="mouseenter:mouseleave" container="body">
+            <span class="small d-none d-md-inline-block font-monospace text-muted">Problem : No Owner</span>
           </div>
-          <span *ngIf="task.result?.length <= 50" class="small d-none d-md-inline-block font-monospace text-muted">{{ task.result }}</span>
-          <ng-template #resultPopover>
+          <div  *ngIf="task.task_problem == 2 "class="result" 
+           popoverClass="shadow small mobile" triggers="mouseenter:mouseleave" container="body">
+            <span class="small d-none d-md-inline-block font-monospace text-muted">Problem : No Correspondent</span>
+          </div>
+          <div  *ngIf="task.task_problem == 3 "class="result" 
+           popoverClass="shadow small mobile" triggers="mouseenter:mouseleave" container="body">
+            <span class="small d-none d-md-inline-block font-monospace text-muted">Problem : No Owner No Correspondent</span>
+          </div>
+          <!-- <span *ngIf="task.result?.length <= 50" class="small d-none d-md-inline-block font-monospace text-muted">{{ task.result }}</span> -->
+          <!-- <ng-template #resultPopover>
             <pre class="small mb-0">{{ task.result | slice:0:300 }}<ng-container *ngIf="task.result.length > 300">&hellip;</ng-container></pre>
             <ng-container *ngIf="task.result?.length > 300"><br/><em>(<ng-container i18n>click for full output</ng-container>)</em></ng-container>
-          </ng-template>
+          </ng-template> -->
+        </td>
+        <td>
+          <ng-container><!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Document }" -->
+         <!--    <pngx-fix-documents-dropdown  class="me-5" [documentId]="task.task_document.id" ></pngx-fix-documents-dropdown>
+ -->
+            <button *ngIf="task.task_document.id"  class="btn btn-sm btn-outline-primary" (click)="fixproblem(task); $event.stopPropagation();">
+              <svg class="sidebaricon" fill="currentColor">
+                <use xlink:href="assets/bootstrap-icons.svg#exclamation-square"/>
+              </svg>&nbsp;<ng-container i18n>Fix</ng-container>
+            </button>
+          </ng-container>
+
+          <ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Document }">
+            <button *ngIf="task.task_document.id" class="btn btn-sm btn-outline-primary" (click)="dismissAndGo(task); $event.stopPropagation();">
+              <svg class="sidebaricon" fill="currentColor">
+                <use xlink:href="assets/bootstrap-icons.svg#file-text"/>
+              </svg>&nbsp;<ng-container i18n>Open Document</ng-container>
+            </button>
+          </ng-container>
+        
         </td>
         <td class="d-lg-none">
           <button class="btn btn-link" (click)="expandTask(task); $event.stopPropagation();">
@@ -75,7 +103,7 @@
                 <use xlink:href="assets/bootstrap-icons.svg#check"/>
               </svg>&nbsp;<ng-container i18n>Dismiss</ng-container>
             </button>
-            <ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Document }">
+            <ng-container><!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Document }" -->
               <button *ngIf="task.related_document" class="btn btn-sm btn-outline-primary" (click)="dismissAndGo(task); $event.stopPropagation();">
                 <svg class="sidebaricon" fill="currentColor">
                   <use xlink:href="assets/bootstrap-icons.svg#file-text"/>
@@ -109,13 +137,21 @@
     </ng-template>
   </li>
   <li ngbNavItem="started">
+<<<<<<< HEAD
     <a ngbNavLink i18n>File Share<span *ngIf="tasksService.startedFileTasks.length > 0" class="badge bg-secondary ms-2">{{tasksService.startedFileTasks.length}}</span></a>
+=======
+    <a ngbNavLink i18n>Mail<span *ngIf="tasksService.startedFileTasks.length > 0" class="badge bg-secondary ms-2">{{tasksService.startedFileTasks.length}}</span></a>
+>>>>>>> f54012f75dc7546890ad917257a61b1c305de0bd
     <ng-template ngbNavContent>
       <ng-container [ngTemplateOutlet]="tasksTemplate" [ngTemplateOutletContext]="{tasks:tasksService.startedFileTasks}"></ng-container>
     </ng-template>
   </li>
   <li ngbNavItem="queued">
+<<<<<<< HEAD
     <a ngbNavLink i18n>Mail<span *ngIf="tasksService.queuedFileTasks.length > 0" class="badge bg-secondary ms-2">{{tasksService.queuedFileTasks.length}}</span></a>
+=======
+    <a ngbNavLink i18n>File Share<span *ngIf="tasksService.queuedFileTasks.length > 0" class="badge bg-secondary ms-2">{{tasksService.queuedFileTasks.length}}</span></a>
+>>>>>>> f54012f75dc7546890ad917257a61b1c305de0bd
     <ng-template ngbNavContent>
       <ng-container [ngTemplateOutlet]="tasksTemplate" [ngTemplateOutletContext]="{tasks:tasksService.queuedFileTasks}"></ng-container>
     </ng-template>

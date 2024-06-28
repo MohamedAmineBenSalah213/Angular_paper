@@ -450,12 +450,15 @@ get isRTL() {
     this.document = doc
     this.requiresPassword = false
      this.updateFormForCustomFields()
-    /* this.documentsService
+     debugger
+     this.documentsService
       .getMetadata(doc.id)
       .pipe(first())
       .subscribe({
         next: (result) => {
           this.metadata = result
+
+          console.log(this.metadata)
         },
         error: (error) => {
           this.metadata = null
@@ -464,14 +467,14 @@ get isRTL() {
             error
           )
         },
-      }) */
-    /* if (
+      }) 
+    /*  if (
       this.permissionsService.currentUserHasObjectPermissions(
         PermissionAction.Change,
         doc
       )
     ) {
-      /*this.documentsService
+     this.documentsService
         .getSuggestions(doc.id)
         .pipe(first(), takeUntil(this.unsubscribeNotifier))
         .subscribe({
@@ -598,7 +601,7 @@ get isRTL() {
   save(close: boolean = false) {
     this.networkActive = true
     console.log(this.document);
-    
+    debugger
     this.documentsService
       .update(this.document,"save")
       .pipe(first())
@@ -810,14 +813,13 @@ get isRTL() {
   }
 
    get notesEnabled(): boolean {
-    return true/*  (
+    return   (
       this.settings.get(SETTINGS_KEYS.NOTES_ENABLED) &&
       this.permissionsService.currentUserCan(
         PermissionAction.View,
         PermissionType.Note
       )
-    ) */ 
-  } 
+    )   } 
 
   notesUpdated(notes: PaperlessDocumentNote[]) {
     console.log(this.document.notes)
@@ -835,7 +837,12 @@ get isRTL() {
   }
 
   get userCanEdit(): boolean {
+<<<<<<< HEAD
    let doc: PaperlessDocument = Object.assign({}, this.document)
+=======
+  /*   debugger
+    let doc: PaperlessDocument = Object.assign({}, this.document)
+>>>>>>> f54012f75dc7546890ad917257a61b1c305de0bd
     // dont disable while editing
     if (this.document && this.store?.value.permissions_form?.owner) {
       doc.owner = this.store?.value.permissions_form?.owner

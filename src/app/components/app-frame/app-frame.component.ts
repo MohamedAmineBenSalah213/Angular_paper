@@ -78,7 +78,10 @@ export class AppFrameComponent
     private readonly toastService: ToastService,
     permissionsService: PermissionsService,
     private oidcSecurityService: OidcSecurityService,
+<<<<<<< HEAD
     
+=======
+>>>>>>> f54012f75dc7546890ad917257a61b1c305de0bd
   ) {
     super()
 
@@ -287,5 +290,12 @@ export class AppFrameComponent
     this.oidcSecurityService
       .logoff()
       .subscribe((result) => console.log('okkk', result));
+  }
+  logout() {
+    
+    this.oidcSecurityService
+      .logoff()
+      .subscribe((result) => console.log('okkk', result));
+      sessionStorage.clear()
   }
 }

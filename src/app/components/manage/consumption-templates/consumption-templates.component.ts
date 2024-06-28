@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core'
 import { ConsumptionTemplateService } from 'src/app/services/rest/consumption-template.service'
 import { ComponentWithPermissions } from '../../with-permissions/with-permissions.component'
 import { Subject, takeUntil } from 'rxjs'
-import { PaperlessConsumptionTemplate } from 'src/app/data/paperless-consumption-template'
+import { PaperlessConsumptionTemplate, WorkflowTriggerType } from 'src/app/data/paperless-consumption-template'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { ToastService } from 'src/app/services/toast.service'
 import { PermissionsService } from 'src/app/services/permissions.service'
 import {
   ConsumptionTemplateEditDialogComponent,
   DOCUMENT_SOURCE_OPTIONS,
+  WORKFLOW_TYPE_OPTIONS,
 } from '../../common/edit-dialog/consumption-template-edit-dialog/consumption-template-edit-dialog.component'
 import { ConfirmDialogComponent } from '../../common/confirm-dialog/confirm-dialog.component'
 import { EditDialogMode } from '../../common/edit-dialog/edit-dialog.component'
@@ -41,20 +42,33 @@ export class ConsumptionTemplatesComponent
 
   reload() {
     this.consumptionTemplateService
-      .listAll()
+      .listAll(null,null,"list_templates",null)
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe((r) => {
         this.templates = r.results
       })
   }
 
-  getSourceList(template: PaperlessConsumptionTemplate): string {
-    return template.sources
-      .map((id) => DOCUMENT_SOURCE_OPTIONS.find((s) => s.id === id).name)
-      .join(', ')
+  getWorkflowTriggerTypeString(type: WorkflowTriggerType): string {
+    switch (type) {
+      case WorkflowTriggerType.Consumption:
+        return 'Consumption';
+      case WorkflowTriggerType.DocumentAdded:
+        return 'DocumentAdded';
+      case WorkflowTriggerType.DocumentUpdated:
+        return 'DocumentUpdated';
+      default:
+        return 'Unknown';
+    }
   }
-
-  editTemplate(rule: PaperlessConsumptionTemplate) {
+  
+  // Function to get the type as string from PaperlessConsumptionTemplate
+   getSourceList(template: PaperlessConsumptionTemplate): string {
+    return this.getWorkflowTriggerTypeString(template.type);
+  }
+  
+  createTemplate() {
+   
     const modal = this.modalService.open(
       ConsumptionTemplateEditDialogComponent,
       {
@@ -62,9 +76,33 @@ export class ConsumptionTemplatesComponent
         size: 'xl',
       }
     )
-    modal.componentInstance.dialogMode = rule
-      ? EditDialogMode.EDIT
-      : EditDialogMode.CREATE
+    modal.componentInstance.dialogMode =EditDialogMode.CREATE
+    modal.componentInstance.succeeded
+      .pipe(takeUntil(this.unsubscribeNotifier))
+      .subscribe((newTemplate) => {
+        this.toastService.showInfo(
+          $localize`Successfully created template "${newTemplate.name}".`
+        )
+        this.consumptionTemplateService.clearCache()
+        this.reload()
+      })
+    modal.componentInstance.failed
+      .pipe(takeUntil(this.unsubscribeNotifier))
+      .subscribe((e) => {
+        this.toastService.showError($localize`Error saving template.`, e)
+      })
+  }
+  editTemplate(rule: PaperlessConsumptionTemplate) {
+    debugger
+    const modal = this.modalService.open(
+      ConsumptionTemplateEditDialogComponent,
+      {
+        backdrop: 'static',
+        size: 'xl',
+      }
+    )
+    modal.componentInstance.dialogMode = EditDialogMode.EDIT
+      
     modal.componentInstance.object = rule
     modal.componentInstance.succeeded
       .pipe(takeUntil(this.unsubscribeNotifier))

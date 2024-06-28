@@ -78,7 +78,7 @@ export class SavedViewWidgetComponent
 
   reload() {
     this.loading = this.documents.length == 0
-    this.documentService
+    /* this.documentService
       .listFiltered(
         1,
         10,
@@ -92,8 +92,8 @@ export class SavedViewWidgetComponent
       .subscribe((result) => {
         this.loading = false
         this.documents = result.results
-      })
-  }
+      })*/
+  } 
 
   showAll() {
     if (this.savedView.show_in_sidebar) {

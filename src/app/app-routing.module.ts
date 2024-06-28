@@ -29,6 +29,7 @@ import { ConfigComponent } from './components/admin/config/config.component'
 import { FileShareListComponent } from './components/manage/file-share-list/file-share-list.component'
 import { LoginComponent } from './components/admin/login/login.component'
 import { authGuard } from './guards/auth.guard'
+import { SettingsResolver } from './resolvers/settings.resolver'
 
 
 export const routes: Routes = [
@@ -37,6 +38,9 @@ export const routes: Routes = [
   {
     path: '',
     component: AppFrameComponent,
+    resolve: {
+      settings: SettingsResolver
+    },
     canActivate : [authGuard],
    /*  canDeactivate: [DirtyDocGuard], */
     children: [
@@ -201,7 +205,11 @@ export const routes: Routes = [
       {
         path: 'tasks',
         component: TasksComponent,
+<<<<<<< HEAD
       /*   canActivate: [PermissionsGuard],
+=======
+       /*  canActivate: [PermissionsGuard],
+>>>>>>> f54012f75dc7546890ad917257a61b1c305de0bd
         data: {
           requiredPermission: {
             action: PermissionAction.View,

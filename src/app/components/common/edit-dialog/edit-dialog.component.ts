@@ -16,7 +16,7 @@ import { UserService } from 'src/app/services/rest/user.service'
 import { PermissionsFormObject } from '../input/permissions/permissions-form/permissions-form.component'
 import { SettingsService } from 'src/app/services/settings.service'
 import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
-import { OidcSecurityService } from 'angular-auth-oidc-client'
+
 
 export enum EditDialogMode {
   CREATE = 0,
@@ -180,13 +180,14 @@ export abstract class EditDialogComponent<
     var serverResponse: Observable<T>
     switch (this.dialogMode) {
       case EditDialogMode.CREATE:
-       // debugger
+        debugger
          if (newObject.matching_algorithm== MATCH_AUTO){
            if(newObject.ExtractedData)
             {
               console.log(newObject.ExtractedData);
               
             }
+<<<<<<< HEAD
        
           /* const userData = sessionStorage.getItem('0-angularclient');
           if (userData) {
@@ -199,10 +200,22 @@ export abstract class EditDialogComponent<
             
           newObject.owner = id; */
           
+=======
+          newObject.DocumentTags = [];
+          const userData = sessionStorage.getItem('0-angularclient');
+        if (userData) {
+              // Parse the JSON string into an object
+         const tokenObject = JSON.parse(userData); 
+         // Extract the access token
+         const id = tokenObject?.userData?.sub;
+         newObject.owner = id;
+        }
+>>>>>>> f54012f75dc7546890ad917257a61b1c305de0bd
           serverResponse = this.service.create(newObject,this.getAction())
          }
 
         if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_AUTO ){
+
           if(newObject.match!=""){
           newObject.match = this.splitIntoList(newObject.match); 
           console.log(newObject.match) 
@@ -210,6 +223,7 @@ export abstract class EditDialogComponent<
           else
            newObject.match=[]
    
+<<<<<<< HEAD
         console.log(newObject);
        /*  const userData = sessionStorage.getItem('0-angularclient');
         if (userData) {
@@ -223,6 +237,17 @@ export abstract class EditDialogComponent<
         newObject.owner = id; 
         }*/
         
+=======
+        //console.log(newObject);
+        const userData = sessionStorage.getItem('0-angularclient');
+        if (userData) {
+              // Parse the JSON string into an object
+         const tokenObject = JSON.parse(userData); 
+         // Extract the access token
+         const id = tokenObject?.userData?.sub;
+         newObject.owner = id;
+        }
+>>>>>>> f54012f75dc7546890ad917257a61b1c305de0bd
         serverResponse = this.service.create(newObject,this.getAction())
         }
         else{
@@ -236,13 +261,27 @@ export abstract class EditDialogComponent<
             if(newObject.match){
             newObject.match = this.splitIntoList(newObject.match); 
             }
-          
-        
+       const userData = sessionStorage.getItem('0-angularclient');
+        if (userData) {
+              // Parse the JSON string into an object
+         const tokenObject = JSON.parse(userData); 
+         // Extract the access token
+         const id = tokenObject?.userData?.sub;
+         newObject.owner = id;
+        }
         console.log(this.getActionupdate())
         serverResponse = this.service.update(newObject,this.getActionupdate())
         }
         if(newObject.matching_algorithm== MATCH_NONE){
           newObject.match= [];
+          const userData = sessionStorage.getItem('0-angularclient');
+        if (userData) {
+              // Parse the JSON string into an object
+         const tokenObject = JSON.parse(userData); 
+         // Extract the access token
+         const id = tokenObject?.userData?.sub;
+         newObject.owner = id;
+        }
            console.log(this.getActionupdate())
           serverResponse = this.service.update(newObject,this.getActionupdate())
         }

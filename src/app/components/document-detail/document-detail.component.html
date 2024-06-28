@@ -1,12 +1,12 @@
 <pngx-page-header [(title)]="title">
     <div class="input-group input-group-sm me-5 d-none d-md-flex"><!--  *ngIf="getContentType() === 'application/pdf' && !useNativePdfViewer" -->
       <div class="input-group-text" i18n>Page</div>
-      <!-- *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.Document }" -->
+      <!--  -->
       <input class="form-control flex-grow-0 w-auto" type="number" min="1" [max]="previewNumPages" [(ngModel)]="previewCurrentPage" />
       <div class="input-group-text" i18n>of {{previewNumPages}}</div>
     </div>
 
-    <button type="button" class="btn btn-sm btn-outline-danger me-4" (click)="delete()" [disabled]="!userIsOwner" >
+    <button type="button" class="btn btn-sm btn-outline-danger me-4" (click)="delete()" [disabled]="!userIsOwner" *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.Document }" >
         <svg class="buttonicon" fill="currentColor">
             <use xlink:href="assets/bootstrap-icons.svg#trash" />
         </svg><span class="d-none d-lg-inline ps-1" i18n>Delete</span>
@@ -49,19 +49,19 @@
         </div>
     
     </div>
-<!--   *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.CustomField }" -->
-<!--  [disabled]="!userIsOwner" -->
+<!--  -->
+<!--   -->
     <pngx-custom-fields-dropdown
-      
+    *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.CustomField }"
         class="me-2"
         [documentId]="documentId"
-       
+        [disabled]="!userIsOwner"
         [existingFields]="document?.custom_fields"
         (created)="refreshCustomFields()"
         (added)="addField($event)">
     </pngx-custom-fields-dropdown>
-<!-- *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.ShareLink }" -->
-    <pngx-share-links-dropdown [documentId]="documentId" [disabled]="!userIsOwner" ></pngx-share-links-dropdown>
+
+    <pngx-share-links-dropdown [documentId]="documentId" [disabled]="!userIsOwner" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.ShareLink }"  ></pngx-share-links-dropdown>
 </pngx-page-header>
 <div class="row">
     <div class="col-md-6 col-xl-4 mb-4">
@@ -89,8 +89,7 @@
 
                 <div class="btn-group ms-auto">
                     <button type="button" class="btn btn-sm btn-outline-secondary" (click)="discard()" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Discard</button>
-                    <!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Document }" -->
-                    <ng-container >
+                    <ng-container *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Document }">
                         <button *ngIf="hasNext()" type="button" class="btn btn-sm btn-outline-primary" (click)="saveEditNext()" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Save &amp; next</button>
                         <button *ngIf="!hasNext()" type="button" class="btn btn-sm btn-outline-primary" (click)="save(true)" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Save &amp; close</button>
                         <button type="submit" class="btn btn-sm btn-primary" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Save</button>
@@ -170,7 +169,7 @@
                                 </tr>
                                 <tr>
                                     <td i18n>Date added</td>
-                                    <td>{{document.added | customDate}}</td>
+                                    <td>{{document.createdOn | customDate}}</td>
                                 </tr>
                                 <tr>
                                     <td i18n>Media filename</td>
@@ -199,6 +198,10 @@
                                 <tr *ngIf="metadata?.has_archive_version">
                                     <td i18n>Archive file size</td>
                                     <td>{{metadata?.archive_size | fileSize}}</td>
+                                </tr>
+                                <tr>
+                                    <td i18n>Lang</td>
+                                    <td>{{metadata?.lang}}</td>
                                 </tr>
                             </tbody>
                         </table>

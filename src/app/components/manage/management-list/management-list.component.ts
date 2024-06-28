@@ -34,6 +34,7 @@ import { ConfirmDialogComponent } from '../../common/confirm-dialog/confirm-dial
 import { EditDialogMode } from '../../common/edit-dialog/edit-dialog.component'
 import { ComponentWithPermissions } from '../../with-permissions/with-permissions.component'
 import { PermissionsDialogComponent } from '../../common/permissions-dialog/permissions-dialog.component'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 export interface ManagementListColumn {
   key: string
@@ -50,6 +51,8 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
   extends ComponentWithPermissions
   implements OnInit, OnDestroy
 {
+  isAuthenticated: any
+  id: any
   constructor(
     private service: AbstractNameFilterService<T>,
     private modalService: NgbModal,
@@ -57,11 +60,13 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
     private toastService: ToastService,
     private documentListViewService: DocumentListViewService,
     private permissionsService: PermissionsService,
+    private oidcSecurityService: OidcSecurityService,
     protected filterRuleType: number,
     public typeName: string,
     public typeNamePlural: string,
     public permissionType: PermissionType,
     public actionpath :string,
+    
     public extraColumns: ManagementListColumn[]
   ) {
     super()
@@ -133,7 +138,19 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
 
   reloadData() {
     this.isLoading = true
-    console.log(this._nameFilter);
+    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
+      this.isAuthenticated = isAuthenticated;
+      console.log('app authenticated', isAuthenticated);
+    });
+    if (this.isAuthenticated) {
+    this.oidcSecurityService
+   .getUserData()
+   .subscribe((userInfo: any) => {
+     console.log('User Info:', userInfo);
+     // Access specific claims (e.g., email, sub, etc.)
+     this.id = userInfo.sub;
+   });
+  }
     this.service
       .listFiltered(
         this.page,
@@ -142,6 +159,7 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
         null,
         this._nameFilter,
         this.action,
+        this.id,
         false
       )
       .pipe(takeUntil(this.unsubscribeNotifier))
