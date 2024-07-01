@@ -87,6 +87,7 @@
               <use xlink:href="assets/bootstrap-icons.svg#filter" />
             </svg>&nbsp;<ng-container i18n>Documents</ng-container>
           </button>
+          {{userCanEdit(object)}}
           <button class="btn btn-sm btn-outline-secondary" (click)="openEditDialog(object); $event.stopPropagation();"  [disabled]="!userCanEdit(object)"  *pngxIfPermissions="{ action: PermissionAction.Change, type: permissionType }"><!--" -->
             <svg class="buttonicon-sm" fill="currentColor">
               <use xlink:href="assets/bootstrap-icons.svg#pencil" />

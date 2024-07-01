@@ -55,7 +55,7 @@ export class TagsComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     
-    this.tagService.listAll(null,null,"list_tags",null).subscribe((result) => {
+    this.tagService.listAll(null,null,"list_tagsdropdown",null).subscribe((result) => {
       this.tags = result.results
     })
   }

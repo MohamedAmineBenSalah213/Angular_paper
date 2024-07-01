@@ -134,7 +134,7 @@
     </div>
 
     <div class="btn-group btn-group-sm">
-      <button type="button" class="btn btn-sm btn-outline-danger" (click)="applyDelete()" *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.Document }" [disabled]="!userOwnsAll">
+      <button type="button" class="btn btn-sm btn-outline-danger" (click)="applyDelete()"  [disabled]="!userOwnsAll"><!-- *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.Document }" -->
         <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
           <use xlink:href="assets/bootstrap-icons.svg#trash" />
         </svg>&nbsp;<ng-container i18n>Delete</ng-container>

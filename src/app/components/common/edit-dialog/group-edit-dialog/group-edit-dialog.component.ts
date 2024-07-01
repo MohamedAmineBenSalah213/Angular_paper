@@ -14,10 +14,10 @@ import { SettingsService } from 'src/app/services/settings.service'
 })
 export class GroupEditDialogComponent extends EditDialogComponent<PaperlessGroup> {
   getActionupdate() {
-    return null;
+    return "update_group";
   }
   getAction() {
-    return null;
+    return "add_group";
   }
   constructor(
     service: GroupService,

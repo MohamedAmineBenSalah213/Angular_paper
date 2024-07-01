@@ -206,7 +206,7 @@
         <h6 class="sidebar-heading px-3 mt-auto pt-4 mb-1 text-muted">
           <span i18n>Administration</span>
         </h6>
-        <ul class="nav flex-column mb-2">
+        <ul class="nav flex-column mb-2" *Role="'Admin'">
           <li class="nav-item"  tourAnchor="tour.settings" ><!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.UISettings }" -->
             <a class="nav-link" routerLink="settings" routerLinkActive="active" (click)="closeMenu()" ngbPopover="Settings" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
               <svg class="sidebaricon" fill="currentColor">

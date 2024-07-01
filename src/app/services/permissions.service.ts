@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { ObjectWithPermissions } from '../data/object-with-permissions'
 import { PaperlessUser } from '../data/paperless-user'
 
+
 export enum PermissionAction {
   Add = 'add',
   View = 'view',
@@ -35,10 +36,11 @@ export enum PermissionType {
 export class PermissionsService {
   private permissions: string[]
   private currentUser: PaperlessUser
-
-  public initialize(permissions: string[], currentUser: PaperlessUser) {
+  private role :string
+  public initialize(permissions: string[], currentUser: PaperlessUser,role:string) {
     this.permissions = permissions
     this.currentUser = currentUser
+    this.role=role
   }
 
   public currentUserCan(
@@ -50,14 +52,18 @@ export class PermissionsService {
       this.permissions?.includes(this.getPermissionCode(action, type))
     )
   }
-
+  public getCurrentUserRole():string
+  {    
+    return this.role.toString()
+  }
   public currentUserOwnsObject(object: ObjectWithPermissions): boolean {
-    /* return (
+   /// debugger
+    return (
       !object ||
       !object.owner ||
       this.currentUser.is_superuser ||
       object.owner === this.currentUser.id
-    ) */
+    ) 
     return true
   }
 
@@ -74,6 +80,9 @@ export class PermissionsService {
         ).length > 0
       )
     } else if (action === PermissionAction.Change) {
+    /*   console.log(this.currentUserOwnsObject(object));
+      console.log( object.permissions?.change.users.includes(this.currentUser.id)); */
+      
       return (
         this.currentUserOwnsObject(object) ||
         object.user_can_change ||

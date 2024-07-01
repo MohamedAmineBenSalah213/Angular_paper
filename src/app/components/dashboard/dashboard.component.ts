@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { SavedViewService } from 'src/app/services/rest/saved-view.service'
 import { SettingsService } from 'src/app/services/settings.service'
 import { ComponentWithPermissions } from '../with-permissions/with-permissions.component'
@@ -13,6 +13,7 @@ import {
   moveItemInArray,
 } from '@angular/cdk/drag-drop'
 
+
 @Component({
   selector: 'pngx-dashboard',
   templateUrl: './dashboard.component.html',
@@ -20,6 +21,8 @@ import {
 })
 export class DashboardComponent extends ComponentWithPermissions {
   public dashboardViews: PaperlessSavedView[] = []
+  chartData: any;
+  chartOptions: any;
   constructor(
     public settingsService: SettingsService,
     public savedViewService: SavedViewService,
@@ -32,7 +35,7 @@ export class DashboardComponent extends ComponentWithPermissions {
       this.dashboardViews = this.savedViewService.dashboardViews
     })
   }
-
+  
   get subtitle() {
   //  debugger
      if (this.settingsService.displayName) {

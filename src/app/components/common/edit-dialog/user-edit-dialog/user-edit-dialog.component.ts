@@ -20,7 +20,7 @@ export class UserEditDialogComponent
   implements OnInit
 {
   getActionupdate() {
-    throw new Error('Method not implemented.')
+    return 'update_user'
   }
   getAction() {
     return 'Registration'
@@ -37,10 +37,10 @@ export class UserEditDialogComponent
   ) {
     super(service, activeModal, service, settingsService)
 
-   /*  groupsService
-      .listAll()
+     groupsService
+      .listAllCustom("list_groups")
       .pipe(first())
-      .subscribe((result) => (this.groups = result.results)) */
+      .subscribe((result) => (this.groups = result.results)) 
   }
 
   ngOnInit(): void {

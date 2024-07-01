@@ -849,7 +849,7 @@ get isRTL() {
         PermissionAction.Change,
         doc
       )
-    ) */
+    )  */
     return true
   }
 

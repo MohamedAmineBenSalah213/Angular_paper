@@ -52,6 +52,7 @@ export class SettingsService {
 
   private _renderer: Renderer2
   isAuthenticated: boolean
+  role: any
   public get renderer(): Renderer2 {
     return this._renderer
   }
@@ -92,6 +93,7 @@ export class SettingsService {
      console.log('User Info:', userInfo);
      // Access specific claims (e.g., email, sub, etc.)
      this.id = userInfo.sub;
+     this.role = userInfo.role;
    });
    const url = `${this.baseUrl}/get_ui_settings_details`;
    const params = { id: this.id };
@@ -110,7 +112,9 @@ export class SettingsService {
         this.currentUser = uisettings.user
         this.permissionsService.initialize(
           uisettings.permissions,
-          this.currentUser
+          this.currentUser,
+          this.role
+
         )
       })
     )   

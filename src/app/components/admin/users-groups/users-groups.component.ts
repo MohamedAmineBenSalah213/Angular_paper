@@ -122,11 +122,11 @@ export class UsersAndGroupsComponent
     modal.componentInstance.btnCaption = $localize`Proceed`
     modal.componentInstance.confirmClicked.subscribe(() => {
       modal.componentInstance.buttonsEnabled = false
-      this.usersService.delete(user).subscribe({
+      this.usersService.delete(user,"delete_user").subscribe({
         next: () => {
           modal.close()
           this.toastService.showInfo($localize`Deleted user`)
-          this.usersService.listAll().subscribe((r) => {
+          this.usersService.listAllCustom("list_user").subscribe((r) => {
             this.users = r.results
           })
         },

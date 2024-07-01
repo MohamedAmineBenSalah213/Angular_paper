@@ -23,7 +23,7 @@ export class PermissionsGroupComponent extends AbstractInputComponent<PaperlessG
   constructor(groupService: GroupService) {
     super()
     groupService
-      .listAll()
+      .listAllCustom("list_groups")
       .pipe(first())
       .subscribe((result) => (this.groups = result.results))
   }

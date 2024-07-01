@@ -142,6 +142,9 @@ import { FileShareEditDialogComponent } from './components/common/edit-dialog/fi
 import { AuthModule, LogLevel } from 'angular-auth-oidc-client'
 import { AuthInterceptorInterceptor } from './interceptors/auth.interceptor';
 import { FixDocumentsDropdownComponent } from './components/common/fix-documents-dropdown/fix-documents-dropdown.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { RoleDirective } from './directives/role.directive';
+
 
 
 
@@ -270,7 +273,9 @@ function initializeApp(settings: SettingsService) {
     FileShareListComponent,
     FileShareEditDialogComponent,
     FixDocumentsDropdownComponent,
-
+    RoleDirective
+  
+   
    
   ],
   imports: [
@@ -297,6 +302,8 @@ function initializeApp(settings: SettingsService) {
     FormsModule,
     ReactiveFormsModule,
     NgxFileDropModule,
+    HighchartsChartModule,
+   
     PdfViewerModule,
     NgSelectModule,
     ColorSliderModule,

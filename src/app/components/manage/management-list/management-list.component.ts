@@ -267,6 +267,7 @@ export abstract class ManagementListComponent<T extends ObjectWithId>
   }
 
   userCanEdit(object: ObjectWithPermissions): boolean {
+   // debugger
     return this.permissionsService.currentUserHasObjectPermissions(
       this.PermissionAction.Change,
       object

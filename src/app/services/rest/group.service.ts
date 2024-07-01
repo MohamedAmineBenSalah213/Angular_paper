@@ -13,11 +13,11 @@ export class GroupService extends AbstractNameFilterService<PaperlessGroup> {
     http: HttpClient,
     private permissionService: PermissionsService
   ) {
-    super(http, 'groups')
+    super(http, 'group')
   }
 
   update(o: PaperlessGroup): Observable<PaperlessGroup> {
-    return this.getCached(o.id,"goup_list").pipe(
+    return this.getCached(o.id,"group_list").pipe(
       switchMap((initialGroup) => {
         initialGroup.permissions?.forEach((perm) => {
           const { typeKey, actionKey } =

@@ -22,7 +22,7 @@ export class PermissionsGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree {
- /*    if (
+     if (
       !this.permissionsService.currentUserCan(
         route.data.requiredPermission.action,
         route.data.requiredPermission.type
@@ -35,8 +35,8 @@ export class PermissionsGuard {
         )
       }
       return this.router.parseUrl('/dashboard')
-    } else { */
+    } else { 
       return true
-    /* } */
+     } 
   } 
 }

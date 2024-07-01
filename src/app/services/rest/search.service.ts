@@ -13,7 +13,7 @@ export class SearchService {
 
   autocomplete(term: string): Observable<string[]> {
     return this.http.get<string[]>(
-      `${environment.apiBaseUrl}search/autocomplete/`,
+      `${environment.apiBaseUrl}/document/autocomplete/`,
       { params: new HttpParams().set('term', term) }
     )
   }

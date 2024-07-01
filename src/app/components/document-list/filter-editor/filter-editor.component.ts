@@ -852,7 +852,7 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
   subscription: Subscription
 
   ngOnInit() {
-    this.tagService.listAll(null,null,"list_tags",null).subscribe((result:Results<PaperlessTag>) => {
+    this.tagService.listAll(null,null,"list_tagsdropdown",null).subscribe((result:Results<PaperlessTag>) => {
       console.log(result.count);
       
       this.tags = result.results
@@ -863,11 +863,11 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe((result) => (this.correspondents = result.results))
     this.documentTypeService
-    .listAll(null,null,"list_types",null)
+    .listAll(null,null,"list_types_dropdown",null)
       .pipe(first())
       .subscribe((result) => (this.documentTypes = result.results))
     this.storagePathService
-      .listAll(null,null,"list_storage_paths",null)
+      .listAll(null,null,"list_storage_paths_dropdown",null)
       .pipe(first())
       .subscribe((result) => (this.storagePaths = result.results))
 
