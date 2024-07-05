@@ -80,17 +80,17 @@ export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<
     super(service, activeModal, userService, settingsService)
 
     correspondentService
-      .listAll(null,null,"list_correspondent",null)
+    .listAll(null,null,"list_correspondent",permissionService.getCurrentUserID())
       .pipe(first())
       .subscribe((result) => (this.correspondents = result.results))
 
     documentTypeService
-    .listAll(null,null,"list_types",null)
+    .listAll(null,null,"list_types_dropdown",permissionService.getCurrentUserID())
       .pipe(first())
       .subscribe((result) => (this.documentTypes = result.results))
 
     storagePathService
-    .listAll(null,null,"list_storage_paths",null)
+    .listAll(null,null,"list_storage_paths_dropdown",permissionService.getCurrentUserID())
       .pipe(first())
       .subscribe((result) => (this.storagePaths = result.results))
 

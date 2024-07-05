@@ -57,7 +57,7 @@ export const SETTINGS: PaperlessUiSetting[] = [
   {
     key: SETTINGS_KEYS.LANGUAGE,
     type: 'string',
-    default: '',
+    default: 'fr-fr',
   },
   {
     key: SETTINGS_KEYS.BULK_EDIT_CONFIRMATION_DIALOGS,

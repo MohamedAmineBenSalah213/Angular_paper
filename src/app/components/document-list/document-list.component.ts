@@ -34,8 +34,6 @@ import { SettingsService } from 'src/app/services/settings.service'
 import { ToastService } from 'src/app/services/toast.service'
 import { ComponentWithPermissions } from '../with-permissions/with-permissions.component'
 import { FilterEditorComponent } from './filter-editor/filter-editor.component'
-import { SaveViewConfigDialogComponent } from './save-view-config-dialog/save-view-config-dialog.component'
-import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 @Component({
   selector: 'pngx-document-list',
@@ -229,43 +227,7 @@ export class DocumentListComponent
       })
   }
 
-  saveViewConfigAs() {
-    let modal = this.modalService.open(SaveViewConfigDialogComponent, {
-      backdrop: 'static',
-    })
-    modal.componentInstance.defaultName = this.filterEditor.generateFilterName()
-    modal.componentInstance.saveClicked.pipe(first()).subscribe((formValue) => {
-      modal.componentInstance.buttonsEnabled = false
-      let savedView: PaperlessSavedView = {
-        name: formValue.name,
-        show_on_dashboard: formValue.showOnDashboard,
-        show_in_sidebar: formValue.showInSideBar,
-        filter_rules: this.list.filterRules,
-        sort_reverse: this.list.sortReverse,
-        sort_field: this.list.sortField,
-      }
-
-      this.savedViewService
-        .create(savedView)
-        .pipe(first())
-        .subscribe({
-          next: () => {
-            modal.close()
-            this.toastService.showInfo(
-              $localize`View "${savedView.name}" created successfully.`
-            )
-          },
-          error: (httpError) => {
-            let error = httpError.error
-            if (error.filter_rules) {
-              error.filter_rules = error.filter_rules.map((r) => r.value)
-            }
-            modal.componentInstance.error = error
-            modal.componentInstance.buttonsEnabled = true
-          },
-        })
-    })
-  }
+ 
 
   openDocumentDetail(document: PaperlessDocument) {
     console.log(document.id)

@@ -491,7 +491,7 @@ export class SettingsService {
   }
 
   storeSettings(): Observable<any> {
-    //debugger
+    debugger
     const url = `${this.baseUrl}/store_settings?id=${this.id}`;
      return this.http.put(url, { settings: this.settings }).pipe(
       tap((results) => {
@@ -504,6 +504,7 @@ export class SettingsService {
   }
 
   maybeMigrateSettings() {
+    debugger
     if (
       !this.settings.hasOwnProperty('documentListSize') &&
       localStorage.getItem(SETTINGS_KEYS.DOCUMENT_LIST_SIZE)

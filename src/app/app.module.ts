@@ -41,13 +41,11 @@ import { SelectComponent } from './components/common/input/select/select.compone
 import { CheckComponent } from './components/common/input/check/check.component'
 import { UrlComponent } from './components/common/input/url/url.component'
 import { PasswordComponent } from './components/common/input/password/password.component'
-import { SaveViewConfigDialogComponent } from './components/document-list/save-view-config-dialog/save-view-config-dialog.component'
 import { TagsComponent } from './components/common/input/tags/tags.component'
 import { IfPermissionsDirective } from './directives/if-permissions.directive'
 import { SortableDirective } from './directives/sortable.directive'
 import { CookieService } from 'ngx-cookie-service'
 import { CsrfInterceptor } from './interceptors/csrf.interceptor'
-import { SavedViewWidgetComponent } from './components/dashboard/widgets/saved-view-widget/saved-view-widget.component'
 import { StatisticsWidgetComponent } from './components/dashboard/widgets/statistics-widget/statistics-widget.component'
 import { UploadFileWidgetComponent } from './components/dashboard/widgets/upload-file-widget/upload-file-widget.component'
 import { WidgetFrameComponent } from './components/dashboard/widgets/widget-frame/widget-frame.component'
@@ -220,11 +218,9 @@ function initializeApp(settings: SettingsService) {
     CheckComponent,
     UrlComponent,
     PasswordComponent,
-    SaveViewConfigDialogComponent,
     TagsComponent,
     IfPermissionsDirective,
     SortableDirective,
-    SavedViewWidgetComponent,
     StatisticsWidgetComponent,
     UploadFileWidgetComponent,
     WidgetFrameComponent,

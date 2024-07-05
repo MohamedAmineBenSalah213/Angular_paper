@@ -15,6 +15,7 @@ import { TagService } from 'src/app/services/rest/tag.service'
 import { EditDialogMode } from '../../edit-dialog/edit-dialog.component'
 import { first, firstValueFrom, tap } from 'rxjs'
 import { NgSelectComponent } from '@ng-select/ng-select'
+import { PermissionsService } from 'src/app/services/permissions.service'
 
 @Component({
   providers: [
@@ -31,7 +32,8 @@ import { NgSelectComponent } from '@ng-select/ng-select'
 export class TagsComponent implements OnInit, ControlValueAccessor {
   constructor(
     private tagService: TagService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private permissionsservice : PermissionsService
   ) {
     this.createTagRef = this.createTag.bind(this)
   }
@@ -55,7 +57,7 @@ export class TagsComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     
-    this.tagService.listAll(null,null,"list_tagsdropdown",null).subscribe((result) => {
+    this.tagService.listAll(null,null,"list_tagsdropdown",this.permissionsservice.getCurrentUserID()).subscribe((result) => {
       this.tags = result.results
     })
   }

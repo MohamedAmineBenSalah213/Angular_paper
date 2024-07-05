@@ -1,5 +1,5 @@
 <pngx-widget-frame title="Upload new documents"  *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.Document }"  i18n-title>
-  <div content tourAnchor="tour.upload-widget">
+  <div content data-bs-toggle="popover" tourAnchor="tour.upload-widget">
     <form class="justify-content-center d-flex flex-column align-items-center py-3 px-2">
       <span class="text-muted" i18n>Drop documents anywhere or</span>
       <button class="btn btn-sm btn-outline-primary mt-3" (click)="fileUpload.click()" i18n>Browse files</button>
