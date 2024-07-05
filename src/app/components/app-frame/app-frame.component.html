@@ -80,7 +80,7 @@
             </a>
           </li>
         </ul>
-        <ng-container>  <!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }" -->
+        <!-- <ng-container>  <!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }" 
           <h6 class="sidebar-heading px-3 mt-3 mb-1 text-muted" *ngIf='savedViewService.loading || savedViewService.sidebarViews?.length > 0'>
             <span i18n>Saved views</span>
             <div *ngIf="savedViewService.loading" class="spinner-border spinner-border-sm fw-normal ms-2" role="status"></div>
@@ -106,7 +106,7 @@
             </li>
           </ul>
         </ng-container>
-
+ -->
         <ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Document }" > <!-- -->
           <h6 class="sidebar-heading px-3 mt-3 mb-1 text-muted"  *ngIf='openDocuments.length > 0'>
             <span i18n>Open documents</span>
@@ -187,7 +187,7 @@
               </svg><span>&nbsp;<ng-container i18n>Mail</ng-container></span>
             </a>
           </li>
-          <li class="nav-item" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.User }" ><!--  -->
+          <li class="nav-item" *Role="'Admin'" >
             <a class="nav-link" routerLink="fileshare" routerLinkActive="active" (click)="closeMenu()" ngbPopover="Configuration" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
               <svg class="sidebaricon" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#folder-symlink"/>
@@ -195,18 +195,12 @@
             </a>
           </li>
         </ul>
-       <!--  <ul class="navbar-nav">
-          <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-              <a routerLinkActive="active" [routerLink]="[menuItem.path]" class="nav-link">
-                  <i class="ni {{menuItem.icon}}"></i>
-                  {{menuItem.title}}
-              </a>
-          </li>
-      </ul> -->
-        <h6 class="sidebar-heading px-3 mt-auto pt-4 mb-1 text-muted">
-          <span i18n>Administration</span>
-        </h6>
+
+        
         <ul class="nav flex-column mb-2" *Role="'Admin'">
+          <h6 class="sidebar-heading px-3 mt-auto pt-4 mb-1 text-muted">
+            <span i18n>Administration</span>
+          </h6>
           <li class="nav-item"  tourAnchor="tour.settings" ><!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.UISettings }" -->
             <a class="nav-link" routerLink="settings" routerLinkActive="active" (click)="closeMenu()" ngbPopover="Settings" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
               <svg class="sidebaricon" fill="currentColor">

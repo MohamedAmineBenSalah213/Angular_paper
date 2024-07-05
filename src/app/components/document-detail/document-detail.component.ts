@@ -226,16 +226,16 @@ get isRTL() {
       })
 
       this.correspondentService
-      .listAll(null,null,"list_correspondent",null)
+      .listAll(null,null,"list_correspondent",this.permissionsService.getCurrentUserID())
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => (this.correspondents = result.results))
 
     this.documentTypeService
-      .listAll(null,null,"list_types",null)
+      .listAll(null,null,"list_types_dropdown",this.permissionsService.getCurrentUserID())
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => (this.documentTypes = result.results))
     this.storagePathService
-      .listAll(null,null,"list_storage_paths",null)
+      .listAll(null,null,"list_storage_paths_dropdown",this.permissionsService.getCurrentUserID())
       .pipe(first(), takeUntil(this.unsubscribeNotifier))
       .subscribe((result) => (this.storagePaths = result.results))
    

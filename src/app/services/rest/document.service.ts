@@ -53,6 +53,27 @@ selected_storage_paths: SelectionDataItem[]
   providedIn: 'root',
 })
 export class DocumentService extends AbstractPaperlessService<PaperlessDocument> {
+
+  getDocumentsPerMonth(id:string) {
+    return this.http.get(
+      this.getResourceUrl( id,'documents-per-month')
+    );
+  }
+  getDocumentsDependingOnSource(id: string) {
+    return this.http.get(
+      this.getResourceUrl( id,'documents_count_depending_on_source')
+    );
+  }
+    
+  /*   return this.http.get(
+      `${environment.apiBaseUrl}/document/documents-per-month/`
+    ); */
+  
+  getDocumentsDependingOnMimeType(id:string) {
+    return this.http.get(
+      this.getResourceUrl( id,'documents_count_depensing_on_mimeType')
+    );
+  }
   private _searchQuery: string
   isAuthenticated: boolean
   id: any
@@ -202,6 +223,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
       this.getResourceUrl(id, 'getmetadata')
     )
   }
+  
 
   bulkEdit(ids: string[], method: string, args: any) {
     return this.http.post(this.getResourceUrl(null, 'bulk_edit'), {
@@ -211,9 +233,9 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     })
   }
 
-  getSelectionData(ids: string[]): Observable<SelectionData> {
+  getSelectionData(ids: string[],owner:string): Observable<SelectionData> {
     return this.http.post<SelectionData>(
-      this.getResourceUrl(null, 'selection_data'),
+      this.getResourceUrl(owner, 'selection_data'),
       { documents: ids }
     )
     }

@@ -1,4 +1,4 @@
-<pngx-page-header title="Dashboard" [subTitle]="subtitle" i18n-title>
+<!-- <pngx-page-header title="Dashboard" [subTitle]="subtitle" i18n-title>
 </pngx-page-header>
 <div class="row">
   <div class="col-12 col-lg-8 col-xl-9 mb-4">
@@ -16,9 +16,8 @@
 
    <!--   <div class="col"><!-- *ngIf="settingsService.offerTour()" 
         <pngx-welcome-widget (dismiss)="completeTour()"></pngx-welcome-widget>
-      </div>  -->
-  
-      <ng-container ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }" -->
+      </div>    
+      <ng-container ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }" 
         <div *ngFor="let v of dashboardViews" class="col">
           <pngx-saved-view-widget
             [savedView]="v"
@@ -38,6 +37,205 @@
       </div>
       <div class="col">
         <pngx-upload-file-widget></pngx-upload-file-widget>
+      </div>
+    </div>
+  </div>
+</div>
+ -->
+ <pngx-page-header title="Dashboard" [subTitle]="subtitle" i18n-title>
+</pngx-page-header>
+
+<div class="row">
+  <div class="col-12 col-lg-8 col-xl-9 mb-4">
+    <div
+      class="row row-cols-1 g-4"
+      cdkDropList
+      [cdkDropListDisabled]="settingsService.globalDropzoneActive"
+      (cdkDropListDropped)="onDrop($event)"
+      tourAnchor="tour.dashboard"
+    >
+      <!--ggggggggggggggggggggggggggggggg-->
+      <!-- <div class="card-group" style="justify-content: space-evenly">
+        <div class="card text-white bg-primary mb-1" style="width: 18rem">
+          <div class="card-header">Header</div>
+          <div class="card-body">
+            <h5 class="card-title">Primary card title</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+          </div>
+        </div>
+        <div class="card text-white bg-primary mb-1" style="width: 18rem">
+          <div class="card-header">Header</div>
+          <div class="card-body">
+            <h5 class="card-title">Primary card title</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+          </div>
+        </div>
+        <div class="card text-white bg-primary mb-1" style="width: 18rem">
+          <div class="card-header">Header</div>
+          <div class="card-body">
+            <h5 class="card-title">Primary card title</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+          </div>
+        </div>
+      </div> -->
+
+      <pngx-upload-file-widget></pngx-upload-file-widget>
+      <div class="container">
+        <div class="faders">
+          <div class="left"></div>
+          <div class="right"></div>
+        </div>
+        <div class="items">
+          <div class="item">
+            <img
+              class="img-resp"
+              src="../../../assets/pics digital/ppt.jpg"
+              alt="PowerPoint"
+            />
+            <dl class="salary">
+              <dd>
+                {{
+                  documentsTypeAndCount[
+                    "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                  ] || 0
+                }}
+              </dd>
+            </dl>
+          </div>
+
+          <div class="item">
+            <img
+              class="img-resp"
+              src="../../../assets/pics digital/word.jpg"
+              alt="Word"
+            />
+            <dl class="salary">
+              <dd>
+                {{
+                  documentsTypeAndCount[
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  ] || 0
+                }}
+              </dd>
+            </dl>
+          </div>
+
+          <div class="item">
+            <img
+              class="img-resp"
+              src="../../../assets/pics digital/excel.jpg"
+              alt="Excel"
+            />
+            <dl class="salary">
+              <dd>
+                {{
+                  documentsTypeAndCount[
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                  ] || 0
+                }}
+              </dd>
+            </dl>
+          </div>
+
+          <div class="item">
+            <img
+              class="img-resp"
+              src="../../../assets/pics digital/pdf.jpg"
+              alt="PDF"
+            />
+            <dl class="salary">
+              <dd>{{ documentsTypeAndCount["application/pdf"] || 0 }}</dd>
+            </dl>
+          </div>
+
+          <div class="item">
+            <img
+              class="img-resp"
+              src="../../../assets/pics digital/txt.jpg"
+              alt="Text"
+            />
+            <dl class="salary">
+              <dd>{{ documentsTypeAndCount["text/plain"] || 0 }}</dd>
+            </dl>
+          </div>
+
+          <div class="item">
+            <img
+              class="img-resp"
+              src="../../../assets/pics digital/image.jpg"
+              alt="Image"
+            />
+            <dl class="salary">
+              <dd>
+                {{ getImageCount() }}
+              </dd>
+            </dl>
+          </div>
+
+          <div class="item">
+            <img
+              class="img-resp"
+              src="../../../assets/pics digital/eml.png"
+              alt="Email"
+            />
+            <dl class="salary">
+              <dd>{{ documentsTypeAndCount[".eml"] || 0 }}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex">
+        <div class="col">
+          <div id="chart"></div>
+        </div>
+        <div class="col">
+          <div id="chartt"></div>
+        </div>
+      </div>
+
+      <!--  <div  class="col"><!-- *ngIf="savedViewService.loading" 
+        <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+        <ng-container i18n>Loading...</ng-container>
+      </div> -->
+
+      <!--   <div class="col"><!-- *ngIf="settingsService.offerTour()" 
+        <pngx-welcome-widget (dismiss)="completeTour()"></pngx-welcome-widget>
+      </div>  -->
+
+      <ng-container
+        ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }" -->
+        <div *ngFor="let v of dashboardViews" class="col">
+          <pngx-saved-view-widget
+            [savedView]="v"
+            (cdkDragStarted)="onDragStart($event)"
+            (cdkDragEnded)="onDragEnd($event)"
+          >
+          </pngx-saved-view-widget>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="col-auto col-lg-4 col-xl-3 col-sidebar">
+    <div class="row row-cols-1 g-4 mb-4 sticky-lg-top z-0">
+      <!-- <div class="col">
+        <pngx-upload-file-widget></pngx-upload-file-widget>
+      </div> -->
+      <div class="col">
+        <pngx-statistics-widget></pngx-statistics-widget>
+      </div>
+      <div class="col">
+        <pngx-statistics-widget></pngx-statistics-widget>
       </div>
     </div>
   </div>

@@ -10,10 +10,10 @@ export class LogService {
   constructor(private http: HttpClient) {}
 
   list(): Observable<string[]> {
-    return this.http.get<string[]>(`${environment.apiBaseUrl}logs/`)
+    return this.http.get<string[]>(`${environment.apiBaseUrl}/log/work`)
   }
 
   get(id: string): Observable<string[]> {
-    return this.http.get<string[]>(`${environment.apiBaseUrl}logs/${id}/`)
+    return this.http.get<string[]>(`${environment.apiBaseUrl}/log/${id}`)
   }
 }

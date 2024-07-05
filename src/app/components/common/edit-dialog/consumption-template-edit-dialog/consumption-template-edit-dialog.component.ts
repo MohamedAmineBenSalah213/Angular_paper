@@ -20,6 +20,7 @@ import { EditDialogComponent } from '../edit-dialog.component'
 import { MailRuleService } from 'src/app/services/rest/mail-rule.service'
 import { PaperlessMailRule } from 'src/app/data/paperless-mail-rule'
 import { DEFAULT_MATCHING_ALGORITHM, MATCHING_ALGORITHMS, MATCH_AUTO } from 'src/app/data/matching-model'
+import { PermissionsService } from 'src/app/services/permissions.service'
 export const WORKFLOW_TYPE_OPTIONS = [
   {
     id: WorkflowTriggerType.Consumption,
@@ -72,6 +73,7 @@ export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<
     documentTypeService: DocumentTypeService,
     storagePathService: StoragePathService,
     mailRuleService: MailRuleService,
+    permissionService:PermissionsService,
     userService: UserService,
     settingsService: SettingsService
   ) {
@@ -136,6 +138,7 @@ export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<
       assign_view_groups: new FormControl([]),
       assign_change_users: new FormControl([]),
       assign_change_groups: new FormControl([]),
+      documentClassification: new FormControl(null),
     })
   }
   getMatchingAlgorithms() {

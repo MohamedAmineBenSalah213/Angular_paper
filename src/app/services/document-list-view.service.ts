@@ -19,6 +19,7 @@ import {
 } from './rest/document.service'
 import { SettingsService } from './settings.service'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { PermissionsService } from './permissions.service'
 
 /**
  * Captures the current state of the list view.
@@ -103,6 +104,7 @@ export class DocumentListViewService {
     private documentService: DocumentService,
     private settings: SettingsService,
     private oidcSecurityService: OidcSecurityService,
+    private permissionService:PermissionsService,
     private router: Router
   ) {
     let documentListViewConfigJson = localStorage.getItem(
@@ -260,7 +262,7 @@ export class DocumentListViewService {
           activeListViewState.collectionSize = result.count
           activeListViewState.documents = result.results
            this.documentService
-            .getSelectionData(result.all)
+            .getSelectionData(result.all,this.permissionService.getCurrentUserID())
             .pipe(first())
             .subscribe({
               next: (selectionData) => {

@@ -70,6 +70,8 @@ import {
   PermissionsSelectionModel,
 } from '../../common/permissions-filter-dropdown/permissions-filter-dropdown.component'
 import { Results } from 'src/app/data/results'
+import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { PermissionsService } from 'src/app/services/permissions.service'
 
 const TEXT_FILTER_TARGET_TITLE = 'title'
 const TEXT_FILTER_TARGET_TITLE_CONTENT = 'title-content'
@@ -111,6 +113,8 @@ const RELATIVE_DATE_QUERYSTRINGS = [
   styleUrls: ['./filter-editor.component.scss'],
 })
 export class FilterEditorComponent implements OnInit, OnDestroy {
+  isAuthenticated: any
+  idowner: any
   generateFilterName() {
     if (this.filterRules.length == 1) {
       let rule = this.filterRules[0]
@@ -179,7 +183,9 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
     private tagService: TagService,
     private correspondentService: CorrespondentService,
     private documentService: DocumentService,
-    private storagePathService: StoragePathService
+    private storagePathService: StoragePathService,
+    private oidcSecurityService: OidcSecurityService,
+    private permissionsService: PermissionsService
   ) {}
 
   @ViewChild('textFilterInput')
@@ -852,22 +858,37 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
   subscription: Subscription
 
   ngOnInit() {
-    this.tagService.listAll(null,null,"list_tagsdropdown",null).subscribe((result:Results<PaperlessTag>) => {
-      console.log(result.count);
-      
-      this.tags = result.results
-    })
+    debugger
+    this.permissionsService.getCurrentUserID()
+    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
+      this.isAuthenticated = isAuthenticated;
+      console.log('app authenticated', isAuthenticated);
+    });
+    if (this.isAuthenticated) {
+      this.oidcSecurityService
+          .getUserData()
+          .subscribe((userInfo: any) => {
+              console.log('User Info:', userInfo);
+              this.idowner = userInfo.sub;
+              console.log(this.permissionsService.getCurrentUserID());
+              
+              this.tagService.listAll(null, null, "list_tagsdropdown",  this.permissionsService.getCurrentUserID())
+                  .subscribe((result: Results<PaperlessTag>) => {
+                      this.tags = result.results;
+                  });
+          });
+  }
       
     this.correspondentService
-    .listAll(null,null,"list_correspondent",null)
+    .listAll(null,null,"list_correspondent",this.permissionsService.getCurrentUserID())
       .pipe(first())
       .subscribe((result) => (this.correspondents = result.results))
     this.documentTypeService
-    .listAll(null,null,"list_types_dropdown",null)
+    .listAll(null,null,"list_types_dropdown",this.permissionsService.getCurrentUserID())
       .pipe(first())
       .subscribe((result) => (this.documentTypes = result.results))
     this.storagePathService
-      .listAll(null,null,"list_storage_paths_dropdown",null)
+      .listAll(null,null,"list_storage_paths_dropdown",this.permissionsService.getCurrentUserID())
       .pipe(first())
       .subscribe((result) => (this.storagePaths = result.results))
 

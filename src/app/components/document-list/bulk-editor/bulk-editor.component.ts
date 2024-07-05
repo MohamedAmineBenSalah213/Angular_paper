@@ -117,7 +117,7 @@ export class BulkEditorComponent
 
   ngOnInit() {
    
-    this.tagService.listAll(null,null,"list_tags",null).subscribe((result:Results<PaperlessTag>) => {
+    this.tagService.listAll(null,null,"list_tagsdropdown",null).subscribe((result:Results<PaperlessTag>) => {
       console.log(result.count);
       
       this.tags = result.results
@@ -211,7 +211,7 @@ export class BulkEditorComponent
   openTagsDropdown() {
     debugger
     this.documentService
-      .getSelectionData(Array.from(this.list.selected))
+      .getSelectionData(Array.from(this.list.selected),this.permissionService.getCurrentUserID())
       .pipe(first())
       .subscribe((s) => {
         this.tagDocumentCounts = s.selected_tags
@@ -221,7 +221,7 @@ export class BulkEditorComponent
 
   openDocumentTypeDropdown() {
     this.documentService
-      .getSelectionData(Array.from(this.list.selected))
+      .getSelectionData(Array.from(this.list.selected),this.permissionService.getCurrentUserID())
       .pipe(first())
       .subscribe((s) => {
         this.documentTypeDocumentCounts = s.selected_document_types
@@ -234,7 +234,7 @@ export class BulkEditorComponent
 
   openCorrespondentDropdown() {
     this.documentService
-      .getSelectionData(Array.from(this.list.selected))
+      .getSelectionData(Array.from(this.list.selected),this.permissionService.getCurrentUserID())
       .pipe(first())
       .subscribe((s) => {
         this.correspondentDocumentCounts = s.selected_correspondents
@@ -247,7 +247,7 @@ export class BulkEditorComponent
 
   openStoragePathDropdown() {
     this.documentService
-      .getSelectionData(Array.from(this.list.selected))
+      .getSelectionData(Array.from(this.list.selected),this.permissionService.getCurrentUserID())
       .pipe(first())
       .subscribe((s) => {
         this.storagePathDocumentCounts = s.selected_storage_paths

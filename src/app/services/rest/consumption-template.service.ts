@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core'
 import { tap } from 'rxjs'
 import { PaperlessConsumptionTemplate } from 'src/app/data/paperless-consumption-template'
 import { AbstractPaperlessService } from './abstract-paperless-service'
+import { PermissionsService } from '../permissions.service'
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ import { AbstractPaperlessService } from './abstract-paperless-service'
 export class ConsumptionTemplateService extends AbstractPaperlessService<PaperlessConsumptionTemplate> {
   loading: boolean
 
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient , private permissionservice: PermissionsService) {
     super(http, 'template')
   }
 
@@ -29,14 +30,17 @@ export class ConsumptionTemplateService extends AbstractPaperlessService<Paperle
   }
 
   create(o: PaperlessConsumptionTemplate) {
+    o.owner = this.permissionservice.getCurrentUserID();
     return super.create(o,"add_template").pipe(tap(() => this.reload()))
   }
 
   update(o: PaperlessConsumptionTemplate) {
+    o.owner = this.permissionservice.getCurrentUserID();
     return super.update(o,"").pipe(tap(() => this.reload()))
   }
 
   delete(o: PaperlessConsumptionTemplate) {
+    
     return super.delete(o).pipe(tap(() => this.reload()))
   }
 }

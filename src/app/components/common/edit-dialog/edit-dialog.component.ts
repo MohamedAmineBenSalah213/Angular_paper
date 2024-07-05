@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormGroup } from '@angular/forms'
+import { FormControl, FormGroup } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { Observable } from 'rxjs'
 import {
@@ -16,6 +16,7 @@ import { UserService } from 'src/app/services/rest/user.service'
 import { PermissionsFormObject } from '../input/permissions/permissions-form/permissions-form.component'
 import { SettingsService } from 'src/app/services/settings.service'
 import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
+
 
 
 export enum EditDialogMode {
@@ -74,9 +75,21 @@ export abstract class EditDialogComponent<
         owner: (this.object as ObjectWithPermissions).owner,
         set_permissions: (this.object as ObjectWithPermissions).permissions,
       }
+   // Subscribe to value changes of 'match' control
+   if(this.objectForm.get('match')){
+   const matchControl = this.objectForm.get('match') as FormControl;
+   matchControl.valueChanges.subscribe((value) => {
+     if (Array.isArray(value)) {
+       const joinedString = value.join(' ');
+       matchControl.setValue(joinedString, { emitEvent: false });
+     }
+   });}
+
+      
+     
       
       this.objectForm.patchValue(this.object)
-     
+    //  this.objectForm.get(match)
       
     } else {
       // defaults from settings
@@ -174,7 +187,7 @@ export abstract class EditDialogComponent<
     var serverResponse: Observable<T>
     switch (this.dialogMode) {
       case EditDialogMode.CREATE:
-        //debugger
+        debugger
          if (newObject.matching_algorithm== MATCH_AUTO){
            if(newObject.ExtractedData)
             {
@@ -195,7 +208,7 @@ export abstract class EditDialogComponent<
 
         if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_AUTO ){
 
-          if(newObject.match!=""){
+          if(newObject.match && newObject.match.trim() !== ""){
           newObject.match = this.splitIntoList(newObject.match); 
           console.log(newObject.match) 
           }

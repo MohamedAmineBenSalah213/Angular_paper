@@ -46,7 +46,7 @@ export class TagEditDialogComponent extends EditDialogComponent<PaperlessTag> {
       color: new FormControl(randomColor()),
       is_inbox_tag: new FormControl(false),
       matching_algorithm: new FormControl(DEFAULT_MATCHING_ALGORITHM),
-      match: new FormControl(),
+      match: new FormControl([]),
       is_insensitive: new FormControl(true),
       permissions_form: new FormControl(null),
       

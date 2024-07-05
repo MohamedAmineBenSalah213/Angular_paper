@@ -52,6 +52,9 @@ export class PermissionsService {
       this.permissions?.includes(this.getPermissionCode(action, type))
     )
   }
+  public getCurrentUserID():string{
+    return this.currentUser.id
+  }
   public getCurrentUserRole():string
   {    
     return this.role.toString()
