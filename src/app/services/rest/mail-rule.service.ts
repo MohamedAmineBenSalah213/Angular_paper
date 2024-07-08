@@ -4,6 +4,7 @@ import { combineLatest, Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import { PaperlessMailRule } from 'src/app/data/paperless-mail-rule'
 import { AbstractPaperlessService } from './abstract-paperless-service'
+import { PermissionsService } from '../permissions.service'
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { AbstractPaperlessService } from './abstract-paperless-service'
 export class MailRuleService extends AbstractPaperlessService<PaperlessMailRule> {
   loading: boolean
 
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient , private PermissionService : PermissionsService) {
     super(http, 'mailrule')
   }
   private reload() {
@@ -27,12 +28,14 @@ export class MailRuleService extends AbstractPaperlessService<PaperlessMailRule>
   get allRules() {
     return this.mailRules
   }
-
+  
   create(o: PaperlessMailRule) {
+    o.owner = this.PermissionService.getCurrentUserID();
     return super.create(o,"add_mailrule").pipe(tap(() => this.reload()))
   }
 
   update(o: PaperlessMailRule) {
+    o.owner = this.PermissionService.getCurrentUserID();
     return super.update(o,"update_mailrule").pipe(tap(() => this.reload()))
   }
 

@@ -27,28 +27,7 @@
         </div>
     </div>
 
-    <div class="ms-auto" ngbDropdown>
-        <button class="btn btn-sm btn-outline-primary me-2" id="actionsDropdown" ngbDropdownToggle>
-          <svg class="toolbaricon" fill="currentColor">
-            <use xlink:href="assets/bootstrap-icons.svg#three-dots" />
-          </svg>
-          <div class="d-none d-sm-inline">&nbsp;<ng-container i18n>Actions</ng-container></div>
-        </button>
-        <div ngbDropdownMenu aria-labelledby="actionsDropdown" class="shadow">
-          <button ngbDropdownItem (click)="redoOcr()" [disabled]="!userCanEdit">
-              <svg class="buttonicon-sm" fill="currentColor">
-                  <use xlink:href="assets/bootstrap-icons.svg#arrow-counterclockwise" />
-              </svg><span class="ps-1" i18n>Redo OCR</span>
-          </button>
-
-          <button ngbDropdownItem (click)="moreLike()">
-              <svg class="buttonicon-sm" fill="currentColor">
-                  <use xlink:href="assets/bootstrap-icons.svg#diagram-3" />
-              </svg><span class="ps-1" i18n>More like this</span>
-          </button>
-        </div>
-    
-    </div>
+  
 <!--  -->
 <!--   -->
     <pngx-custom-fields-dropdown

@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { Observable } from 'rxjs'
 import {
   MATCHING_ALGORITHMS,
+  MATCHING_ALGORITHMS_OBJ,
   MATCH_ALL,
   MATCH_AUTO,
   MATCH_NONE,
@@ -150,6 +151,9 @@ export abstract class EditDialogComponent<
   getMatchingAlgorithms() {
     return MATCHING_ALGORITHMS
   }
+  getMatchingAlgorithmswitoutAuto(){
+    return MATCHING_ALGORITHMS_OBJ
+  }
 
   get patternRequired(): boolean {
     return (
@@ -208,7 +212,7 @@ export abstract class EditDialogComponent<
 
         if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_AUTO ){
 
-          if(newObject.match && newObject.match.trim() !== ""){
+          if(newObject.match != "" && newObject.match.trim() !== "" && newObject.match != null ){
           newObject.match = this.splitIntoList(newObject.match); 
           console.log(newObject.match) 
           }

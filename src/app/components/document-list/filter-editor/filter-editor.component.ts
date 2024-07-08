@@ -857,28 +857,13 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
   textFilterDebounce: Subject<string>
   subscription: Subscription
 
-  ngOnInit() {
-    debugger
-    this.permissionsService.getCurrentUserID()
-    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
-      this.isAuthenticated = isAuthenticated;
-      console.log('app authenticated', isAuthenticated);
-    });
-    if (this.isAuthenticated) {
-      this.oidcSecurityService
-          .getUserData()
-          .subscribe((userInfo: any) => {
-              console.log('User Info:', userInfo);
-              this.idowner = userInfo.sub;
-              console.log(this.permissionsService.getCurrentUserID());
-              
-              this.tagService.listAll(null, null, "list_tagsdropdown",  this.permissionsService.getCurrentUserID())
+  ngOnInit() {             
+    this.tagService.listAll(null, null, "list_tagsdropdown",  this.permissionsService.getCurrentUserID())
                   .subscribe((result: Results<PaperlessTag>) => {
                       this.tags = result.results;
-                  });
-          });
-  }
+    });
       
+        
     this.correspondentService
     .listAll(null,null,"list_correspondent",this.permissionsService.getCurrentUserID())
       .pipe(first())

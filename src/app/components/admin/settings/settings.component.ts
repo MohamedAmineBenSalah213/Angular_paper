@@ -531,11 +531,7 @@ export class SettingsComponent
     debugger
     // only patch views that have actually changed
     const changed: PaperlessSavedView[] = []
-    Object.values(this.savedViewGroup.controls)
-      .filter((g: FormGroup) => !g.pristine)
-      .forEach((group: FormGroup) => {
-        changed.push(group.value)
-      })
+   
     if (changed.length > 0) {
       this.savedViewService.patchMany(changed).subscribe({
         next: () => {

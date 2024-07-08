@@ -268,12 +268,12 @@
     </div>
   </div>
   <div class="btn-group flex-fill" role="group">
-    <input type="radio" class="btn-check" [(ngModel)]="displayMode" value="details" (ngModelChange)="saveDisplayMode()" id="displayModeDetails" name="displayModeDetails">
+   <!--  <input type="radio" class="btn-check" [(ngModel)]="displayMode" value="details" (ngModelChange)="saveDisplayMode()" id="displayModeDetails" name="displayModeDetails">
     <label for="displayModeDetails" class="btn btn-outline-primary btn-sm">
       <svg class="toolbaricon" fill="currentColor">
         <use xlink:href="assets/bootstrap-icons.svg#list-ul" />
       </svg>
-    </label>
+    </label> -->
     <input type="radio" class="btn-check" [(ngModel)]="displayMode" value="smallCards" (ngModelChange)="saveDisplayMode()" id="displayModeSmall" name="displayModeSmall">
     <label for="displayModeSmall" class="btn btn-outline-primary btn-sm">
       <svg class="toolbaricon" fill="currentColor">
@@ -358,7 +358,7 @@
     </pngx-document-card-large>
   </div>
 
-  <table class="table table-sm align-middle border shadow-sm" *ngIf="displayMode === 'details'">
+  <!-- <table class="table table-sm align-middle border shadow-sm" *ngIf="displayMode === 'details'">
     <thead>
       <th></th>
       <th class="d-none d-lg-table-cell"
@@ -418,13 +418,7 @@
         [currentSortReverse]="list.sortReverse"
         (sort)="onSort($event)"
         i18n>Created</th>
-      <th class="d-none d-xl-table-cell"
-        pngxSortable="added"
-        title="Sort by added date" i18n-title
-        [currentSortField]="list.sortField"
-        [currentSortReverse]="list.sortReverse"
-        (sort)="onSort($event)"
-        i18n>Added</th>
+      
     </thead>
     <tbody>
       <tr *ngFor="let d of list.documents; trackBy: trackByDocumentId" (click)="toggleSelected(d, $event); $event.stopPropagation();" (dblclick)="openDocumentDetail(d)" [ngClass]="list.isSelected(d) ? 'table-row-selected' : ''">
@@ -476,7 +470,7 @@
         </td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
 
   <div class="row row-cols-paperless-cards" *ngIf="displayMode === 'smallCards'">
     <pngx-document-card-small class="p-0" [selected]="list.isSelected(d)" (toggleSelected)="toggleSelected(d, $event)" (dblClickDocument)="openDocumentDetail(d)" [document]="d" *ngFor="let d of list.documents; trackBy: trackByDocumentId" (clickTag)="clickTag($event)" (clickCorrespondent)="clickCorrespondent($event)" (clickStoragePath)="clickStoragePath($event)" (clickDocumentType)="clickDocumentType($event)"></pngx-document-card-small>

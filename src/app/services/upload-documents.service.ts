@@ -8,6 +8,7 @@ import {
 import { DocumentService } from './rest/document.service'
 import { Subscription } from 'rxjs'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { PermissionsService } from './permissions.service'
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class UploadDocumentsService {
 
   constructor(
     private documentService: DocumentService,
-    private oidcSecurityService: OidcSecurityService,
+    private PermissionService : PermissionsService,
     private consumerStatusService: ConsumerStatusService
   ) {}
   id:string ="";
@@ -38,13 +39,8 @@ export class UploadDocumentsService {
 
   private uploadFile(file: File) {
     // get id
-    this.oidcSecurityService
-   .getUserData()
-   .subscribe((userInfo: any) => {
-     console.log('User Info:', userInfo);
-     // Access specific claims (e.g., email, sub, etc.)
-    this.id = userInfo.sub;
-   }); 
+    this.id =  this.PermissionService.getCurrentUserID()
+   
     let formData = new FormData()
     formData.append('formData', file, file.name);
 
@@ -52,7 +48,7 @@ export class UploadDocumentsService {
       console.log(key + ', ' + value);
   });
   const fileData = formData.get('formData') as File;
-console.log(fileData.name);
+
     
     let status = this.consumerStatusService.newFileUpload(file.name)
 

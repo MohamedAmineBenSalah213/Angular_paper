@@ -244,8 +244,8 @@ export class DocumentListViewService {
       .listFiltered(
         activeListViewState.currentPage,
         this.currentPageSize,
-        null,
-          null,
+        activeListViewState.sortField,
+        activeListViewState.sortReverse,
           activeListViewState.filterRules,
           "list_document",
           this.id,
