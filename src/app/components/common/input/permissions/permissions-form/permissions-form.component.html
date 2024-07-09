@@ -14,16 +14,7 @@
 
 <ng-template #permissionsForm>
 <div [formGroup]="form">
-  <div class="row">
-    <div class="col-lg-3">
-      <label class="form-label d-block my-2" i18n>Owner:</label>
-    </div>
-    <div class="col-lg-9">
-      <pngx-input-select [items]="users" bindLabel="username" formControlName="owner" [allowNull]="true"></pngx-input-select>
-    </div>
-  </div>
-  <small class="form-text text-muted text-end d-block mt-n2" i18n>Objects without an owner can be viewed and edited by all users</small>
-  <div formGroupName="set_permissions">
+   <div formGroupName="set_permissions">
     <h6 class="mt-3" i18n>View</h6>
     <div formGroupName="view" class="mb-2">
       <div class="row mb-1">

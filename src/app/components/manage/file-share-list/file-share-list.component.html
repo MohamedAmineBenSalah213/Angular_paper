@@ -34,7 +34,7 @@
             {{ file?.shareName }}
           </button>
         </div>
-        <!-- [disabled]="!permissionsService.currentUserCan(PermissionAction.Change, PermissionType.MailAccount)" -->
+      
         <div class="col d-flex align-items-center">
           {{ file?.folderPath }}
         </div>
@@ -45,27 +45,18 @@
               type="button"
               (click)="editShareFile(file)"
             >
-              <!-- [disabled]="!userCanEdit(file)"-->
+             
               <svg class="buttonicon-sm" fill="currentColor">
-                <!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailAccount }"  -->
+            
                 <use xlink:href="assets/bootstrap-icons.svg#pencil" /></svg>&nbsp;<ng-container i18n>Edit</ng-container>
             </button>
-            <button
-              class="btn btn-sm btn-outline-secondary"
-              type="button"
-              (click)="editPermissions(file)"
-            >
-              <!-- *pngxIfOwner="account"  -->
-              <svg class="buttonicon-sm" fill="currentColor">
-                <use xlink:href="assets/bootstrap-icons.svg#person-lock" /></svg>&nbsp;<ng-container i18n>Permissions</ng-container>
-            </button>
+          
             <button
               class="btn btn-sm btn-outline-danger"
               type="button"
               (click)="deleteShareFile(file)"
             >
-              <!-- [disabled]="!userIsOwner(file)"-->
-              <!-- *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.MailAccount }" -->
+            
               <svg class="buttonicon-sm" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#trash" /></svg>&nbsp;<ng-container i18n>Delete</ng-container>
             </button>

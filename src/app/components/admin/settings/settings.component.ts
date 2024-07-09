@@ -133,72 +133,7 @@ export class SettingsComponent
   }
 
   ngOnInit() {
-    this.initialize()
-
-    if (
-      this.permissionsService.currentUserCan(
-        PermissionAction.View,
-        PermissionType.User
-      )
-    ) {
-      this.usersService
-        .listAll()
-        .pipe(first())
-        .subscribe({
-          next: (r) => {
-            this.users = r.results
-          },
-          error: (e) => {
-            this.toastService.showError($localize`Error retrieving users`, e)
-          },
-        })
-    }
-
-    if (
-      this.permissionsService.currentUserCan(
-        PermissionAction.View,
-        PermissionType.Group
-      )
-    ) {
-      this.groupsService
-        .listAll()
-        .pipe(first())
-        .subscribe({
-          next: (r) => {
-            this.groups = r.results
-          },
-          error: (e) => {
-            this.toastService.showError($localize`Error retrieving groups`, e)
-          },
-        })
-    }
-
-    if (
-      this.permissionsService.currentUserCan(
-        PermissionAction.View,
-        PermissionType.SavedView
-      )
-    ) {
-      this.savedViewService.listAll().subscribe((r) => {
-        this.savedViews = r.results
-        this.initialize(false)
-      })
-    }
-
-    this.activatedRoute.paramMap.subscribe((paramMap) => {
-      const section = paramMap.get('section')
-      if (section) {
-        const navIDKey: string = Object.keys(SettingsNavIDs).find(
-          (navID) => navID.toLowerCase() == section
-        )
-        if (navIDKey) {
-          this.activeNavID = SettingsNavIDs[navIDKey]
-        }
-        if (this.activeNavID === SettingsNavIDs.SavedViews) {
-          this.settings.organizingSidebarSavedViews = true
-        }
-      }
-    })
+    this.initialize()  
   }
 
   ngAfterViewInit(): void {

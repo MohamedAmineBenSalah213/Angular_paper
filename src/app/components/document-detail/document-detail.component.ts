@@ -574,29 +574,6 @@ get isRTL() {
       })
   }
 
-  discard() {
-    this.documentsService
-      .get(this.documentId)
-      .pipe(first())
-      .subscribe({
-        next: (doc) => {
-          Object.assign(this.document, doc)
-          doc['permissions_form'] = {
-            owner: doc.owner,
-            set_permissions: doc.permissions,
-          }
-          this.title = doc.title
-          this.updateFormForCustomFields()
-          this.documentForm.patchValue(doc)
-          this.openDocumentService.setDirty(doc, false)
-        },
-        error: () => {
-          this.router.navigate(['404'], {
-            replaceUrl: true,
-          })
-        },
-      })
-  }
 
   save(close: boolean = false) {
     this.networkActive = true

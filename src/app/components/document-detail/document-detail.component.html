@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="btn-group ms-auto">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="discard()" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Discard</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" routerLink="/documents" i18n >Discard</button>
                     <ng-container *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Document }">
                         <button *ngIf="hasNext()" type="button" class="btn btn-sm btn-outline-primary" (click)="saveEditNext()" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Save &amp; next</button>
                         <button *ngIf="!hasNext()" type="button" class="btn btn-sm btn-outline-primary" (click)="save(true)" i18n [disabled]="!userCanEdit || networkActive || (isDirty$ | async) !== true">Save &amp; close</button>
@@ -144,15 +144,15 @@
                             <tbody>
                                 <tr>
                                     <td i18n>Date modified</td>
-                                    <td>{{document.modified | customDate}}</td>
+                                    <td>{{metadata?.dateModified | customDate}}</td>
                                 </tr>
                                 <tr>
                                     <td i18n>Date added</td>
-                                    <td>{{document.createdOn | customDate}}</td>
+                                    <td>{{metadata?.dateCreated | customDate}}</td>
                                 </tr>
                                 <tr>
                                     <td i18n>Media filename</td>
-                                    <td>{{metadata?.media_filename}}</td>
+                                    <td>{{metadata?.mediaFilename}}</td>
                                 </tr>
                                 <tr>
                                     <td i18n>Original filename</td>
@@ -160,15 +160,15 @@
                                 </tr>
                                 <tr>
                                     <td i18n>Original MD5 checksum</td>
-                                    <td>{{metadata?.original_checksum}}</td>
+                                    <td>{{metadata?.checksum}}</td>
                                 </tr>
                                 <tr>
                                     <td i18n>Original file size</td>
-                                    <td>{{metadata?.original_size | fileSize}}</td>
+                                    <td>{{metadata?.originalFileSize | fileSize}}</td>
                                 </tr>
                                 <tr>
                                     <td i18n>Original mime type</td>
-                                    <td>{{metadata?.original_mime_type}}</td>
+                                    <td>{{metadata?.mimeType}}</td>
                                 </tr>
                                 <tr *ngIf="metadata?.has_archive_version">
                                     <td i18n>Archive MD5 checksum</td>

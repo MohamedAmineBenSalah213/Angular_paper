@@ -112,6 +112,7 @@ export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<
     return new FormGroup({
       name: new FormControl(null),
       type: new FormControl(null),
+      Is_Enabled:new FormControl(null),
       account: new FormControl(null),
       filter_filename: new FormControl(null),
       filter_path: new FormControl(null),
@@ -155,7 +156,7 @@ export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<
     return WORKFLOW_TYPE_OPTIONS
   }
   getActionupdate() {
-    throw new Error('Method not implemented.')
+    "update_template"
   }
   getAction() {
     "add_template"

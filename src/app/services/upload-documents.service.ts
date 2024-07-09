@@ -68,10 +68,11 @@ export class UploadDocumentsService {
               event.total
             )
             status.message = $localize`Uploading...`
-          } else if (event.type === HttpEventType.Response) {
-          status.taskId = event.body['task_id']
-            status.message = $localize`Upload complete, waiting...` 
-            this.uploadSubscriptions[file.name]?.complete()
+            setTimeout(() => {
+              status.message = $localize `Upload complete, waiting...`;
+              this.uploadSubscriptions[file.name]?.complete();
+            
+            }, 2 * 60 * 1000); 
           }
         },
         error: (error) => {
