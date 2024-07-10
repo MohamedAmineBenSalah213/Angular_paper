@@ -11,12 +11,12 @@ import {
 } from 'src/app/data/matching-model'
 import { ObjectWithId } from 'src/app/data/object-with-id'
 import { ObjectWithPermissions } from 'src/app/data/object-with-permissions'
-import { PaperlessUser } from 'src/app/data/paperless-user'
-import { AbstractPaperlessService } from 'src/app/services/rest/abstract-paperless-service'
+import { User } from 'src/app/data/user'
+import { AbstractService } from 'src/app/services/rest/abstract-service'
 import { UserService } from 'src/app/services/rest/user.service'
 import { PermissionsFormObject } from '../input/permissions/permissions-form/permissions-form.component'
 import { SettingsService } from 'src/app/services/settings.service'
-import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
+import { SETTINGS_KEYS } from 'src/app/data/uisettings'
 
 
 
@@ -31,14 +31,14 @@ export abstract class EditDialogComponent<
 > implements OnInit
 {
   constructor(
-    protected service: AbstractPaperlessService<T>,
+    protected service: AbstractService<T>,
     private activeModal: NgbActiveModal,
     private userService: UserService,
     private settingsService: SettingsService,
    
   ) {}
 
-  users: PaperlessUser[]
+  users: User[]
 
   @Input()
   dialogMode: EditDialogMode = EditDialogMode.CREATE

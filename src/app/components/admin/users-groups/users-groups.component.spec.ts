@@ -41,7 +41,7 @@ import { TextComponent } from '../../common/input/text/text.component'
 import { PageHeaderComponent } from '../../common/page-header/page-header.component'
 import { SettingsComponent } from '../settings/settings.component'
 import { UsersAndGroupsComponent } from './users-groups.component'
-import { PaperlessUser } from 'src/app/data/paperless-user'
+import { PaperlessUser } from 'src/app/data/user'
 import { PaperlessGroup } from 'src/app/data/paperless-group'
 
 const users = [

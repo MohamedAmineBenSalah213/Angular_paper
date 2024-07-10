@@ -4,12 +4,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { first } from 'rxjs'
 import {
   DocumentSource,
-  PaperlessConsumptionTemplate,
+  consumptionTemplate,
   WorkflowTriggerType,
-} from 'src/app/data/paperless-consumption-template'
-import { PaperlessCorrespondent } from 'src/app/data/paperless-correspondent'
-import { PaperlessDocumentType } from 'src/app/data/paperless-document-type'
-import { PaperlessStoragePath } from 'src/app/data/paperless-storage-path'
+} from 'src/app/data/consumption-template'
+import { correspondent } from 'src/app/data/correspondent'
+import { documentType } from 'src/app/data/document-type'
+import { storagePath } from 'src/app/data/storage-path'
 import { ConsumptionTemplateService } from 'src/app/services/rest/consumption-template.service'
 import { CorrespondentService } from 'src/app/services/rest/correspondent.service'
 import { DocumentTypeService } from 'src/app/services/rest/document-type.service'
@@ -18,7 +18,7 @@ import { UserService } from 'src/app/services/rest/user.service'
 import { SettingsService } from 'src/app/services/settings.service'
 import { EditDialogComponent } from '../edit-dialog.component'
 import { MailRuleService } from 'src/app/services/rest/mail-rule.service'
-import { PaperlessMailRule } from 'src/app/data/paperless-mail-rule'
+import { mailRule } from 'src/app/data/mail-rule'
 import { DEFAULT_MATCHING_ALGORITHM, MATCHING_ALGORITHMS, MATCH_AUTO } from 'src/app/data/matching-model'
 import { PermissionsService } from 'src/app/services/permissions.service'
 export const WORKFLOW_TYPE_OPTIONS = [
@@ -58,13 +58,13 @@ const TRIGGER_MATCHING_ALGORITHMS = MATCHING_ALGORITHMS.filter(
   templateUrl: './consumption-template-edit-dialog.component.html',
   styleUrls: ['./consumption-template-edit-dialog.component.scss'],
 })
-export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<PaperlessConsumptionTemplate> {
+export class ConsumptionTemplateEditDialogComponent extends EditDialogComponent<consumptionTemplate> {
  
-  templates: PaperlessConsumptionTemplate[]
-  correspondents: PaperlessCorrespondent[]
-  documentTypes: PaperlessDocumentType[]
-  storagePaths: PaperlessStoragePath[]
-  mailRules: PaperlessMailRule[]
+  templates: consumptionTemplate[]
+  correspondents: correspondent[]
+  documentTypes: documentType[]
+  storagePaths: storagePath[]
+  mailRules: mailRule[]
   public WorkflowTriggerType = WorkflowTriggerType
   constructor(
     service: ConsumptionTemplateService,

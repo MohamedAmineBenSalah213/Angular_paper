@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FileShare } from 'src/app/data/file-share';
-import { AbstractPaperlessService } from './abstract-paperless-service';
+import { AbstractService } from './abstract-service';
 import { Observable, combineLatest, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FileShareService extends AbstractPaperlessService<FileShare> {
+export class FileShareService extends AbstractService<FileShare> {
   loading: boolean;
   constructor(http: HttpClient) {
     super(http, 'sharefolder');

@@ -11,7 +11,7 @@ export enum WorkflowTriggerType {
   DocumentUpdated = 2,
 }
 
-export interface PaperlessConsumptionTemplate extends ObjectWithId {
+export interface consumptionTemplate extends ObjectWithId {
   name: string
 
   order: number
@@ -50,13 +50,13 @@ export interface PaperlessConsumptionTemplate extends ObjectWithId {
 
   assign_owner?: number // User.id
 
-  assign_view_users?: number[] // [PaperlessUser.id]
+  assign_view_users?: number[] // [User.id]
 
-  assign_view_groups?: number[] // [PaperlessGroup.id]
+  assign_view_groups?: number[] // [Group.id]
 
-  assign_change_users?: number[] // [PaperlessUser.id]
+  assign_change_users?: number[] // [User.id]
 
-  assign_change_groups?: number[] // [PaperlessGroup.id]
+  assign_change_groups?: number[] // [Group.id]
 
   owner?: string;
 }

@@ -4,7 +4,7 @@ import {
   PermissionType,
   PermissionsService,
 } from './permissions.service'
-import { PaperlessDocument } from '../data/paperless-document'
+import { PaperlessDocument } from '../data/document'
 
 describe('PermissionsService', () => {
   let permissionsService: PermissionsService

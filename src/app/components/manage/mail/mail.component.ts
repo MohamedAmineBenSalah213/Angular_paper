@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { Subject, first, takeUntil } from 'rxjs'
 import { ObjectWithPermissions } from 'src/app/data/object-with-permissions'
-import { PaperlessMailAccount } from 'src/app/data/paperless-mail-account'
-import { PaperlessMailRule } from 'src/app/data/paperless-mail-rule'
+import { MailAccount } from 'src/app/data/mail-account'
+import { mailRule } from 'src/app/data/mail-rule'
 import {
   PermissionsService,
   PermissionAction,
 } from 'src/app/services/permissions.service'
-import { AbstractPaperlessService } from 'src/app/services/rest/abstract-paperless-service'
+import { AbstractService } from 'src/app/services/rest/abstract-service'
 import { MailAccountService } from 'src/app/services/rest/mail-account.service'
 import { MailRuleService } from 'src/app/services/rest/mail-rule.service'
 import { ToastService } from 'src/app/services/toast.service'
@@ -28,8 +28,8 @@ export class MailComponent
   extends ComponentWithPermissions
   implements OnInit, OnDestroy
 {
-  mailAccounts: PaperlessMailAccount[] = []
-  mailRules: PaperlessMailRule[] = []
+  mailAccounts: MailAccount[] = []
+  mailRules: mailRule[] = []
 
   unsubscribeNotifier: Subject<any> = new Subject()
 
@@ -78,7 +78,7 @@ export class MailComponent
     this.unsubscribeNotifier.next(true)
   }
 
-  editMailAccount(account: PaperlessMailAccount = null) {
+  editMailAccount(account: MailAccount = null) {
     const modal = this.modalService.open(MailAccountEditDialogComponent, {
       backdrop: 'static',
       size: 'xl',
@@ -107,7 +107,7 @@ export class MailComponent
       })
   }
 
-  deleteMailAccount(account: PaperlessMailAccount) {
+  deleteMailAccount(account: MailAccount) {
     const modal = this.modalService.open(ConfirmDialogComponent, {
       backdrop: 'static',
     })
@@ -139,7 +139,7 @@ export class MailComponent
     })
   }
 
-  editMailRule(rule: PaperlessMailRule = null) {
+  editMailRule(rule: mailRule = null) {
     const modal = this.modalService.open(MailRuleEditDialogComponent, {
       backdrop: 'static',
       size: 'xl',
@@ -166,7 +166,7 @@ export class MailComponent
       })
   }
 
-  deleteMailRule(rule: PaperlessMailRule) {
+  deleteMailRule(rule: mailRule) {
     const modal = this.modalService.open(ConfirmDialogComponent, {
       backdrop: 'static',
     })
@@ -195,7 +195,7 @@ export class MailComponent
     })
   }
 
-  editPermissions(object: PaperlessMailRule | PaperlessMailAccount) {
+  editPermissions(object: mailRule | MailAccount) {
     const modal = this.modalService.open(PermissionsDialogComponent, {
       backdrop: 'static',
     })
@@ -204,8 +204,8 @@ export class MailComponent
     dialog.object = object
     modal.componentInstance.confirmClicked.subscribe((permissions) => {
       modal.componentInstance.buttonsEnabled = false
-      const service: AbstractPaperlessService<
-        PaperlessMailRule | PaperlessMailAccount
+      const service: AbstractService<
+      mailRule | MailAccount
       > = 'account' in object ? this.mailRuleService : this.mailAccountService
       object.owner = permissions['owner']
       object['set_permissions'] = permissions['set_permissions']

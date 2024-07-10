@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core'
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms'
-import { PaperlessUser } from 'src/app/data/paperless-user'
+import { User } from 'src/app/data/user'
 import { AbstractInputComponent } from '../../abstract-input'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
 
@@ -35,7 +35,7 @@ export class PermissionsFormComponent
   implements OnInit
 {
   @Input()
-  users: PaperlessUser[]
+  users: User[]
   username: string;
   @Input()
   accordion: boolean = false

@@ -3,17 +3,17 @@ import { FormControl, FormGroup } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { first } from 'rxjs'
 import { EditDialogComponent } from 'src/app/components/common/edit-dialog/edit-dialog.component'
-import { PaperlessCorrespondent } from 'src/app/data/paperless-correspondent'
-import { PaperlessDocumentType } from 'src/app/data/paperless-document-type'
-import { PaperlessMailAccount } from 'src/app/data/paperless-mail-account'
+import { correspondent } from 'src/app/data/correspondent'
+import { documentType } from 'src/app/data/document-type'
+import { MailAccount } from 'src/app/data/mail-account'
 import {
   MailAction,
   MailFilterAttachmentType,
   MailMetadataCorrespondentOption,
   MailMetadataTitleOption,
-  PaperlessMailRule,
+  mailRule,
   MailRuleConsumptionScope,
-} from 'src/app/data/paperless-mail-rule'
+} from 'src/app/data/mail-rule'
 import { CorrespondentService } from 'src/app/services/rest/correspondent.service'
 import { DocumentTypeService } from 'src/app/services/rest/document-type.service'
 import { MailAccountService } from 'src/app/services/rest/mail-account.service'
@@ -109,16 +109,16 @@ const METADATA_CORRESPONDENT_OPTIONS = [
   templateUrl: './mail-rule-edit-dialog.component.html',
   styleUrls: ['./mail-rule-edit-dialog.component.scss'],
 })
-export class MailRuleEditDialogComponent extends EditDialogComponent<PaperlessMailRule> {
+export class MailRuleEditDialogComponent extends EditDialogComponent<mailRule> {
   getActionupdate() {
     return null;
   }
   getAction() {
     return null;
   }
-  accounts: PaperlessMailAccount[]
-  correspondents: PaperlessCorrespondent[]
-  documentTypes: PaperlessDocumentType[]
+  accounts: MailAccount[]
+  correspondents: correspondent[]
+  documentTypes: documentType[]
 
   constructor(
     service: MailRuleService,

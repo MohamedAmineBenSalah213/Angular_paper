@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Subject, first, map, switchMap, takeUntil } from 'rxjs';
-import { PaperlessCorrespondent } from 'src/app/data/paperless-correspondent';
-import { PaperlessDocumentSuggestions } from 'src/app/data/paperless-document-suggestions';
+import { correspondent } from 'src/app/data/correspondent';
+import { documentSuggestions } from 'src/app/data/document-suggestions';
 import { CorrespondentService } from 'src/app/services/rest/correspondent.service';
 import { CorrespondentEditDialogComponent } from '../edit-dialog/correspondent-edit-dialog/correspondent-edit-dialog.component';
 import { EditDialogMode } from '../edit-dialog/edit-dialog.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PaperlessUser } from 'src/app/data/paperless-user';
+import { User } from 'src/app/data/user';
 import { UserService } from 'src/app/services/rest/user.service';
-import { PaperlessTask } from 'src/app/data/paperless-task';
+import { task } from 'src/app/data/task';
 import { DocumentService } from 'src/app/services/rest/document.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { FixOwnerCorrespondent } from 'src/app/data/FixOwnerCorrespondent';
@@ -19,10 +19,10 @@ import { FixOwnerCorrespondent } from 'src/app/data/FixOwnerCorrespondent';
   styleUrls: ['./fix-documents-dropdown.component.scss']
 })
 export class FixDocumentsDropdownComponent implements OnInit {
-  correspondents: PaperlessCorrespondent[]
-  owners : PaperlessUser[]
-  suggestions: PaperlessDocumentSuggestions;
-  @Input() task: PaperlessTask;
+  correspondents: correspondent[]
+  owners : User[]
+  suggestions: documentSuggestions;
+  @Input() task: task;
   unsubscribeNotifier: Subject<any> = new Subject()
   selectedCorrespondent: any;  // Property to hold the selected correspondent
   selectedOwner: any;  // Property to hold the selected owner

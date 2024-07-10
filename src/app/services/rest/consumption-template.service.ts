@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { tap } from 'rxjs'
-import { PaperlessConsumptionTemplate } from 'src/app/data/paperless-consumption-template'
-import { AbstractPaperlessService } from './abstract-paperless-service'
+import { consumptionTemplate } from 'src/app/data/consumption-template'
+import { AbstractService } from './abstract-service'
 import { PermissionsService } from '../permissions.service'
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConsumptionTemplateService extends AbstractPaperlessService<PaperlessConsumptionTemplate> {
+export class ConsumptionTemplateService extends AbstractService<consumptionTemplate> {
   loading: boolean
 
   constructor(http: HttpClient , private permissionservice: PermissionsService) {
@@ -23,23 +23,23 @@ export class ConsumptionTemplateService extends AbstractPaperlessService<Paperle
     })
   }
 
-  private templates: PaperlessConsumptionTemplate[] = []
+  private templates: consumptionTemplate[] = []
 
-  public get allTemplates(): PaperlessConsumptionTemplate[] {
+  public get allTemplates(): consumptionTemplate[] {
     return this.templates
   }
 
-  create(o: PaperlessConsumptionTemplate) {
+  create(o: consumptionTemplate) {
     o.owner = this.permissionservice.getCurrentUserID();
     return super.create(o,"add_template").pipe(tap(() => this.reload()))
   }
 
-  update(o: PaperlessConsumptionTemplate) {
+  update(o: consumptionTemplate) {
     o.owner = this.permissionservice.getCurrentUserID();
     return super.update(o,"").pipe(tap(() => this.reload()))
   }
 
-  delete(o: PaperlessConsumptionTemplate) {
+  delete(o: consumptionTemplate) {
     
     return super.delete(o).pipe(tap(() => this.reload()))
   }

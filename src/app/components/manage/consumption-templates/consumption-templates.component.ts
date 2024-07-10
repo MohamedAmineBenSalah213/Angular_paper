@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ConsumptionTemplateService } from 'src/app/services/rest/consumption-template.service'
 import { ComponentWithPermissions } from '../../with-permissions/with-permissions.component'
 import { Subject, takeUntil } from 'rxjs'
-import { PaperlessConsumptionTemplate, WorkflowTriggerType } from 'src/app/data/paperless-consumption-template'
+import { consumptionTemplate, WorkflowTriggerType } from 'src/app/data/consumption-template'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { ToastService } from 'src/app/services/toast.service'
 import { PermissionsService } from 'src/app/services/permissions.service'
@@ -23,9 +23,10 @@ export class ConsumptionTemplatesComponent
   extends ComponentWithPermissions
   implements OnInit
 {
-  public templates: PaperlessConsumptionTemplate[] = []
+  public templates: consumptionTemplate[] = []
 
   private unsubscribeNotifier: Subject<any> = new Subject()
+  id: any
 
   constructor(
     private consumptionTemplateService: ConsumptionTemplateService,
@@ -41,8 +42,11 @@ export class ConsumptionTemplatesComponent
   }
 
   reload() {
+    debugger
+     this.id = this.permissionsService.getCurrentUserID();
+    
     this.consumptionTemplateService
-      .listAll(null,null,"list_templates",null)
+      .list(null,null,null,null,"list_templates",this.id,null)
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe((r) => {
         this.templates = r.results
@@ -62,8 +66,8 @@ export class ConsumptionTemplatesComponent
     }
   }
   
-  // Function to get the type as string from PaperlessConsumptionTemplate
-   getSourceList(template: PaperlessConsumptionTemplate): string {
+  // Function to get the type as string from ConsumptionTemplate
+   getSourceList(template: consumptionTemplate): string {
     return this.getWorkflowTriggerTypeString(template.type);
   }
   
@@ -92,7 +96,7 @@ export class ConsumptionTemplatesComponent
         this.toastService.showError($localize`Error saving template.`, e)
       })
   }
-  editTemplate(rule: PaperlessConsumptionTemplate) {
+  editTemplate(rule: consumptionTemplate) {
     debugger
     const modal = this.modalService.open(
       ConsumptionTemplateEditDialogComponent,
@@ -120,7 +124,7 @@ export class ConsumptionTemplatesComponent
       })
   }
 
-  deleteTemplate(rule: PaperlessConsumptionTemplate) {
+  deleteTemplate(rule: consumptionTemplate) {
     const modal = this.modalService.open(ConfirmDialogComponent, {
       backdrop: 'static',
     })

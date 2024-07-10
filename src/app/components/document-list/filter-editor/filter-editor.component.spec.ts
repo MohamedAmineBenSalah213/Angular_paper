@@ -49,10 +49,10 @@ import {
   FILTER_CUSTOM_FIELDS,
 } from 'src/app/data/filter-rule-type'
 import { PaperlessCorrespondent } from 'src/app/data/paperless-correspondent'
-import { PaperlessDocumentType } from 'src/app/data/paperless-document-type'
+import { PaperlessDocumentType } from 'src/app/data/document-type'
 import { PaperlessStoragePath } from 'src/app/data/paperless-storage-path'
-import { PaperlessTag } from 'src/app/data/paperless-tag'
-import { PaperlessUser } from 'src/app/data/paperless-user'
+import { PaperlessTag } from 'src/app/data/tag'
+import { PaperlessUser } from 'src/app/data/user'
 import { IfPermissionsDirective } from 'src/app/directives/if-permissions.directive'
 import { CustomDatePipe } from 'src/app/pipes/custom-date.pipe'
 import { FilterPipe } from 'src/app/pipes/filter.pipe'

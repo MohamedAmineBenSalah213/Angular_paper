@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import {
-  PaperlessShareLink,
-  PaperlessFileVersion,
-} from 'src/app/data/paperless-share-link'
+  ShareLink,
+  FileVersion,
+} from 'src/app/data/share-link'
 import { AbstractNameFilterService } from './abstract-name-filter-service'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
@@ -10,24 +10,24 @@ import { Observable } from 'rxjs'
 @Injectable({
   providedIn: 'root',
 })
-export class ShareLinkService extends AbstractNameFilterService<PaperlessShareLink> {
+export class ShareLinkService extends AbstractNameFilterService<ShareLink> {
   constructor(http: HttpClient) {
     super(http, 'share_links')
   }
 
-  getLinksForDocument(documentId: string): Observable<PaperlessShareLink[]> {
-    return this.http.get<PaperlessShareLink[]>(
+  getLinksForDocument(documentId: string): Observable<ShareLink[]> {
+    return this.http.get<ShareLink[]>(
       `${this.baseUrl}documents/${documentId}/${this.resourceName}/`
     )
   }
 
   createLinkForDocument(
     documentId: string,
-    file_version: PaperlessFileVersion = PaperlessFileVersion.Archive,
+    file_version: FileVersion = FileVersion.Archive,
     expiration: Date = null
   ) {
     this.clearCache()
-    return this.http.post<PaperlessShareLink>(this.getResourceUrl(), {
+    return this.http.post<ShareLink>(this.getResourceUrl(), {
       document: documentId,
       file_version,
       expiration: expiration?.toISOString(),

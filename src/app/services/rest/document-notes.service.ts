@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpParams } from '@angular/common/http'
-import { PaperlessDocumentNote } from 'src/app/data/paperless-document-note'
-import { AbstractPaperlessService } from './abstract-paperless-service'
+import { documentNote } from 'src/app/data/document-note'
+import { AbstractService } from './abstract-service'
 import { Observable } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
-export class DocumentNotesService extends AbstractPaperlessService<PaperlessDocumentNote> {
+export class documentNotesService extends AbstractService<documentNote> {
   constructor(http: HttpClient) {
     super(http, 'document')
   }
 
-  getNotes(documentId: string): Observable<PaperlessDocumentNote[]> {
-    return this.http.get<PaperlessDocumentNote[]>(
+  getNotes(documentId: string): Observable<documentNote[]> {
+    return this.http.get<documentNote[]>(
       this.getResourceUrl(documentId, 'getnotes')
     )
   }
 
-  addNote(id: string, note: string): Observable<PaperlessDocumentNote[]> {
-    return this.http.post<PaperlessDocumentNote[]>(
+  addNote(id: string, note: string): Observable<documentNote> {
+    return this.http.post<documentNote>(
       this.getResourceUrl(id, 'notes'),
       { note: note }
     )
@@ -28,10 +28,9 @@ export class DocumentNotesService extends AbstractPaperlessService<PaperlessDocu
   deleteNote(
     documentId: string,
     noteId: string
-  ): Observable<PaperlessDocumentNote[]> {
-    return this.http.delete<PaperlessDocumentNote[]>(
-      this.getResourceUrl(documentId, 'notes'),
-      { params: new HttpParams({ fromString: `id=${noteId}` }) }
-    )
+  ): Observable<documentNote> {
+    return this.http.delete<documentNote>(
+      `http://localhost:63092/document/${documentId}/notes/${noteId}`
+    );
   }
 }

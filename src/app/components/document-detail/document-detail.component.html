@@ -215,11 +215,11 @@
                         </div>
                     </ng-template>
                 </li>
-
-                <li [ngbNavItem]="DocumentDetailNavIDs.Notes" *ngIf="notesEnabled" >
-                    <a class="text-nowrap" ngbNavLink i18n>Notes <span *ngIf="document?.notes.length" class="badge text-bg-secondary ms-1">{{document.notes.length}}</span></a>
+                
+                <li [ngbNavItem]="DocumentDetailNavIDs.Notes" *ngIf="notesEnabled">
+                    <a class="text-nowrap" ngbNavLink i18n>Notes <span *ngIf="document?.notes" class="badge text-bg-secondary ms-1">{{document.notes.length}}</span></a>
                     <ng-template ngbNavContent>
-                        <pngx-document-notes [documentId]="documentId" [notes]="document?.notes" (updated)="notesUpdated($event)" [addDisabled]="!userCanEdit"></pngx-document-notes><!--   -->
+                        <pngx-document-notes [documentId]="documentId" [notes]="document?.notes" [addDisabled]="!userCanEdit" (updated)="notesUpdated($event)"></pngx-document-notes>
                     </ng-template>
                 </li>
 

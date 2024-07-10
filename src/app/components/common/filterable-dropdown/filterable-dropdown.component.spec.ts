@@ -13,7 +13,7 @@ import {
 } from './filterable-dropdown.component'
 import { FilterPipe } from 'src/app/pipes/filter.pipe'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
-import { PaperlessTag } from 'src/app/data/paperless-tag'
+import { PaperlessTag } from 'src/app/data/tag'
 import {
   DEFAULT_MATCHING_ALGORITHM,
   MATCH_ALL,

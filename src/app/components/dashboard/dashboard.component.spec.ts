@@ -18,7 +18,7 @@ import { TourNgBootstrapModule, TourService } from 'ngx-ui-tour-ng-bootstrap'
 import { LogoComponent } from '../common/logo/logo.component'
 import { of, throwError } from 'rxjs'
 import { ToastService } from 'src/app/services/toast.service'
-import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
+import { SETTINGS_KEYS } from 'src/app/data/uisettings'
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop'
 import { PaperlessSavedView } from 'src/app/data/paperless-saved-view'
 

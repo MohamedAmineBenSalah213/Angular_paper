@@ -11,12 +11,9 @@ import { SettingsComponent } from './components/admin/settings/settings.componen
 import { TagListComponent } from './components/manage/tag-list/tag-list.component'
 import { NotFoundComponent } from './components/not-found/not-found.component'
 import { DocumentAsnComponent } from './components/document-asn/document-asn.component'
-import { DirtyFormGuard } from './guards/dirty-form.guard'
 import { StoragePathListComponent } from './components/manage/storage-path-list/storage-path-list.component'
 import { TasksComponent } from './components/admin/tasks/tasks.component'
 import { PermissionsGuard } from './guards/permissions.guard'
-import { DirtyDocGuard } from './guards/dirty-doc.guard'
-import { DirtySavedViewGuard } from './guards/dirty-saved-view.guard'
 import {
   PermissionAction,
   PermissionType,

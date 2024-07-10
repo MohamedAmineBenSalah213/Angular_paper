@@ -4,9 +4,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
 import { first } from 'rxjs'
 import { EditDialogComponent } from 'src/app/components/common/edit-dialog/edit-dialog.component'
-import { PaperlessGroup } from 'src/app/data/paperless-group'
-import { PaperlessUser } from 'src/app/data/paperless-user'
-import { GroupService } from 'src/app/services/rest/group.service'
+import { group } from 'src/app/data/group'
+import { User } from 'src/app/data/user'
+import { groupService } from 'src/app/services/rest/group.service'
 import { UserService } from 'src/app/services/rest/user.service'
 import { SettingsService } from 'src/app/services/settings.service'
 
@@ -16,7 +16,7 @@ import { SettingsService } from 'src/app/services/settings.service'
   styleUrls: ['./user-edit-dialog.component.scss'],
 })
 export class UserEditDialogComponent
-  extends EditDialogComponent<PaperlessUser>
+  extends EditDialogComponent<User>
   implements OnInit
 {
   getActionupdate() {
@@ -25,13 +25,13 @@ export class UserEditDialogComponent
   getAction() {
     return 'Registration'
   }
-  groups: PaperlessGroup[]
+  groups: group[]
   passwordIsSet: boolean = false
 
   constructor(
     service: UserService,
     activeModal: NgbActiveModal,
-    groupsService: GroupService,
+    groupsService: groupService,
     
     settingsService: SettingsService
   ) {

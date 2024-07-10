@@ -15,9 +15,8 @@ import {
   isFullTextFilterRule,
 } from 'src/app/utils/filter-rules'
 import { FILTER_FULLTEXT_MORELIKE } from 'src/app/data/filter-rule-type'
-import { PaperlessDocument } from 'src/app/data/paperless-document'
-import { PaperlessSavedView } from 'src/app/data/paperless-saved-view'
-import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
+import { document } from 'src/app/data/document'
+import { SETTINGS_KEYS } from 'src/app/data/uisettings'
 import {
   SortableDirective,
   SortEvent,
@@ -29,11 +28,12 @@ import {
   DOCUMENT_SORT_FIELDS,
   DOCUMENT_SORT_FIELDS_FULLTEXT,
 } from 'src/app/services/rest/document.service'
-import { SavedViewService } from 'src/app/services/rest/saved-view.service'
 import { SettingsService } from 'src/app/services/settings.service'
 import { ToastService } from 'src/app/services/toast.service'
 import { ComponentWithPermissions } from '../with-permissions/with-permissions.component'
 import { FilterEditorComponent } from './filter-editor/filter-editor.component'
+import { savedview } from 'src/app/data/savedView'
+
 
 @Component({
   selector: 'pngx-document-list',
@@ -46,7 +46,6 @@ export class DocumentListComponent
 {
   constructor(
     public list: DocumentListViewService,
-    public savedViewService: SavedViewService,
     public route: ActivatedRoute,
     private router: Router,
     private toastService: ToastService,
@@ -67,7 +66,7 @@ export class DocumentListComponent
   displayMode = 'smallCards' // largeCards, smallCards, details
 
   unmodifiedFilterRules: FilterRule[] = []
-  private unmodifiedSavedView: PaperlessSavedView
+  private unmodifiedSavedView: savedview
 
   private unsubscribeNotifier: Subject<any> = new Subject()
 
@@ -146,32 +145,7 @@ export class DocumentListComponent
        // debugger
       })
 
-    this.route.paramMap
-      .pipe(
-        filter((params) => params.has('id')), // only on saved view e.g. /view/id
-        switchMap((params) => {
-          return this.savedViewService
-            .getCached(params.get('id'),"saved_view")
-            .pipe(map((view) => ({ view })))
-        })
-      )
-      .pipe(takeUntil(this.unsubscribeNotifier))
-      .subscribe(({ view }) => {
-        if (!view) {
-          this.router.navigate(['404'], {
-            replaceUrl: true,
-          })
-          return
-        }
-        this.unmodifiedSavedView = view
-        this.list.activateSavedViewWithQueryParams(
-          view,
-          convertToParamMap(this.route.snapshot.queryParams)
-        )
-        this.list.reload()
-        this.unmodifiedFilterRules = view.filter_rules
-      })
-
+   
     this.route.queryParamMap
       .pipe(
         filter(() => !this.route.snapshot.paramMap.has('id')), // only when not on /view/id
@@ -195,46 +169,17 @@ export class DocumentListComponent
     this.unsubscribeNotifier.complete()
   }
 
-  saveViewConfig() {
-    if (this.list.activeSavedViewId != null) {
-      let savedView: PaperlessSavedView = {
-        id: this.list.activeSavedViewId,
-        filter_rules: this.list.filterRules,
-        sort_field: this.list.sortField,
-        sort_reverse: this.list.sortReverse,
-      }
-      this.savedViewService
-        .patch(savedView)
-        .pipe(first())
-        .subscribe((view) => {
-          this.unmodifiedSavedView = view
-          this.toastService.showInfo(
-            $localize`View "${this.list.activeSavedViewTitle}" saved successfully.`
-          )
-          this.unmodifiedFilterRules = this.list.filterRules
-        })
-    }
-  }
+  
 
-  loadViewConfig(viewID: string) {
-    this.savedViewService
-      .getCached(viewID,"view")
-      .pipe(first())
-      .subscribe((view) => {
-        this.unmodifiedSavedView = view
-        this.list.activateSavedView(view)
-        this.list.reload()
-      })
-  }
 
  
 
-  openDocumentDetail(document: PaperlessDocument) {
+  openDocumentDetail(document: document) {
     console.log(document.id)
     this.router.navigate(['documents', document.id])
   }
 
-  toggleSelected(document: PaperlessDocument, event: MouseEvent): void {
+  toggleSelected(document: document, event: MouseEvent): void {
     console.log(document.title);
     
     if (!event.shiftKey) this.list.toggleSelected(document)
@@ -267,7 +212,7 @@ export class DocumentListComponent
     ])
   }
 
-  trackByDocumentId(index, item: PaperlessDocument) {
+  trackByDocumentId(index, item: document) {
   //  console.log(item.id)
     return item.id
   }

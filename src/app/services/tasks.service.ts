@@ -3,12 +3,11 @@ import { Injectable } from '@angular/core'
 import { Subject } from 'rxjs'
 import { first, takeUntil } from 'rxjs/operators'
 import {
-  PaperlessTask,
-  PaperlessTaskStatus,
-  PaperlessTaskType,
-} from 'src/app/data/paperless-task'
+  task
+ 
+} from 'src/app/data/task'
 import { environment } from 'src/environments/environment'
-import { DocumentSource } from '../data/paperless-consumption-template'
+import { DocumentSource } from '../data/consumption-template'
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +17,7 @@ export class TasksService {
 
   public loading: boolean
 
-  private fileTasks: PaperlessTask[] = []
+  private fileTasks: task[] = []
 
   private unsubscribeNotifer: Subject<any> = new Subject()
 
@@ -26,19 +25,19 @@ export class TasksService {
     return this.fileTasks.length
   }
 
-  public get allFileTasks(): PaperlessTask[] {
+  public get allFileTasks(): task[] {
     return this.fileTasks.slice(0)
   }
 
-  public get queuedFileTasks(): PaperlessTask[] {
+  public get queuedFileTasks(): task[] {
     return this.fileTasks.filter((t) => t.source == DocumentSource.ConsumeFolder)
   }
 
-  public get startedFileTasks(): PaperlessTask[] {
+  public get startedFileTasks(): task[] {
     return this.fileTasks.filter((t) => t.source == DocumentSource.ApiUpload)
   }
 
-  public get completedFileTasks(): PaperlessTask[] {
+  public get completedFileTasks(): task[] {
     return this.fileTasks.filter(
       (t) => t.source == DocumentSource.MailFetch
     )
@@ -50,7 +49,7 @@ export class TasksService {
     this.loading = true
  //  debugger
     this.http
-      .get<PaperlessTask[]>(`${this.baseUrl}/filetask/list_file_tasks`)
+      .get<task[]>(`${this.baseUrl}/filetask/list_file_tasks`)
       .pipe(takeUntil(this.unsubscribeNotifer), first())
      .subscribe((r) => {
       this.fileTasks = r// they're all File tasks, for now

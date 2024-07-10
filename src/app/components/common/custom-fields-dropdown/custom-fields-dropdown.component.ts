@@ -8,8 +8,8 @@ import {
 } from '@angular/core'
 import { NgbDropdown, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { Subject, first, takeUntil } from 'rxjs'
-import { PaperlessCustomField } from 'src/app/data/paperless-custom-field'
-import { PaperlessCustomFieldInstance } from 'src/app/data/paperless-custom-field-instance'
+import { customField } from 'src/app/data/custom-field'
+import { CustomFieldInstance } from 'src/app/data/custom-field-instance'
 import { CustomFieldsService } from 'src/app/services/rest/custom-fields.service'
 import { ToastService } from 'src/app/services/toast.service'
 import { CustomFieldEditDialogComponent } from '../edit-dialog/custom-field-edit-dialog/custom-field-edit-dialog.component'
@@ -32,16 +32,16 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
   disabled: boolean = false
 
   @Input()
-  existingFields: PaperlessCustomFieldInstance[] = []
+  existingFields: CustomFieldInstance[] = []
 
   @Output()
-  added: EventEmitter<PaperlessCustomField> = new EventEmitter()
+  added: EventEmitter<customField> = new EventEmitter()
 
   @Output()
-  created: EventEmitter<PaperlessCustomField> = new EventEmitter()
+  created: EventEmitter<customField> = new EventEmitter()
 
-  private customFields: PaperlessCustomField[] = []
-  public unusedFields: PaperlessCustomField[]
+  private customFields: customField[] = []
+  public unusedFields: customField[]
 
   public name: string
 
@@ -100,8 +100,8 @@ export class CustomFieldsDropdownComponent implements OnDestroy {
     this.fieldDropdown.toggle(); // Toggle the dropdown manually
 }
   public getCustomFieldFromInstance(
-    instance: PaperlessCustomFieldInstance
-  ): PaperlessCustomField {
+    instance: CustomFieldInstance
+  ): customField {
     return this.customFields.find((f) => f.id === instance.field)
   }
 

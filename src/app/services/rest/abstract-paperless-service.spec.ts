@@ -2,16 +2,16 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing'
-import { AbstractPaperlessService } from './abstract-paperless-service'
+import { AbstractService } from './abstract-service'
 import { Subscription } from 'rxjs'
 import { TestBed } from '@angular/core/testing'
 import { environment } from 'src/environments/environment'
 
 let httpTestingController: HttpTestingController
-let service: AbstractPaperlessService<any>
+let service: AbstractService<any>
 let subscription: Subscription
 
-export const commonAbstractPaperlessServiceTests = (endpoint, ServiceClass) => {
+export const commonAbstractServiceTests = (endpoint, ServiceClass) => {
   describe(`Common service tests for ${endpoint}`, () => {
     test('should call appropriate api endpoint for list all', () => {
       subscription = service.listAll().subscribe()

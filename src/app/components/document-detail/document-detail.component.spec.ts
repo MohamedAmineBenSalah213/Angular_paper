@@ -32,10 +32,10 @@ import {
   FILTER_CREATED_BEFORE,
 } from 'src/app/data/filter-rule-type'
 import { PaperlessCorrespondent } from 'src/app/data/paperless-correspondent'
-import { PaperlessDocument } from 'src/app/data/paperless-document'
-import { PaperlessDocumentType } from 'src/app/data/paperless-document-type'
+import { PaperlessDocument } from 'src/app/data/document'
+import { PaperlessDocumentType } from 'src/app/data/document-type'
 import { PaperlessStoragePath } from 'src/app/data/paperless-storage-path'
-import { PaperlessTag } from 'src/app/data/paperless-tag'
+import { PaperlessTag } from 'src/app/data/tag'
 import { IfOwnerDirective } from 'src/app/directives/if-owner.directive'
 import { IfPermissionsDirective } from 'src/app/directives/if-permissions.directive'
 import { PermissionsGuard } from 'src/app/guards/permissions.guard'
@@ -68,7 +68,7 @@ import { DocumentNotesComponent } from '../document-notes/document-notes.compone
 import { DocumentDetailComponent } from './document-detail.component'
 import { ShareLinksDropdownComponent } from '../common/share-links-dropdown/share-links-dropdown.component'
 import { CustomFieldsDropdownComponent } from '../common/custom-fields-dropdown/custom-fields-dropdown.component'
-import { PaperlessCustomFieldDataType } from 'src/app/data/paperless-custom-field'
+import { PaperlessCustomFieldDataType } from 'src/app/data/custom-field'
 import { CustomFieldsService } from 'src/app/services/rest/custom-fields.service'
 
 const doc: PaperlessDocument = {

@@ -32,10 +32,10 @@ export enum MailMetadataCorrespondentOption {
   FromCustom = 4,
 }
 
-export interface PaperlessMailRule extends ObjectWithPermissions {
+export interface mailRule extends ObjectWithPermissions {
   name: string
 
-  account: string // PaperlessMailAccount.id
+  account: string // MailAccount.id
 
   order: number
 
@@ -61,13 +61,13 @@ export interface PaperlessMailRule extends ObjectWithPermissions {
 
   assign_title_from: MailMetadataTitleOption
 
-  assign_tags?: string[] // PaperlessTag.id
+  assign_tags?: string[] // Tag.id
 
-  assign_document_type?: string // PaperlessDocumentType.id
+  assign_document_type?: string // DocumentType.id
 
   assign_correspondent_from?: MailMetadataCorrespondentOption
 
-  assign_correspondent?: string // PaperlessCorrespondent.id
+  assign_correspondent?: string // Correspondent.id
 
   assign_owner_from_rule: boolean
 }

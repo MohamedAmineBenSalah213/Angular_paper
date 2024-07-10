@@ -47,7 +47,7 @@ import { DocumentCardSmallComponent } from './document-card-small/document-card-
 import { DocumentCardLargeComponent } from './document-card-large/document-card-large.component'
 import { DocumentTitlePipe } from 'src/app/pipes/document-title.pipe'
 import { UsernamePipe } from 'src/app/pipes/username.pipe'
-import { PaperlessDocument } from 'src/app/data/paperless-document'
+import { PaperlessDocument } from 'src/app/data/document'
 import {
   DOCUMENT_SORT_FIELDS,
   DOCUMENT_SORT_FIELDS_FULLTEXT,
@@ -61,7 +61,7 @@ import { CheckComponent } from '../common/input/check/check.component'
 import { HttpErrorResponse } from '@angular/common/http'
 import { PermissionsGuard } from 'src/app/guards/permissions.guard'
 import { SettingsService } from 'src/app/services/settings.service'
-import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
+import { SETTINGS_KEYS } from 'src/app/data/uisettings'
 import { IsNumberPipe } from 'src/app/pipes/is-number.pipe'
 
 const docs: PaperlessDocument[] = [

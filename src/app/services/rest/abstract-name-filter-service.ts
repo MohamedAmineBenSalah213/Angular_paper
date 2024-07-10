@@ -1,11 +1,11 @@
 import { ObjectWithId } from 'src/app/data/object-with-id'
-import { AbstractPaperlessService } from './abstract-paperless-service'
+import { AbstractService } from './abstract-service'
 import { PermissionsObject } from 'src/app/data/object-with-permissions'
 import { Observable } from 'rxjs'
 
 export abstract class AbstractNameFilterService<
   T extends ObjectWithId,
-> extends AbstractPaperlessService<T> {
+> extends AbstractService<T> {
   listFiltered(
     page?: number,
     pageSize?: number,

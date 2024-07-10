@@ -21,18 +21,16 @@ import {
   takeUntil,
   tap,
 } from 'rxjs'
-import { PaperlessGroup } from 'src/app/data/paperless-group'
-import { PaperlessSavedView } from 'src/app/data/paperless-saved-view'
-import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
-import { PaperlessUser } from 'src/app/data/paperless-user'
+import { group } from 'src/app/data/group'
+import { SETTINGS_KEYS } from 'src/app/data/uisettings'
+import { User } from 'src/app/data/user'
 import { DocumentListViewService } from 'src/app/services/document-list-view.service'
 import {
   PermissionsService,
   PermissionAction,
   PermissionType,
 } from 'src/app/services/permissions.service'
-import { GroupService } from 'src/app/services/rest/group.service'
-import { SavedViewService } from 'src/app/services/rest/saved-view.service'
+import { groupService } from 'src/app/services/rest/group.service'
 import { UserService } from 'src/app/services/rest/user.service'
 import {
   SettingsService,
@@ -92,7 +90,6 @@ export class SettingsComponent
     savedViews: this.savedViewGroup,
   })
 
-  savedViews: PaperlessSavedView[]
 
   store: BehaviorSubject<any>
   storeSub: Subscription
@@ -101,8 +98,8 @@ export class SettingsComponent
   unsubscribeNotifier: Subject<any> = new Subject()
   savePending: boolean = false
 
-  users: PaperlessUser[]
-  groups: PaperlessGroup[]
+  users: User[]
+  groups: group[]
 
   get computedDateLocale(): string {
     return (
@@ -113,7 +110,6 @@ export class SettingsComponent
   }
 
   constructor(
-    public savedViewService: SavedViewService,
     private documentListViewService: DocumentListViewService,
     private toastService: ToastService,
     private settings: SettingsService,
@@ -122,7 +118,7 @@ export class SettingsComponent
     private activatedRoute: ActivatedRoute,
     public readonly tourService: TourService,
     private usersService: UserService,
-    private groupsService: GroupService,
+    private groupsService: groupService,
     private router: Router,
     public permissionsService: PermissionsService
   ) {
@@ -232,27 +228,7 @@ export class SettingsComponent
 
     let storeData = this.getCurrentSettings()
 
-    if (this.savedViews) {
-      this.emptyGroup(this.savedViewGroup)
-
-      for (let view of this.savedViews) {
-        storeData.savedViews[view.id.toString()] = {
-          id: view.id,
-          name: view.name,
-          show_on_dashboard: view.show_on_dashboard,
-          show_in_sidebar: view.show_in_sidebar,
-        }
-        this.savedViewGroup.addControl(
-          view.id.toString(),
-          new FormGroup({
-            id: new FormControl(null),
-            name: new FormControl(null),
-            show_on_dashboard: new FormControl(null),
-            show_in_sidebar: new FormControl(null),
-          })
-        )
-      }
-    }
+    
 
     this.store = new BehaviorSubject(storeData)
 
@@ -297,20 +273,7 @@ export class SettingsComponent
     this.settings.organizingSidebarSavedViews = false
   }
 
-  deleteSavedView(savedView: PaperlessSavedView) {
-    this.savedViewService.delete(savedView).subscribe(() => {
-      this.savedViewGroup.removeControl(savedView.id.toString())
-      this.savedViews.splice(this.savedViews.indexOf(savedView), 1)
-      this.toastService.showInfo(
-        $localize`Saved view "${savedView.name}" deleted.`
-      )
-      this.savedViewService.clearCache()
-      this.savedViewService.listAll().subscribe((r) => {
-        this.savedViews = r.results
-        this.initialize(true)
-      })
-    })
-  }
+ 
 
   private saveLocalSettings() {
     this.savePending = true
@@ -462,27 +425,6 @@ export class SettingsComponent
     return new Date()
   }
 
-  saveSettings() {
-    debugger
-    // only patch views that have actually changed
-    const changed: PaperlessSavedView[] = []
-   
-    if (changed.length > 0) {
-      this.savedViewService.patchMany(changed).subscribe({
-        next: () => {
-          this.saveLocalSettings()
-        },
-        error: (error) => {
-          this.toastService.showError(
-            $localize`Error while storing settings on server.`,
-            error
-          )
-        },
-      })
-    } else {
-      this.saveLocalSettings()
-    }
-  }
 
   clearThemeColor() {
     this.settingsForm.get('themeColor').patchValue('')

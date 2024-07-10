@@ -72,7 +72,6 @@ import { DocumentAsnComponent } from './components/document-asn/document-asn.com
 import { DocumentNotesComponent } from './components/document-notes/document-notes.component'
 import { PermissionsGuard } from './guards/permissions.guard'
 import { DirtyDocGuard } from './guards/dirty-doc.guard'
-import { DirtySavedViewGuard } from './guards/dirty-saved-view.guard'
 import { StoragePathListComponent } from './components/manage/storage-path-list/storage-path-list.component'
 import { StoragePathEditDialogComponent } from './components/common/edit-dialog/storage-path-edit-dialog/storage-path-edit-dialog.component'
 import { SettingsService } from './services/settings.service'
@@ -339,7 +338,6 @@ function initializeApp(settings: SettingsService) {
     { provide: NgbDateParserFormatter, useClass: LocalizedDateParserFormatter },
     PermissionsGuard,
     DirtyDocGuard,
-    DirtySavedViewGuard,
     UsernamePipe,
   ],
   bootstrap: [AppComponent],

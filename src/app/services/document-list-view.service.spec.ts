@@ -12,13 +12,13 @@ import {
   FILTER_HAS_TAGS_ALL,
   FILTER_HAS_TAGS_ANY,
 } from '../data/filter-rule-type'
-import { PaperlessSavedView } from '../data/paperless-saved-view'
+import { PaperlessSavedView } from '../data/savedView'
 import { FilterRule } from '../data/filter-rule'
 import { RouterTestingModule } from '@angular/router/testing'
 import { routes } from 'src/app/app-routing.module'
 import { PermissionsGuard } from '../guards/permissions.guard'
 import { SettingsService } from './settings.service'
-import { SETTINGS_KEYS } from '../data/paperless-uisettings'
+import { SETTINGS_KEYS } from '../data/uisettings'
 
 const documents = [
   {

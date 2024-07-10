@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { PaperlessDocument } from '../data/paperless-document'
+import { document } from '../data/document'
 import { OPEN_DOCUMENT_SERVICE } from '../data/storage-keys'
 import { DocumentService } from './rest/document.service'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
@@ -29,15 +29,15 @@ export class OpenDocumentsService {
     }
   }
 
-  private openDocuments: PaperlessDocument[] = []
+  private openDocuments: document[] = []
   private dirtyDocuments: Set<string> = new Set<string>()
 
   refreshDocument(id: string) {
     let index = this.openDocuments.findIndex((doc) => doc.id == id)
     if (index > -1) {
-      this.documentService.get(id).subscribe({
+      this.documentService.getlist(id,"get_document").subscribe({
         next: (doc) => {
-          this.openDocuments[index] = doc
+          this.openDocuments[index] = doc          
           this.save()
         },
         error: () => {
@@ -48,15 +48,15 @@ export class OpenDocumentsService {
     }
   }
 
-  getOpenDocuments(): PaperlessDocument[] {
+  getOpenDocuments(): document[] {
     return this.openDocuments
   }
 
-  getOpenDocument(id: string): PaperlessDocument {
+  getOpenDocument(id: string): document {
     return this.openDocuments.find((d) => d.id == id)
   }
 
-  openDocument(doc: PaperlessDocument): Observable<boolean> {
+  openDocument(doc: document): Observable<boolean> {
     if (this.openDocuments.find((d) => d.id == doc.id) == null) {
       if (this.openDocuments.length == this.MAX_OPEN_DOCUMENTS) {
         // at max, ensure changes arent lost
@@ -74,13 +74,13 @@ export class OpenDocumentsService {
     return of(true)
   }
 
-  private finishOpenDocument(doc: PaperlessDocument) {
+  private finishOpenDocument(doc: document) {
     this.openDocuments.unshift(doc)
     this.dirtyDocuments.delete(doc.id)
     this.save()
   }
 
-  setDirty(doc: PaperlessDocument, dirty: boolean) {
+  setDirty(doc: document, dirty: boolean) {
     if (!this.openDocuments.find((d) => d.id == doc.id)) return
     if (dirty) this.dirtyDocuments.add(doc.id)
     else this.dirtyDocuments.delete(doc.id)
@@ -90,7 +90,7 @@ export class OpenDocumentsService {
     return this.dirtyDocuments.size > 0
   }
 
-  closeDocument(doc: PaperlessDocument): Observable<boolean> {
+  closeDocument(doc: document): Observable<boolean> {
     let index = this.openDocuments.findIndex((d) => d.id == doc.id)
     if (index == -1) return of(true)
     if (!this.dirtyDocuments.has(doc.id)) {

@@ -12,7 +12,7 @@ import { of, throwError } from 'rxjs'
 import {
   DocumentSource,
   PaperlessConsumptionTemplate,
-} from 'src/app/data/paperless-consumption-template'
+} from 'src/app/data/consumption-template'
 import { IfPermissionsDirective } from 'src/app/directives/if-permissions.directive'
 import { ConsumptionTemplateService } from 'src/app/services/rest/consumption-template.service'
 import { ToastService } from 'src/app/services/toast.service'

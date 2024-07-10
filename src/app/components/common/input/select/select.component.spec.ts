@@ -10,7 +10,7 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms'
 import { SelectComponent } from './select.component'
-import { PaperlessTag } from 'src/app/data/paperless-tag'
+import { PaperlessTag } from 'src/app/data/tag'
 import {
   DEFAULT_MATCHING_ALGORITHM,
   MATCH_ALL,

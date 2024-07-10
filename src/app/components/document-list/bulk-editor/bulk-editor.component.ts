@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { PaperlessTag } from 'src/app/data/paperless-tag'
-import { PaperlessCorrespondent } from 'src/app/data/paperless-correspondent'
-import { PaperlessDocumentType } from 'src/app/data/paperless-document-type'
+import { tag } from 'src/app/data/tag'
+import { correspondent } from 'src/app/data/correspondent'
+import { documentType } from 'src/app/data/document-type'
 import { TagService } from 'src/app/services/rest/tag.service'
 import { CorrespondentService } from 'src/app/services/rest/correspondent.service'
 import { DocumentTypeService } from 'src/app/services/rest/document-type.service'
@@ -23,8 +23,8 @@ import { SettingsService } from 'src/app/services/settings.service'
 import { ToastService } from 'src/app/services/toast.service'
 import { saveAs } from 'file-saver'
 import { StoragePathService } from 'src/app/services/rest/storage-path.service'
-import { PaperlessStoragePath } from 'src/app/data/paperless-storage-path'
-import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
+import { storagePath } from 'src/app/data/storage-path'
+import { SETTINGS_KEYS } from 'src/app/data/uisettings'
 import { ComponentWithPermissions } from '../../with-permissions/with-permissions.component'
 import { PermissionsDialogComponent } from '../../common/permissions-dialog/permissions-dialog.component'
 import {
@@ -45,10 +45,10 @@ export class BulkEditorComponent
   extends ComponentWithPermissions
   implements OnInit, OnDestroy
 {
-  tags: PaperlessTag[]
-  correspondents: PaperlessCorrespondent[]
-  documentTypes: PaperlessDocumentType[]
-  storagePaths: PaperlessStoragePath[]
+  tags: tag[]
+  correspondents: correspondent[]
+  documentTypes: documentType[]
+  storagePaths: storagePath[]
 
   tagSelectionModel = new FilterableDropdownSelectionModel()
   correspondentSelectionModel = new FilterableDropdownSelectionModel()
@@ -117,7 +117,7 @@ export class BulkEditorComponent
 
   ngOnInit() {
    
-    this.tagService.listAll(null,null,"list_tagsdropdown",null).subscribe((result:Results<PaperlessTag>) => {
+    this.tagService.listAll(null,null,"list_tagsdropdown",null).subscribe((result:Results<tag>) => {
       console.log(result.count);
       
       this.tags = result.results

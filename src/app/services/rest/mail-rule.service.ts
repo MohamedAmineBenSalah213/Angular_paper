@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { combineLatest, Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
-import { PaperlessMailRule } from 'src/app/data/paperless-mail-rule'
-import { AbstractPaperlessService } from './abstract-paperless-service'
+import { mailRule } from 'src/app/data/mail-rule'
+import { AbstractService } from './abstract-service'
 import { PermissionsService } from '../permissions.service'
 
 @Injectable({
   providedIn: 'root',
 })
-export class MailRuleService extends AbstractPaperlessService<PaperlessMailRule> {
+export class MailRuleService extends AbstractService<mailRule> {
   loading: boolean
 
   constructor(http: HttpClient , private PermissionService : PermissionsService) {
@@ -23,29 +23,29 @@ export class MailRuleService extends AbstractPaperlessService<PaperlessMailRule>
     })
   }
 
-  private mailRules: PaperlessMailRule[] = []
+  private mailRules: mailRule[] = []
 
   get allRules() {
     return this.mailRules
   }
   
-  create(o: PaperlessMailRule) {
+  create(o: mailRule) {
     o.owner = this.PermissionService.getCurrentUserID();
     return super.create(o,"add_mailrule").pipe(tap(() => this.reload()))
   }
 
-  update(o: PaperlessMailRule) {
+  update(o: mailRule) {
     o.owner = this.PermissionService.getCurrentUserID();
     return super.update(o,"update_mailrule").pipe(tap(() => this.reload()))
   }
 
-  patchMany(objects: PaperlessMailRule[]): Observable<PaperlessMailRule[]> {
+  patchMany(objects: mailRule[]): Observable<mailRule[]> {
     return combineLatest(objects.map((o) => super.patch(o))).pipe(
       tap(() => this.reload())
     )
   }
 
-  delete(o: PaperlessMailRule) {
+  delete(o: mailRule) {
     return super.delete(o,"delete_mailrule").pipe(tap(() => this.reload()))
   }
 }

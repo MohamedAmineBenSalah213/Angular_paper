@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { FILTER_HAS_CORRESPONDENT_ANY } from 'src/app/data/filter-rule-type'
-import { PaperlessCorrespondent } from 'src/app/data/paperless-correspondent'
+import { correspondent } from 'src/app/data/correspondent'
 import { CustomDatePipe } from 'src/app/pipes/custom-date.pipe'
 import { DocumentListViewService } from 'src/app/services/document-list-view.service'
 import {
@@ -20,7 +20,7 @@ import { OidcSecurityService } from 'angular-auth-oidc-client'
   styleUrls: ['./../management-list/management-list.component.scss'],
   providers: [{ provide: CustomDatePipe }],
 })
-export class CorrespondentListComponent extends ManagementListComponent<PaperlessCorrespondent> {
+export class CorrespondentListComponent extends ManagementListComponent<correspondent> {
   getAction() {
    return "delete_correspondent"
   }
@@ -50,7 +50,7 @@ export class CorrespondentListComponent extends ManagementListComponent<Paperles
         {
           key: 'last_correspondence',
           name: $localize`Last used`,
-          valueFn: (c: PaperlessCorrespondent) => {
+          valueFn: (c: correspondent) => {
             if (c.last_correspondence) {
               let date = new Date(c.last_correspondence)
               if (date.toString() == 'Invalid Date') {
@@ -70,7 +70,7 @@ export class CorrespondentListComponent extends ManagementListComponent<Paperles
     )
   }
 
-  getDeleteMessage(object: PaperlessCorrespondent) {
+  getDeleteMessage(object: correspondent) {
     return $localize`Do you really want to delete the correspondent "${object.name}"?`
   }
 }

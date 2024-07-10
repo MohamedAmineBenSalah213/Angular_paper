@@ -13,9 +13,9 @@ import { AppModule } from '../app.module'
 import {
   PaperlessUiSettings,
   SETTINGS_KEYS,
-} from '../data/paperless-uisettings'
+} from '../data/uisettings'
 import { SettingsService } from './settings.service'
-import { PaperlessSavedView } from '../data/paperless-saved-view'
+import { PaperlessSavedView } from '../data/savedView'
 
 describe('SettingsService', () => {
   let httpTestingController: HttpTestingController

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
-import { PaperlessDocument } from 'src/app/data/paperless-document'
-import { PaperlessDocumentMetadata } from 'src/app/data/paperless-document-metadata'
-import { AbstractPaperlessService } from './abstract-paperless-service'
+import { document } from 'src/app/data/document'
+
+import { AbstractService } from './abstract-service'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Results } from 'src/app/data/results'
@@ -10,12 +10,16 @@ import { map, tap } from 'rxjs/operators'
 import { CorrespondentService } from './correspondent.service'
 import { DocumentTypeService } from './document-type.service'
 import { TagService } from './tag.service'
-import { PaperlessDocumentSuggestions } from 'src/app/data/paperless-document-suggestions'
+import { documentSuggestions } from 'src/app/data/document-suggestions'
 import { queryParamsFromFilterRules } from '../../utils/query-params'
 import { StoragePathService } from './storage-path.service'
 import { environment } from 'src/environments/environment'
 import { FixOwnerCorrespondent } from 'src/app/data/FixOwnerCorrespondent'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
+import { metadatadocument } from 'src/app/data/document-metadata'
+
+
+
 
 export const DOCUMENT_SORT_FIELDS = [
   { field: 'archive_serial_number', name: $localize`ASN` },
@@ -52,7 +56,7 @@ selected_storage_paths: SelectionDataItem[]
 @Injectable({
   providedIn: 'root',
 })
-export class DocumentService extends AbstractPaperlessService<PaperlessDocument> {
+export class DocumentService extends AbstractService<document> {
 
   getDocumentsPerMonth(id:string) {
     return this.http.get(
@@ -89,7 +93,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     super(http, 'document')
   }
 
-  addObservablesToDocument(doc: PaperlessDocument) {
+  addObservablesToDocument(doc: document) {
     //debugger
       if (doc.correspondentId) {
       doc.correspondent$ = this.correspondentService.getCached(
@@ -125,7 +129,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     action?:string,
     iduser?:string,
     extraParams = {}
-  ): Observable<Results<PaperlessDocument>> {
+  ): Observable<Results<document>> {
      return this.list(
       page,
       pageSize,
@@ -149,7 +153,13 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
   sortReverse,
   action,
   */
- 
+  getDownloadOriginalUrl(id: string, original: boolean = false): string {
+    let url = this.getResourceUrl(id, 'download_original');
+    if (original) {
+      url += '?original=true';
+    }
+    return url;
+  }
 
   listAllFilteredIds(filterRules?: FilterRule[]): Observable<string[]> {
     this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
@@ -170,8 +180,8 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     }).pipe(map((response) => response.results.map((doc) => doc.id)))
   }
 
-  getlist(id: string,action :string): Observable<PaperlessDocument> {
-    return this.http.get<PaperlessDocument>(this.getResourceUrl(id,action))/* , {
+  getlist(id: string,action :string): Observable<document> {
+    return this.http.get<Document>(this.getResourceUrl(id,action))/* , {
      /*  params: {
         full_perms: true,
       }, */
@@ -203,7 +213,7 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     return this.http.get<number>(this.getResourceUrl(null, 'next_asn'))
   }
 
-  update(o: PaperlessDocument,action:string): Observable<PaperlessDocument> {
+  update(o: document,action:string): Observable<document> {
     // we want to only set created_date
     /* o.created = undefined */
     return super.update(o,action)
@@ -218,8 +228,8 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     )
   }
 
-  getMetadata(id: string): Observable<PaperlessDocumentMetadata> {
-    return this.http.get<PaperlessDocumentMetadata>(
+  getMetadata(id: string): Observable<metadatadocument> {
+    return this.http.get<metadatadocument>(
       this.getResourceUrl(id, 'getmetadata')
     )
   }
@@ -242,8 +252,8 @@ export class DocumentService extends AbstractPaperlessService<PaperlessDocument>
     
     //   
 
-  getSuggestions(id: string): Observable<PaperlessDocumentSuggestions> {
-    return this.http.get<PaperlessDocumentSuggestions>(
+  getSuggestions(id: string): Observable<documentSuggestions> {
+    return this.http.get<documentSuggestions>(
       this.getResourceUrl(id, 'suggestions')
     )
   }

@@ -11,7 +11,7 @@ import { of } from 'rxjs'
 import {
   PaperlessCustomField,
   PaperlessCustomFieldDataType,
-} from 'src/app/data/paperless-custom-field'
+} from 'src/app/data/custom-field'
 import { SelectComponent } from '../input/select/select.component'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'

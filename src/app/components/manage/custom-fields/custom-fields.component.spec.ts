@@ -4,7 +4,7 @@ import { CustomFieldsComponent } from './custom-fields.component'
 import {
   PaperlessCustomField,
   PaperlessCustomFieldDataType,
-} from 'src/app/data/paperless-custom-field'
+} from 'src/app/data/custom-field'
 import { CustomFieldsService } from 'src/app/services/rest/custom-fields.service'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'

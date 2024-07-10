@@ -2,8 +2,8 @@ import { Component } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { EditDialogComponent } from 'src/app/components/common/edit-dialog/edit-dialog.component'
-import { PaperlessGroup } from 'src/app/data/paperless-group'
-import { GroupService } from 'src/app/services/rest/group.service'
+import { group } from 'src/app/data/group'
+import { groupService } from 'src/app/services/rest/group.service'
 import { UserService } from 'src/app/services/rest/user.service'
 import { SettingsService } from 'src/app/services/settings.service'
 
@@ -12,7 +12,7 @@ import { SettingsService } from 'src/app/services/settings.service'
   templateUrl: './group-edit-dialog.component.html',
   styleUrls: ['./group-edit-dialog.component.scss'],
 })
-export class GroupEditDialogComponent extends EditDialogComponent<PaperlessGroup> {
+export class GroupEditDialogComponent extends EditDialogComponent<group> {
   getActionupdate() {
     return "update_group";
   }
@@ -20,7 +20,7 @@ export class GroupEditDialogComponent extends EditDialogComponent<PaperlessGroup
     return "add_group";
   }
   constructor(
-    service: GroupService,
+    service: groupService,
     activeModal: NgbActiveModal,
     userService: UserService,
     settingsService: SettingsService

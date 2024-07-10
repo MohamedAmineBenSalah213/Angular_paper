@@ -2,11 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { map, publishReplay, refCount } from 'rxjs/operators'
 import { ObjectWithId } from 'src/app/data/object-with-id'
-import { PaperlessCustomField } from 'src/app/data/paperless-custom-field'
+
 import { Results } from 'src/app/data/results'
 import { environment } from 'src/environments/environment'
 
-export abstract class AbstractPaperlessService<T extends ObjectWithId> {
+export abstract class AbstractService<T extends ObjectWithId> {
   protected baseUrl: string = environment.apiBaseUrl
   constructor(
     protected http: HttpClient,
@@ -73,6 +73,7 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
     path?:string, 
     extraParams?
   ): Observable<Results<T>> {
+    //debugger
     if (!this._listAll) {
       this._listAll = this.list(
         1,
@@ -88,7 +89,7 @@ export abstract class AbstractPaperlessService<T extends ObjectWithId> {
   listAllCustom(action?: string): Observable<Results<T>> {
     return this.http.get<T[]>(this.getResourceUrl(null, action)).pipe(
       map(data => {
-        // Assuming Results<PaperlessCustomField> structure has count, results, and all properties
+        // Assuming Results<CustomField> structure has count, results, and all properties
         const results: Results<T> = {
           count: data.length,
           results: data,

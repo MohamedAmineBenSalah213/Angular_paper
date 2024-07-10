@@ -20,7 +20,7 @@ import { DocumentCardSmallComponent } from './document-card-small.component'
 import { of } from 'rxjs'
 import { By } from '@angular/platform-browser'
 import { TagComponent } from '../../common/tag/tag.component'
-import { PaperlessTag } from 'src/app/data/paperless-tag'
+import { PaperlessTag } from 'src/app/data/tag'
 import { IsNumberPipe } from 'src/app/pipes/is-number.pipe'
 
 const doc = {

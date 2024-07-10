@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { NgbDropdown, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, first, takeUntil } from 'rxjs';
-import { PaperlessCustomField } from 'src/app/data/paperless-custom-field';
-import { PaperlessCustomFieldInstance } from 'src/app/data/paperless-custom-field-instance';
+import { customField } from 'src/app/data/custom-field';
+import { CustomFieldInstance } from 'src/app/data/custom-field-instance';
 import { PermissionsService } from 'src/app/services/permissions.service';
 import { CustomFieldsService } from 'src/app/services/rest/custom-fields.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -21,18 +21,18 @@ export class DataExtractionDropdownComponent implements OnDestroy{
   disabled: boolean = false
 
   @Input()
-  existingFields: PaperlessCustomFieldInstance[] = []
-  public selectedField: PaperlessCustomField;
+  existingFields: CustomFieldInstance[] = []
+  public selectedField: customField;
   @Output()
-  added: EventEmitter<PaperlessCustomField> = new EventEmitter()
+  added: EventEmitter<customField> = new EventEmitter()
   @Output()
-  selectedFieldsChange: EventEmitter<PaperlessCustomField[]> = new EventEmitter()
+  selectedFieldsChange: EventEmitter<customField[]> = new EventEmitter()
   @Output()
-  created: EventEmitter<PaperlessCustomField> = new EventEmitter()
+  created: EventEmitter<customField> = new EventEmitter()
 
-  private customFields: PaperlessCustomField[] = []
-  public unusedFields: PaperlessCustomField[]
-  public selectedFields: PaperlessCustomField[] = [];
+  private customFields: customField[] = []
+  public unusedFields: customField[]
+  public selectedFields: customField[] = [];
   public name: string
 
   public field: string
@@ -85,8 +85,8 @@ export class DataExtractionDropdownComponent implements OnDestroy{
   }
   
   public getCustomFieldFromInstance(
-    instance: PaperlessCustomFieldInstance
-  ): PaperlessCustomField {
+    instance: CustomFieldInstance
+  ): customField {
     return this.customFields.find((f) => f.id === instance.field)
   }
 

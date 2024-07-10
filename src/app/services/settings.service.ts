@@ -18,14 +18,13 @@ import {
 } from 'src/app/utils/color'
 import { environment } from 'src/environments/environment'
 import {
-  PaperlessUiSettings,
+  UiSettings,
   SETTINGS,
   SETTINGS_KEYS,
-} from '../data/paperless-uisettings'
-import { PaperlessUser } from '../data/paperless-user'
+} from '../data/uisettings'
+import { User } from '../data/user'
 import { PermissionsService } from './permissions.service'
 import { ToastService } from './toast.service'
-import { PaperlessSavedView } from '../data/paperless-saved-view'
 import { OidcSecurityService } from 'angular-auth-oidc-client'
 
 export interface LanguageOption {
@@ -46,7 +45,7 @@ export class SettingsService {
   protected baseUrl: string = environment.apiBaseUrl + '/uisettings'
 
   private settings: Object = {}
-  currentUser: PaperlessUser
+  currentUser: User
 
   public settingsSaved: EventEmitter<any> = new EventEmitter()
 
@@ -78,7 +77,7 @@ export class SettingsService {
   }
 
   // this is called by the app initializer in app.module
-  public initializeSettings(): Observable<PaperlessUiSettings> {
+  public initializeSettings(): Observable<UiSettings> {
    //debugger
    
     // Step 1: Retrieve the object from session storage
@@ -98,7 +97,7 @@ export class SettingsService {
    const url = `${this.baseUrl}/get_ui_settings_details`;
    const params = { id: this.id };
 
-   return this.http.get<PaperlessUiSettings>(url,{params}).pipe(
+   return this.http.get<UiSettings>(url,{params}).pipe(
       first(),
       tap((uisettings) => {
         Object.assign(this.settings, uisettings.settings)
@@ -585,21 +584,5 @@ export class SettingsService {
           )
         })
     }
-  }
-
-  updateDashboardViewsSort(
-    dashboardViews: PaperlessSavedView[]
-  ): Observable<any> {
-    this.set(SETTINGS_KEYS.DASHBOARD_VIEWS_SORT_ORDER, [
-      ...new Set(dashboardViews.map((v) => v.id)),
-    ])
-    return this.storeSettings()
-  }
-
-  updateSidebarViewsSort(sidebarViews: PaperlessSavedView[]): Observable<any> {
-    this.set(SETTINGS_KEYS.SIDEBAR_VIEWS_SORT_ORDER, [
-      ...new Set(sidebarViews.map((v) => v.id)),
-    ])
-    return this.storeSettings()
   }
 }

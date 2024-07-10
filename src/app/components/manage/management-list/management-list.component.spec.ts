@@ -15,7 +15,7 @@ import {
   NgbPaginationModule,
 } from '@ng-bootstrap/ng-bootstrap'
 import { of, throwError } from 'rxjs'
-import { PaperlessTag } from 'src/app/data/paperless-tag'
+import { PaperlessTag } from 'src/app/data/tag'
 import { IfPermissionsDirective } from 'src/app/directives/if-permissions.directive'
 import { SortableDirective } from 'src/app/directives/sortable.directive'
 import { SafeHtmlPipe } from 'src/app/pipes/safehtml.pipe'

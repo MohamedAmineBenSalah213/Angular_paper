@@ -3,9 +3,9 @@ import { SavedViewService } from 'src/app/services/rest/saved-view.service'
 import { SettingsService } from 'src/app/services/settings.service'
 import { ComponentWithPermissions } from '../with-permissions/with-permissions.component'
 import { TourService } from 'ngx-ui-tour-ng-bootstrap'
-import { PaperlessSavedView } from 'src/app/data/paperless-saved-view'
+import { SavedView } from 'src/app/data/-saved-view'
 import { ToastService } from 'src/app/services/toast.service'
-import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
+import { SETTINGS_KEYS } from 'src/app/data/-uisettings'
 import {
   CdkDragDrop,
   CdkDragEnd,
@@ -20,7 +20,7 @@ import {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent extends ComponentWithPermissions {
-  public dashboardViews: PaperlessSavedView[] = []
+  public dashboardViews: SavedView[] = []
   chartData: any;
   chartOptions: any;
   constructor(
@@ -62,7 +62,7 @@ export class DashboardComponent extends ComponentWithPermissions {
     this.settingsService.globalDropzoneEnabled = true
   }
 
-  onDrop(event: CdkDragDrop<PaperlessSavedView[]>) {
+  onDrop(event: CdkDragDrop<SavedView[]>) {
     moveItemInArray(
       this.dashboardViews,
       event.previousIndex,
@@ -83,14 +83,12 @@ export class DashboardComponent extends ComponentWithPermissions {
 }
  */
 import { Component, OnInit } from '@angular/core';
-import { SavedViewService } from 'src/app/services/rest/saved-view.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ComponentWithPermissions } from '../with-permissions/with-permissions.component';
 import { TourService } from 'ngx-ui-tour-ng-bootstrap';
-import { PaperlessSavedView } from 'src/app/data/paperless-saved-view';
 import { ToastService } from 'src/app/services/toast.service';
 import * as ApexCharts from 'apexcharts';
-import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings';
+import { SETTINGS_KEYS } from 'src/app/data/uisettings';
 
 import {
   CdkDragDrop,
@@ -100,6 +98,8 @@ import {
 } from '@angular/cdk/drag-drop';
 import { DocumentService } from 'src/app/services/rest/document.service';
 import { PermissionsService } from 'src/app/services/permissions.service';
+import { savedview } from 'src/app/data/savedView';
+
 
 @Component({
   selector: 'pngx-dashboard',
@@ -110,7 +110,7 @@ export class DashboardComponent
   extends ComponentWithPermissions
   implements OnInit
 {
-  public dashboardViews: PaperlessSavedView[] = [];
+  public dashboardViews: savedview[] = [];
   chartData: any;
   chartOptions: any;
   documentsTypeAndCount: any;
@@ -118,16 +118,13 @@ export class DashboardComponent
   constructor(
     public settingsService: SettingsService,
     private permissionsService: PermissionsService,
-    public savedViewService: SavedViewService,
     private tourService: TourService,
     private toastService: ToastService,
     private documentService: DocumentService
   ) {
     super();
 
-    this.savedViewService.listAll().subscribe(() => {
-      this.dashboardViews = this.savedViewService.dashboardViews;
-    });
+   
   }
 
   ngOnInit(): void {
@@ -296,22 +293,5 @@ export class DashboardComponent
     this.settingsService.globalDropzoneEnabled = true;
   }
 
-  onDrop(event: CdkDragDrop<PaperlessSavedView[]>) {
-    moveItemInArray(
-      this.dashboardViews,
-      event.previousIndex,
-      event.currentIndex
-    );
-
-    this.settingsService
-      .updateDashboardViewsSort(this.dashboardViews)
-      .subscribe({
-        next: () => {
-          this.toastService.showInfo($localize`Dashboard updated`);
-        },
-        error: (e) => {
-          this.toastService.showError($localize`Error updating dashboard`, e);
-        },
-      });
-  }
+  
 }

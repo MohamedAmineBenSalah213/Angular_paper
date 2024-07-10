@@ -5,8 +5,8 @@ import { Subject } from 'rxjs'
 import { first, takeUntil } from 'rxjs/operators'
 import { EditDialogComponent } from 'src/app/components/common/edit-dialog/edit-dialog.component'
 import { DEFAULT_MATCHING_ALGORITHM, MATCH_AUTO } from 'src/app/data/matching-model'
-import { PaperlessCustomField } from 'src/app/data/paperless-custom-field'
-import { PaperlessDocumentType } from 'src/app/data/paperless-document-type'
+import { customField } from 'src/app/data/custom-field'
+import { documentType } from 'src/app/data/document-type'
 import { CustomFieldsService } from 'src/app/services/rest/custom-fields.service'
 import { DocumentTypeService } from 'src/app/services/rest/document-type.service'
 import { UserService } from 'src/app/services/rest/user.service'
@@ -17,10 +17,10 @@ import { SettingsService } from 'src/app/services/settings.service'
   templateUrl: './document-type-edit-dialog.component.html',
   styleUrls: ['./document-type-edit-dialog.component.scss'],
 })
-export class DocumentTypeEditDialogComponent extends EditDialogComponent<PaperlessDocumentType> {
-  customFields: PaperlessCustomField[]
+export class DocumentTypeEditDialogComponent extends EditDialogComponent<documentType> {
+  customFields: customField[]
   unsubscribeNotifier: Subject<any> = new Subject()
-  selectedFields: PaperlessCustomField[] = [];
+  selectedFields: customField[] = [];
   getActionupdate() {
     return 'update_type';
   }
@@ -43,7 +43,7 @@ export class DocumentTypeEditDialogComponent extends EditDialogComponent<Paperle
   getCreateTitle() {
     return $localize`Create new document type`
   }
-  onSelectedFieldsChange(selectedFields: PaperlessCustomField[]) {
+  onSelectedFieldsChange(selectedFields: customField[]) {
     this.selectedFields = selectedFields;
     const selectedFieldIds = selectedFields.map(field => field.id);
     this.objectForm.get('ExtractedData').patchValue(selectedFieldIds);

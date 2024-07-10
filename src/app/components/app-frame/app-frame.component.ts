@@ -9,9 +9,8 @@ import {
   switchMap,
   first,
 } from 'rxjs/operators'
-import { PaperlessDocument } from 'src/app/data/paperless-document'
+import { document } from 'src/app/data/document'
 import { OpenDocumentsService } from 'src/app/services/open-documents.service'
-import { SavedViewService } from 'src/app/services/rest/saved-view.service'
 import { SearchService } from 'src/app/services/rest/search.service'
 import { environment } from 'src/environments/environment'
 import { DocumentDetailComponent } from '../document-detail/document-detail.component'
@@ -24,7 +23,7 @@ import {
 import { SettingsService } from 'src/app/services/settings.service'
 import { TasksService } from 'src/app/services/tasks.service'
 import { ComponentCanDeactivate } from 'src/app/guards/dirty-doc.guard'
-import { SETTINGS_KEYS } from 'src/app/data/paperless-uisettings'
+import { SETTINGS_KEYS } from 'src/app/data/uisettings'
 import { ToastService } from 'src/app/services/toast.service'
 import { ComponentWithPermissions } from '../with-permissions/with-permissions.component'
 import {
@@ -32,7 +31,6 @@ import {
   PermissionsService,
   PermissionType,
 } from 'src/app/services/permissions.service'
-import { PaperlessSavedView } from 'src/app/data/paperless-saved-view'
 import {
   CdkDragStart,
   CdkDragEnd,
@@ -70,7 +68,7 @@ export class AppFrameComponent
     private activatedRoute: ActivatedRoute,
     private openDocumentsService: OpenDocumentsService,
     private searchService: SearchService,
-    public savedViewService: SavedViewService,
+ 
     private remoteVersionService: RemoteVersionService,
     private list: DocumentListViewService,
     public settingsService: SettingsService,
@@ -81,14 +79,7 @@ export class AppFrameComponent
   ) {
     super()
 
-    if (
-      permissionsService.currentUserCan(
-        PermissionAction.View,
-        PermissionType.SavedView
-      )
-    ) {
-      this.savedViewService.initialize()
-    }
+    
   }
   ngOnInit(): void {
     if (this.settingsService.get(SETTINGS_KEYS.UPDATE_CHECKING_ENABLED)) {
@@ -129,7 +120,7 @@ export class AppFrameComponent
     this.isMenuCollapsed = true
   }
 
-  get openDocuments(): PaperlessDocument[] {
+  get openDocuments(): document[] {
     return this.openDocumentsService.getOpenDocuments()
   }
 
@@ -191,7 +182,7 @@ export class AppFrameComponent
     ])
   }
 
-  closeDocument(d: PaperlessDocument) {
+  closeDocument(d: document) {
     this.openDocumentsService
       .closeDocument(d)
       .pipe(first())
@@ -241,19 +232,7 @@ export class AppFrameComponent
     this.settingsService.globalDropzoneEnabled = true
   }
 
-  onDrop(event: CdkDragDrop<PaperlessSavedView[]>) {
-    const sidebarViews = this.savedViewService.sidebarViews.concat([])
-    moveItemInArray(sidebarViews, event.previousIndex, event.currentIndex)
-
-    this.settingsService.updateSidebarViewsSort(sidebarViews).subscribe({
-      next: () => {
-        this.toastService.showInfo($localize`Sidebar views updated`)
-      },
-      error: (e) => {
-        this.toastService.showError($localize`Error updating sidebar views`, e)
-      },
-    })
-  }
+  
 
   private checkForUpdates() {
     this.remoteVersionService

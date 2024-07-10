@@ -4,7 +4,7 @@ import {
   ToggleableItemState,
 } from './toggleable-dropdown-button.component'
 import { TagComponent } from '../../tag/tag.component'
-import { PaperlessTag } from 'src/app/data/paperless-tag'
+import { PaperlessTag } from 'src/app/data/tag'
 
 describe('ToggleableDropdownButtonComponent', () => {
   let component: ToggleableDropdownButtonComponent

@@ -7,7 +7,7 @@ import { ConsumptionTemplateService } from './consumption-template.service'
 import {
   DocumentSource,
   PaperlessConsumptionTemplate,
-} from 'src/app/data/paperless-consumption-template'
+} from 'src/app/data/consumption-template'
 
 let httpTestingController: HttpTestingController
 let service: ConsumptionTemplateService

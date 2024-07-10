@@ -5,7 +5,7 @@ import {
   PermissionType,
   PermissionsService,
 } from '../services/permissions.service'
-import { PaperlessUser } from '../data/paperless-user'
+
 
 @Pipe({
   name: 'username',
@@ -14,7 +14,7 @@ export class UsernamePipe implements PipeTransform {
   transform(value: any, ...args: any[]) {
     throw new Error('Method not implemented.')
   }
-  /* users: PaperlessUser[]
+  /* users: User[]
 
   constructor(
     permissionsService: PermissionsService,
@@ -36,7 +36,7 @@ export class UsernamePipe implements PipeTransform {
       : $localize`Shared`
   } */
 /* 
-  getName(user: PaperlessUser): string {
+  getName(user: User): string {
     if (!user) return ''
     const name = [user.first_name, user.last_name].join(' ')
     if (name.length > 1) return name.trim()

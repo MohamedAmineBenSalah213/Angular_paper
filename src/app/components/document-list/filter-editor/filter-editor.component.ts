@@ -8,9 +8,9 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core'
-import { PaperlessTag } from 'src/app/data/paperless-tag'
-import { PaperlessCorrespondent } from 'src/app/data/paperless-correspondent'
-import { PaperlessDocumentType } from 'src/app/data/paperless-document-type'
+import { tag } from 'src/app/data/tag'
+import { correspondent } from 'src/app/data/correspondent'
+import { documentType } from 'src/app/data/document-type'
 import { Subject, Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged, filter, first } from 'rxjs/operators'
 import { DocumentTypeService } from 'src/app/services/rest/document-type.service'
@@ -61,8 +61,8 @@ import {
   SelectionData,
   SelectionDataItem,
 } from 'src/app/services/rest/document.service'
-import { PaperlessDocument } from 'src/app/data/paperless-document'
-import { PaperlessStoragePath } from 'src/app/data/paperless-storage-path'
+import { document } from 'src/app/data/document'
+import { storagePath } from 'src/app/data/storage-path'
 import { StoragePathService } from 'src/app/services/rest/storage-path.service'
 import { RelativeDate } from '../../common/date-dropdown/date-dropdown.component'
 import {
@@ -191,10 +191,10 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
   @ViewChild('textFilterInput')
   textFilterInput: ElementRef
 
-  tags: PaperlessTag[] = []
-  correspondents: PaperlessCorrespondent[] = []
-  documentTypes: PaperlessDocumentType[] = []
-  storagePaths: PaperlessStoragePath[] = []
+  tags: tag[] = []
+  correspondents: correspondent[] = []
+  documentTypes: documentType[] = []
+  storagePaths: storagePath[] = []
 
   tagDocumentCounts: SelectionDataItem[]
   correspondentDocumentCounts: SelectionDataItem[]
@@ -203,7 +203,7 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
 
   _textFilter = ''
   _moreLikeId: string
-  _moreLikeDoc: PaperlessDocument
+  _moreLikeDoc: document
 
   get textFilterTargets() {
     let targets = [
@@ -859,7 +859,7 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {             
     this.tagService.listAll(null, null, "list_tagsdropdown",  this.permissionsService.getCurrentUserID())
-                  .subscribe((result: Results<PaperlessTag>) => {
+                  .subscribe((result: Results<tag>) => {
                       this.tags = result.results;
     });
       

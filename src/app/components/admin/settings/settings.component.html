@@ -7,7 +7,7 @@
   
 </pngx-page-header>
 
-<form [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
+<form [formGroup]="settingsForm" >
 
   <ul ngbNav #nav="ngbNav" (navChange)="onNavChange($event)" [(activeId)]="activeNavID" class="nav-tabs">
     <li [ngbNavItem]="SettingsNavIDs.General">

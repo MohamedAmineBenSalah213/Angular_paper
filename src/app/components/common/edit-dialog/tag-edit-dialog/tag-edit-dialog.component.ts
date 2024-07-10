@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { EditDialogComponent } from 'src/app/components/common/edit-dialog/edit-dialog.component'
-import { PaperlessTag } from 'src/app/data/paperless-tag'
+import { tag } from 'src/app/data/tag'
 import { TagService } from 'src/app/services/rest/tag.service'
 import { randomColor } from 'src/app/utils/color'
 import { DEFAULT_MATCHING_ALGORITHM } from 'src/app/data/matching-model'
@@ -15,7 +15,7 @@ import { OidcSecurityService } from 'angular-auth-oidc-client'
   templateUrl: './tag-edit-dialog.component.html',
   styleUrls: ['./tag-edit-dialog.component.scss'],
 })
-export class TagEditDialogComponent extends EditDialogComponent<PaperlessTag> {
+export class TagEditDialogComponent extends EditDialogComponent<tag> {
   getAction() {
    return "post_tag";
   }

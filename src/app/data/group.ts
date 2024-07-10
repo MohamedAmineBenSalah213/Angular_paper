@@ -1,6 +1,6 @@
 import { ObjectWithId } from './object-with-id'
 
-export interface PaperlessGroup extends ObjectWithId {
+export interface group extends ObjectWithId {
   name?: string
 
   user_count?: number // not implemented yet

@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 import { first } from 'rxjs'
 import { ObjectWithPermissions } from 'src/app/data/object-with-permissions'
-import { PaperlessUser } from 'src/app/data/paperless-user'
+import { User } from 'src/app/data/user'
 import { UserService } from 'src/app/services/rest/user.service'
 
 @Component({
@@ -12,7 +12,7 @@ import { UserService } from 'src/app/services/rest/user.service'
   styleUrls: ['./permissions-dialog.component.scss'],
 })
 export class PermissionsDialogComponent {
-  users: PaperlessUser[]
+  users: User[]
   private o: ObjectWithPermissions = undefined
 
   constructor(

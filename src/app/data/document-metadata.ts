@@ -1,4 +1,4 @@
-export interface PaperlessDocumentMetadata {
+export interface metadatadocument {
   original_checksum?: string
 
   archived_checksum?: string

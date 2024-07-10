@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'
 import { Router } from '@angular/router'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { Subject, first, takeUntil } from 'rxjs'
-import { PaperlessTask } from 'src/app/data/paperless-task'
+import { task } from 'src/app/data/task'
 import { TasksService } from 'src/app/services/tasks.service'
 import { ConfirmDialogComponent } from '../../common/confirm-dialog/confirm-dialog.component'
 import { ComponentWithPermissions } from '../../with-permissions/with-permissions.component'
@@ -59,11 +59,11 @@ export class TasksComponent
     this.tasksService.cancelPending()
   }
 
-  dismissTask(task: PaperlessTask) {
+  dismissTask(task: task) {
     this.dismissTasks(task)
   }
 
-  dismissTasks(task: PaperlessTask = undefined) {
+  dismissTasks(task: task = undefined) {
     let tasks = task ? new Set([task.id]) : /* new Set(this.selectedTasks.values()) */ null
     if (!task && tasks.size == 0)
       tasks = new Set(this.tasksService.allFileTasks.map((t) => t.id))
@@ -87,15 +87,15 @@ export class TasksComponent
     }
   }
 
-  dismissAndGo(task: PaperlessTask) {
+  dismissAndGo(task: task) {
     this.dismissTask(task)
     this.router.navigate(['documents', task.task_document.id])
   }
 
-  expandTask(task: PaperlessTask) {
+  expandTask(task: task) {
     this.expandedTask = this.expandedTask == task.id ? undefined : task.id
   }
-  fixproblem(task: PaperlessTask)
+  fixproblem(task: task)
   {
     const modal = this.modalService.open(FixDocumentsDropdownComponent, {
       backdrop: 'static',
@@ -109,9 +109,10 @@ export class TasksComponent
       this.toastService.showInfo(
         $localize`Saved file share "${newFileShare.name}".`
       );
+      modal.close();
      // this.tasksService.clearCache();
       this.tasksService.reload()
-      
+     // modal.close()
 
     });
   modal.componentInstance.failed
@@ -120,14 +121,14 @@ export class TasksComponent
       this.toastService.showError($localize`Error saving file share.`, e);
     });
   }
-  toggleSelected(task: PaperlessTask) {
+  toggleSelected(task: task) {
     this.selectedTasks.has(task.id)
       ? this.selectedTasks.delete(task.id)
       : this.selectedTasks.add(task.id)
   }
 
-  get currentTasks(): PaperlessTask[] {
-    let tasks: PaperlessTask[] = []
+  get currentTasks(): task[] {
+    let tasks: task[] = []
     switch (this.activeTab) {
       case 'queued':
         tasks = this.tasksService.queuedFileTasks

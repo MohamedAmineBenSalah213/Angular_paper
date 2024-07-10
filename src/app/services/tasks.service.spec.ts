@@ -5,8 +5,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing'
 import { environment } from 'src/environments/environment'
-import { PaperlessTaskType } from '../data/paperless-task'
-import { PaperlessTaskStatus } from '../data/paperless-task'
+import { PaperlessTaskType } from '../data/task'
+import { PaperlessTaskStatus } from '../data/task'
 
 describe('TasksService', () => {
   let httpTestingController: HttpTestingController
