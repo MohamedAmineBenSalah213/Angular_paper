@@ -231,6 +231,9 @@ export abstract class EditDialogComponent<
         serverResponse = this.service.create(newObject,this.getAction())
         }
         else{
+          if(newObject.match==""){
+            newObject.match= null
+          }
           serverResponse = this.service.create(newObject,this.getAction())
         } 
         console.log(serverResponse)

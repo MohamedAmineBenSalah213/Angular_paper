@@ -214,10 +214,6 @@ export class FilterEditorComponent implements OnInit, OnDestroy {
       },
       { id: TEXT_FILTER_TARGET_ASN, name: $localize`ASN` },
       {
-        id: TEXT_FILTER_TARGET_CUSTOM_FIELDS,
-        name: $localize`Custom fields`,
-      },
-      {
         id: TEXT_FILTER_TARGET_FULLTEXT_QUERY,
         name: $localize`Advanced search`,
       },

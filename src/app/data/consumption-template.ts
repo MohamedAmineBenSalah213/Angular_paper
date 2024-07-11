@@ -30,6 +30,8 @@ export interface consumptionTemplate extends ObjectWithId {
 
   is_insensitive?: boolean
 
+  is_Enabled? :boolean
+
   filter_has_tags?: string[] // Tag.id[]
 
   filter_has_correspondent?: string // Correspondent.id

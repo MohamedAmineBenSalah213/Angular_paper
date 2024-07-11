@@ -322,7 +322,6 @@ get isRTL() {
               },
             })
             
-          console.log(this.store);
           
           // Initialize dirtyCheck
           this.store = new BehaviorSubject({
@@ -494,6 +493,9 @@ get isRTL() {
 
     this.documentForm.patchValue(docFormValues, { emitEvent: false })
     console.log(this.documentForm)
+    debugger
+    console.log(this.userCanEdit);
+    
     if (!this.userCanEdit) this.documentForm.disable()
   }
   get CutomFieldsFormFieldsForExtractData (): FormArray
@@ -809,8 +811,7 @@ get isRTL() {
   }
 
   get userCanEdit(): boolean {
-  /*   debugger
-    let doc: Document = Object.assign({}, this.document)
+    let doc: document = Object.assign({}, this.document)
     // dont disable while editing
     if (this.document && this.store?.value.permissions_form?.owner) {
       doc.owner = this.store?.value.permissions_form?.owner
@@ -821,10 +822,9 @@ get isRTL() {
         PermissionAction.Change,
         doc
       )
-    )  */
-    return true
+    ) 
   }
-
+ 
   filterDocuments(items: ObjectWithId[] | NgbDateStruct[]) {
     const filterRules: FilterRule[] = items.flatMap((i) => {
       if (i.hasOwnProperty('year')) {

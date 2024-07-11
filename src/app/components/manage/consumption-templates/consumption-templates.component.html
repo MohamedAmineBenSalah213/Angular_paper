@@ -21,7 +21,7 @@
     <li *ngFor="let template of templates" class="list-group-item">
         <div class="row">
             <div class="col d-flex align-items-center"><button class="btn btn-link p-0" type="button" (click)="editTemplate(template)" [disabled]="!permissionsService.currentUserCan(PermissionAction.Change, PermissionType.ConsumptionTemplate)">{{template.name}}</button></div>
-            <div class="col d-flex align-items-center"><code>{{template.order}}</code></div>
+            <div class="col d-flex align-items-center"><code>{{template.order}}</code></div>     
             <div class="col d-flex align-items-center">{{getSourceList(template)}}</div>
             <div class="col">
                 <div class="btn-group">

@@ -97,7 +97,7 @@ export class UsersAndGroupsComponent
           }, 2500)
         } else {
           this.toastService.showInfo(
-            $localize`Saved user "${newUser.username}".`
+            $localize`Saved user "${newUser.email}".`
           )
           this.usersService.listAll().subscribe((r) => {
             this.users = r.results
@@ -161,7 +161,7 @@ export class UsersAndGroupsComponent
       })
   }
 
-  deleteGroup(group: group) {
+  /* deleteGroup(group: group) {
     let modal = this.modalService.open(ConfirmDialogComponent, {
       backdrop: 'static',
     })
@@ -184,8 +184,33 @@ export class UsersAndGroupsComponent
           this.toastService.showError($localize`Error deleting group.`, e)
         },
       })
-    })
-  }
+    }) 
+  }*/
+    deleteGroup(group: group) {
+      let modal = this.modalService.open(ConfirmDialogComponent, {
+        backdrop: 'static',
+      });
+      modal.componentInstance.title = $localize`Confirm delete user group`;
+      modal.componentInstance.messageBold = $localize`This operation will permanently delete this user group.`;
+      modal.componentInstance.message = $localize`This operation cannot be undone.`;
+      modal.componentInstance.btnClass = 'btn-danger';
+      modal.componentInstance.btnCaption = $localize`Proceed`;
+      modal.componentInstance.confirmClicked.subscribe(() => {
+        modal.componentInstance.buttonsEnabled = false;
+        this.groupsService.delete(group, 'delete_group').subscribe({
+          next: () => {
+            modal.close();
+            this.toastService.showInfo($localize`Deleted group`);
+            this.groupsService.listAllCustom("list_groups").subscribe((r) => {
+              this.groups = r.results;
+            });
+          },
+          error: (e) => {
+            this.toastService.showError($localize`Error deleting group.`, e);
+          },
+        });
+      });
+    }
 
   getGroupName(id: string): string {
     return this.groups?.find((g) => g.id === id)?.name ?? ''

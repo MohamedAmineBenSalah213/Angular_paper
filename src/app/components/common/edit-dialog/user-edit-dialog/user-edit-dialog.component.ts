@@ -61,8 +61,8 @@ export class UserEditDialogComponent
       username: new FormControl(''),
       email: new FormControl(''),
       passwordHash: new FormControl(null),
-      first_name: new FormControl(''),
-      last_name: new FormControl(''),
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
       is_active: new FormControl(true),
       is_superuser: new FormControl(false),
      

@@ -50,17 +50,19 @@ export class ConsumptionTemplatesComponent
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe((r) => {
         this.templates = r.results
+        console.log(this.templates);
+        
       })
   }
 
   getWorkflowTriggerTypeString(type: WorkflowTriggerType): string {
     switch (type) {
       case WorkflowTriggerType.Consumption:
-        return 'Consumption';
+        return 'Consumption Started';
       case WorkflowTriggerType.DocumentAdded:
-        return 'DocumentAdded';
+        return 'Document Added';
       case WorkflowTriggerType.DocumentUpdated:
-        return 'DocumentUpdated';
+        return 'Document Updated';
       default:
         return 'Unknown';
     }

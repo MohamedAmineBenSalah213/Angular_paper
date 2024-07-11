@@ -16,8 +16,8 @@ export class groupService extends AbstractNameFilterService<group> {
     super(http, 'group')
   }
 
-  update(o: group): Observable<group> {
-    return this.getCached(o.id,"group_list").pipe(
+  /* update(o: group): Observable<group> {
+    return this.getCached(o.id,"update_group").pipe(
       switchMap((initialgroup) => {
         initialgroup.permissions?.forEach((perm) => {
           const { typeKey, actionKey } =
@@ -30,5 +30,5 @@ export class groupService extends AbstractNameFilterService<group> {
         return super.update(o)
       })
     )
-  }
+  } */
 }
