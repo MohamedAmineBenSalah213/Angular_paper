@@ -131,7 +131,7 @@ export class DocumentListComponent
 
   ngOnInit(): void {
 
-       debugger
+       //debugger
 
     if (localStorage.getItem('document-list:displayMode') != null) {
       this.displayMode = localStorage.getItem('document-list:displayMode')
@@ -142,7 +142,7 @@ export class DocumentListComponent
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe(() => {
         this.list.reload()
-       // debugger
+       // //debugger
       })
 
    

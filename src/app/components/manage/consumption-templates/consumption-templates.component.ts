@@ -42,7 +42,7 @@ export class ConsumptionTemplatesComponent
   }
 
   reload() {
-    debugger
+    //debugger
      this.id = this.permissionsService.getCurrentUserID();
     
     this.consumptionTemplateService
@@ -99,7 +99,7 @@ export class ConsumptionTemplatesComponent
       })
   }
   editTemplate(rule: consumptionTemplate) {
-    debugger
+    //debugger
     const modal = this.modalService.open(
       ConsumptionTemplateEditDialogComponent,
       {

@@ -48,7 +48,7 @@ implements OnInit {
           this.data = this.shareFiles;
           this._changeDetectorRef.markForCheck();
           this.processData();
-          console.log('AAAAAAAAAAAAAAAAAAAA : ', this.shareFiles);
+         
         },
         error: (e) => {
           this.toastService.showError(
@@ -57,11 +57,11 @@ implements OnInit {
           );
         },
       });
-    console.log('DATAAAAAA outside: ', this.data);
+ 
   }
 
   processData() {
-    console.log('DATAAAAAA : ', this.data);
+   
     // Any other code that depends on this.data can go here
   }
 
@@ -75,9 +75,10 @@ implements OnInit {
     modal.componentInstance.btnClass = 'btn-danger';
     modal.componentInstance.btnCaption = $localize`Proceed`;
     modal.componentInstance.confirmClicked.subscribe(() => {
-      modal.componentInstance.buttonsEnabled = false;
+     
       this.fileshareService.delete(rule).subscribe({
         next: () => {
+          modal.componentInstance.buttonsEnabled = false;
           modal.close();
           this.toastService.showInfo($localize`Deleted file share`);
           this.fileshareService.clearCache();
@@ -85,7 +86,9 @@ implements OnInit {
             .listAll(null, null, 'show_all_share_files', { full_perms: true })
             .subscribe((r) => {
               this.shareFiles = r.results;
+              this.data = this.shareFiles;
             });
+            modal.close()
         },
         error: (e) => {
           this.toastService.showError($localize`Error deleting File Share.`, e);
@@ -107,12 +110,14 @@ implements OnInit {
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe((newFileShare) => {
         this.toastService.showInfo(
-          $localize`Saved file share "${newFileShare.name}".`
+          $localize`Saved file share "${newFileShare.shareName}".`
         );
-        this.fileshareService.clearCache();
+      //  this.fileshareService.clearCache();
         this.fileshareService
-          .listAll(null, null, 'show_all_share_files', { full_perms: true })
+          .listAll(null, null, 'show_all_share_files',null)
           .subscribe((r) => {
+           
+            this.data = this.shareFiles;
             this.shareFiles = r.results;
           });
       });

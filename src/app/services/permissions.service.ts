@@ -17,7 +17,6 @@ export enum PermissionType {
   Correspondent = '%s_correspondent',
   DocumentType = '%s_documenttype',
   StoragePath = '%s_storagepath',
-  SavedView = '%s_savedview',
   Task = '%s_task',
   UISettings = '%s_uisettings',
   Note = '%s_note',
@@ -25,7 +24,6 @@ export enum PermissionType {
   MailRule = '%s_mailrule',
   User = '%s_user',
   Group = '%s_group',
-  Admin = '%s_logentry',
   ShareLink = '%s_sharelink',
   ConsumptionTemplate = '%s_consumptiontemplate',
   CustomField = '%s_customfield',
@@ -76,27 +74,38 @@ export class PermissionsService {
     object: ObjectWithPermissions
   ): boolean {
     if (action === PermissionAction.View) {
-      return (
-        this.currentUserOwnsObject(object) ||
-        object.permissions?.view.users.includes(this.currentUser.id) ||
-        object.permissions?.view.groups.filter((g) =>
-          this.currentUser.groups.includes(g)
-        ).length > 0
-      )
+      console.log('Checking view permissions...');
+      const ownsObject = this.currentUserOwnsObject(object);
+      const userHasViewPermission = object.permissions?.view?.users?.includes(this.currentUser.id) || false;
+      const groupHasViewPermission = object.permissions?.view?.groups?.some((g) =>
+        this.currentUser.groups.includes(g)
+      ) || false;
+  
+      console.log('User owns object:', ownsObject);
+      console.log('User has view permission:', userHasViewPermission);
+      console.log('Group has view permission:', groupHasViewPermission);
+  
+      return ownsObject || userHasViewPermission || groupHasViewPermission;
     } else if (action === PermissionAction.Change) {
-    /*   console.log(this.currentUserOwnsObject(object));
-      console.log( object.permissions?.change.users.includes(this.currentUser.id)); */
-      
-      return (
-        this.currentUserOwnsObject(object) ||
-        object.user_can_change ||
-        object.permissions?.change.users.includes(this.currentUser.id) ||
-        object.permissions?.change.groups.filter((g) =>
-          this.currentUser.groups.includes(g)
-        ).length > 0
-      )
+      console.log('Checking change permissions...');
+      const ownsObject = this.currentUserOwnsObject(object);
+      const userCanChange = object.user_can_change || false;
+      const userHasChangePermission = object.permissions?.change?.users?.includes(this.currentUser.id) || false;
+      const groupHasChangePermission = object.permissions?.change?.groups?.some((g) =>
+        this.currentUser.groups.includes(g)
+      ) || false;
+  
+      console.log('User owns object:', ownsObject);
+      console.log('User can change:', userCanChange);
+      console.log('User has change permission:', userHasChangePermission);
+      console.log('Group has change permission:', groupHasChangePermission);
+  
+      return ownsObject || userCanChange || userHasChangePermission || groupHasChangePermission;
     }
   }
+    // If the action is not View or Change, return false by
+  
+  
 
   public getPermissionCode(
     action: PermissionAction,

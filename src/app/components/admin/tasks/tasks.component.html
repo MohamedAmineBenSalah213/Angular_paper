@@ -1,23 +1,8 @@
 <pngx-page-header title="File Tasks" i18n-title>
-  <div class="btn-toolbar col col-md-auto align-items-center">
-    <button class="btn btn-sm btn-outline-secondary me-2" (click)="clearSelection()" [hidden]="selectedTasks.size === 0">
-      <svg class="sidebaricon" fill="currentColor">
-        <use xlink:href="assets/bootstrap-icons.svg#x"/>
-      </svg>&nbsp;<ng-container i18n>Clear selection</ng-container>
-    </button>
-    <button class="btn btn-sm btn-outline-primary me-4" (click)="dismissTasks()" *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Task }" [disabled]="tasksService.total === 0">
-      <svg class="sidebaricon" fill="currentColor">
-        <use xlink:href="assets/bootstrap-icons.svg#check2-all"/>
-      </svg>&nbsp;<ng-container i18n>{{dismissButtonText}}</ng-container>
-    </button>
-    <div class="form-check form-switch mb-0" (click)="toggleAutoRefresh()">
-      <input class="form-check-input" type="checkbox" role="switch" id="autoRefreshSwitch" [attr.checked]="autoRefreshInterval">
-      <label class="form-check-label" for="autoRefreshSwitch" i18n>Auto refresh</label>
-    </div>
-  </div>
+ 
 </pngx-page-header>
 
-<ng-container *ngIf="!tasksService.completedFileTasks && tasksService.loading">
+<ng-container *ngIf="!tasksService.ApiUploadFileTasks && tasksService.loading">
   <div class="spinner-border spinner-border-sm fw-normal ms-2 me-auto" role="status"></div>
   <div class="visually-hidden" i18n>Loading...</div>
 </ng-container>
@@ -98,11 +83,6 @@
         </td>
         <td scope="row">
           <div class="btn-group" role="group">
-            <button class="btn btn-sm btn-outline-secondary" (click)="dismissTask(task); $event.stopPropagation();" *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.PaperlessTask }">
-              <svg class="sidebaricon" fill="currentColor">
-                <use xlink:href="assets/bootstrap-icons.svg#check"/>
-              </svg>&nbsp;<ng-container i18n>Dismiss</ng-container>
-            </button>
             <ng-container><!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Document }" -->
               <button *ngIf="task.related_document" class="btn btn-sm btn-outline-primary" (click)="dismissAndGo(task); $event.stopPropagation();">
                 <svg class="sidebaricon" fill="currentColor">
@@ -131,21 +111,21 @@
 <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs" (hidden)="duringTabChange($event)">
   
   <li ngbNavItem="completed">
-    <a ngbNavLink i18n>Upload<span *ngIf="tasksService.completedFileTasks.length > 0" class="badge bg-secondary ms-2">{{tasksService.completedFileTasks.length}}</span></a>
+    <a ngbNavLink i18n>Upload<span *ngIf="tasksService.ApiUploadFileTasks.length > 0" class="badge bg-secondary ms-2">{{tasksService.ApiUploadFileTasks.length}}</span></a>
     <ng-template ngbNavContent>
-      <ng-container [ngTemplateOutlet]="tasksTemplate" [ngTemplateOutletContext]="{tasks:tasksService.completedFileTasks}"></ng-container>
+      <ng-container [ngTemplateOutlet]="tasksTemplate" [ngTemplateOutletContext]="{tasks:tasksService.ApiUploadFileTasks}"></ng-container>
     </ng-template>
   </li>
   <li ngbNavItem="started">
-    <a ngbNavLink i18n>Mail<span *ngIf="tasksService.startedFileTasks.length > 0" class="badge bg-secondary ms-2">{{tasksService.startedFileTasks.length}}</span></a>
+    <a ngbNavLink i18n>Mail<span *ngIf="tasksService.MailFileTasks.length > 0" class="badge bg-secondary ms-2">{{tasksService.MailFileTasks.length}}</span></a>
     <ng-template ngbNavContent>
-      <ng-container [ngTemplateOutlet]="tasksTemplate" [ngTemplateOutletContext]="{tasks:tasksService.startedFileTasks}"></ng-container>
+      <ng-container [ngTemplateOutlet]="tasksTemplate" [ngTemplateOutletContext]="{tasks:tasksService.MailFileTasks}"></ng-container>
     </ng-template>
   </li>
   <li ngbNavItem="queued">
-    <a ngbNavLink i18n>File Share<span *ngIf="tasksService.queuedFileTasks.length > 0" class="badge bg-secondary ms-2">{{tasksService.queuedFileTasks.length}}</span></a>
+    <a ngbNavLink i18n>File Share<span *ngIf="tasksService.FileShareFileTasks.length > 0" class="badge bg-secondary ms-2">{{tasksService.FileShareFileTasks.length}}</span></a>
     <ng-template ngbNavContent>
-      <ng-container [ngTemplateOutlet]="tasksTemplate" [ngTemplateOutletContext]="{tasks:tasksService.queuedFileTasks}"></ng-container>
+      <ng-container [ngTemplateOutlet]="tasksTemplate" [ngTemplateOutletContext]="{tasks:tasksService.FileShareFileTasks}"></ng-container>
     </ng-template>
   </li>
 </ul>

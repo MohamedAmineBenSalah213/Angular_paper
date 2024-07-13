@@ -5,7 +5,7 @@
       <input class="form-control flex-grow-0 w-auto" type="number" min="1" [max]="previewNumPages" [(ngModel)]="previewCurrentPage" />
       <div class="input-group-text" i18n>of {{previewNumPages}}</div>
     </div>
-
+{{userIsOwner}}
     <button type="button" class="btn btn-sm btn-outline-danger me-4" (click)="delete()" [disabled]="!userIsOwner" *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.Document }" >
         <svg class="buttonicon" fill="currentColor">
             <use xlink:href="assets/bootstrap-icons.svg#trash" />
@@ -40,7 +40,6 @@
         (added)="addField($event)">
     </pngx-custom-fields-dropdown>
 
-    <pngx-share-links-dropdown [documentId]="documentId" [disabled]="!userIsOwner" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.ShareLink }"  ></pngx-share-links-dropdown>
 </pngx-page-header>
 <div class="row">
     <div class="col-md-6 col-xl-4 mb-4">
@@ -85,17 +84,17 @@
                             <pngx-input-text i18n-title title="Archive serial number" [error]="error?.archive_serial_number" [horizontal]="true" formControlName='archive_serial_number'></pngx-input-text>
                             <pngx-input-date i18n-title title="Date created" formControlName="created_date" [suggestions]="suggestions?.dates" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 [error]="error?.created_date"></pngx-input-date>
-                          <!--  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Correspondent }" -->
-                                <pngx-input-select [items]="correspondents" i18n-title title="Correspondent" formControlName="correspondentId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
+                          <!-- }" -->
+                                <pngx-input-select   *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Correspondent}"[items]="correspondents" i18n-title title="Correspondent" formControlName="correspondentId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 (createNew)="createCorrespondent($event)" [suggestions]="suggestions?.correspondents"></pngx-input-select>
-                           <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.DocumentType }" -->
-                                <pngx-input-select [items]="documentTypes" i18n-title title="Document type" formControlName="documentTypeId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)" (click)="onExtactedData($event)"
+                           <!--  -->
+                                <pngx-input-select  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.DocumentType }"[items]="documentTypes" i18n-title title="Document type" formControlName="documentTypeId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)" (click)="onExtactedData($event)"
                                 (createNew)="createDocumentType($event)" [suggestions]="suggestions?.document_types" ></pngx-input-select>
-                                <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.StoragePath }" -->
-                            <pngx-input-select [items]="storagePaths" i18n-title title="Storage path" formControlName="storagePathId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
+                                <!--  -->
+                            <pngx-input-select  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.StoragePath }" [items]="storagePaths" i18n-title title="Storage path" formControlName="storagePathId" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)"
                                 (createNew)="createStoragePath($event)" [suggestions]="suggestions?.storage_paths" i18n-placeholder placeholder="Default" ></pngx-input-select>
-                            <pngx-input-tags  formControlName="tags" [suggestions]="suggestions?.tags" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)" ></pngx-input-tags>
-                            <!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Tag }" -->
+                            <pngx-input-tags  *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Tag }" formControlName="tags" [suggestions]="suggestions?.tags" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event)" ></pngx-input-tags>
+                            <!--  -->
                          <!--  -->
                        
                             <ng-container *ngFor="let fieldInstance of document?.custom_fields; let i = index">

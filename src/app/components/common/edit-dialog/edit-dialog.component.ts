@@ -63,10 +63,10 @@ export abstract class EditDialogComponent<
   objectForm: FormGroup = this.getForm()
 
   ngOnInit(): void {
-    debugger
+    //debugger
      if (this.object != null) {
       if (this.object['permissions']) {
-        debugger
+        //debugger
         console.log(this.object['permissions']);
         
         this.object['user_permissions'] = this.object['permissions']
@@ -173,7 +173,7 @@ export abstract class EditDialogComponent<
     return words;
 }
   save() {
-    //debugger
+    ////debugger
     this.error = null
      const formValues = Object.assign({}, this.objectForm.value)
     const permissionsObject: PermissionsFormObject =
@@ -191,7 +191,7 @@ export abstract class EditDialogComponent<
     var serverResponse: Observable<T>
     switch (this.dialogMode) {
       case EditDialogMode.CREATE:
-        debugger
+        //debugger
          if (newObject.matching_algorithm== MATCH_AUTO){
            if(newObject.ExtractedData)
             {
@@ -239,7 +239,7 @@ export abstract class EditDialogComponent<
         console.log(serverResponse)
         break
       case EditDialogMode.EDIT:
-       debugger
+       //debugger
         if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_NONE){
             if(newObject.match){
             newObject.match = this.splitIntoList(newObject.match); 

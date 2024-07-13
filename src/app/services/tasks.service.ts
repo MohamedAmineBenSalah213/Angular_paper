@@ -29,15 +29,15 @@ export class TasksService {
     return this.fileTasks.slice(0)
   }
 
-  public get queuedFileTasks(): task[] {
+  public get FileShareFileTasks(): task[] {
     return this.fileTasks.filter((t) => t.source == DocumentSource.ConsumeFolder)
   }
 
-  public get startedFileTasks(): task[] {
+  public get ApiUploadFileTasks (): task[] {
     return this.fileTasks.filter((t) => t.source == DocumentSource.ApiUpload)
   }
 
-  public get completedFileTasks(): task[] {
+  public get MailFileTasks(): task[] {
     return this.fileTasks.filter(
       (t) => t.source == DocumentSource.MailFetch
     )

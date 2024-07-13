@@ -78,7 +78,7 @@ export class SettingsService {
 
   // this is called by the app initializer in app.module
   public initializeSettings(): Observable<UiSettings> {
-   //debugger
+   ////debugger
    
     // Step 1: Retrieve the object from session storage
     this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated }) => {
@@ -107,7 +107,7 @@ export class SettingsService {
         // to update lang cookie
         if (this.settings['language']?.length)
           this.setLanguage(this.settings['language'])
-       // debugger
+       // //debugger
         this.currentUser = uisettings.user
         this.permissionsService.initialize(
           uisettings.permissions,
@@ -395,12 +395,12 @@ export class SettingsService {
   }
 
   getLanguage(): string {
-    debugger
+    //debugger
     return this.get(SETTINGS_KEYS.LANGUAGE)
   }
 
   setLanguage(language: string) {
-   debugger
+   //debugger
     this.set(SETTINGS_KEYS.LANGUAGE, language)
     if (language?.length) {
       // for Django
@@ -490,7 +490,7 @@ export class SettingsService {
   }
 
   storeSettings(): Observable<any> {
-    debugger
+    //debugger
     const url = `${this.baseUrl}/store_settings?id=${this.id}`;
      return this.http.put(url, { settings: this.settings }).pipe(
       tap((results) => {
@@ -503,7 +503,7 @@ export class SettingsService {
   }
 
   maybeMigrateSettings() {
-    debugger
+    //debugger
     if (
       !this.settings.hasOwnProperty('documentListSize') &&
       localStorage.getItem(SETTINGS_KEYS.DOCUMENT_LIST_SIZE)

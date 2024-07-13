@@ -67,7 +67,7 @@ export class PermissionsFormComponent
       this.form.get('owner').setValue(this.username);
     });
      this.form.valueChanges.subscribe((value) => {
-      debugger
+      //debugger
       this.onChange(value)
     }) 
    
@@ -76,7 +76,7 @@ export class PermissionsFormComponent
   }
 
   writeValue(newValue: any): void {
-    debugger
+    //debugger
     this.form.patchValue(newValue, { emitEvent: false })
   }
 

@@ -14,6 +14,7 @@ import {
   mailRule,
   MailRuleConsumptionScope,
 } from 'src/app/data/mail-rule'
+import { PermissionsService } from 'src/app/services/permissions.service'
 import { CorrespondentService } from 'src/app/services/rest/correspondent.service'
 import { DocumentTypeService } from 'src/app/services/rest/document-type.service'
 import { MailAccountService } from 'src/app/services/rest/mail-account.service'
@@ -126,6 +127,7 @@ export class MailRuleEditDialogComponent extends EditDialogComponent<mailRule> {
     accountService: MailAccountService,
     correspondentService: CorrespondentService,
     documentTypeService: DocumentTypeService,
+    permissionService:PermissionsService,
     userService: UserService,
     settingsService: SettingsService
   ) {
@@ -137,12 +139,12 @@ export class MailRuleEditDialogComponent extends EditDialogComponent<mailRule> {
       .subscribe((result) => (this.accounts = result.results))
 
      correspondentService
-      .listAll(null,null,"list_correspondent",null)
+      .listAll(null,null,"list_correspondent",permissionService.getCurrentUserID())
       .pipe(first())
       .subscribe((result) => (this.correspondents = result.results))
 
     documentTypeService
-      .listAll(null,null,"list_types",null)
+      .listAll(null,null,"list_types_dropdown",permissionService.getCurrentUserID())
       .pipe(first())
       .subscribe((result) => (this.documentTypes = result.results)) 
   }

@@ -209,7 +209,7 @@ get isRTL() {
   }
 
   ngOnInit(): void {
-   // debugger
+   // //debugger
     this.documentForm.valueChanges
       .pipe(takeUntil(this.unsubscribeNotifier))
       .subscribe(() => {
@@ -250,6 +250,7 @@ get isRTL() {
         switchMap((paramMap) => {
           const documentId = paramMap.get('id')
           this.docChangeNotifier.next(documentId)
+          debugger
           return this.documentsService.getlist(documentId,"get_document").pipe(
             tap(result => console.log('Result of getlist:', result))
           );
@@ -444,7 +445,7 @@ get isRTL() {
     this.document = doc
     this.requiresPassword = false
      this.updateFormForCustomFields()
-     debugger
+     //debugger
      this.documentsService
       .getMetadata(doc.id)
       .pipe(first())
@@ -493,7 +494,7 @@ get isRTL() {
 
     this.documentForm.patchValue(docFormValues, { emitEvent: false })
     console.log(this.documentForm)
-    debugger
+    //debugger
     console.log(this.userCanEdit);
     
     if (!this.userCanEdit) this.documentForm.disable()
@@ -575,7 +576,7 @@ get isRTL() {
   save(close: boolean = false) {
     this.networkActive = true
     console.log(this.document);
-    debugger
+    //debugger
     this.documentsService
       .update(this.document,"save")
       .pipe(first())

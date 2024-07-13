@@ -130,14 +130,14 @@ export class TasksComponent
   get currentTasks(): task[] {
     let tasks: task[] = []
     switch (this.activeTab) {
-      case 'queued':
-        tasks = this.tasksService.queuedFileTasks
+      case 'FileShare':
+        tasks = this.tasksService.FileShareFileTasks
         break
-      case 'started':
-        tasks = this.tasksService.startedFileTasks
+      case 'Mail':
+        tasks = this.tasksService.MailFileTasks
         break
-      case 'completed':
-        tasks = this.tasksService.completedFileTasks
+      case 'ApiUpload':
+        tasks = this.tasksService.ApiUploadFileTasks
         break
      
     }
@@ -146,7 +146,7 @@ export class TasksComponent
 
   toggleAll(event: PointerEvent) {
     if ((event.target as HTMLInputElement).checked) {
-      debugger
+      //debugger
       this.selectedTasks = new Set(this.currentTasks.map((t) => t.id))
       console.log(this.selectedTasks);
       
@@ -165,12 +165,12 @@ export class TasksComponent
 
   get activeTabLocalized(): string {
     switch (this.activeTab) {
-      case 'queued':
-        return $localize`queued`
-      case 'started':
+      case 'FileShare':
+        return $localize`FileShare`
+      case 'Mail':
         return $localize`started`
-      case 'completed':
-        return $localize`completed`
+      case 'ApiUpload':
+        return $localize`ApiUpload`
      
     }
     console.log(this.activeTab);

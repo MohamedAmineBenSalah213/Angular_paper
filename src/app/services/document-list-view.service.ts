@@ -241,7 +241,7 @@ export class DocumentListViewService {
      this.id = userInfo.sub;
    });
   }
-   // debugger
+   // //debugger
       this.documentService
       .listFiltered(
         activeListViewState.currentPage,
@@ -421,7 +421,7 @@ export class DocumentListViewService {
   }
 
   quickFilter(filterRules: FilterRule[]) {
-    debugger
+    //debugger
     this._activeSavedViewId = null
     this.filterRules = filterRules
     this.router.navigate(['documents'])
@@ -522,7 +522,7 @@ export class DocumentListViewService {
   }
 
   selectAll() {
-    debugger
+    //debugger
     this.documentService
       .listAllFilteredIds(this.filterRules)
       .subscribe((ids) => ids.forEach((id) => this.selected.add(id)))
