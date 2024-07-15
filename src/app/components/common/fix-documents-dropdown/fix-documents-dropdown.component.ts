@@ -12,6 +12,7 @@ import { task } from 'src/app/data/task';
 import { DocumentService } from 'src/app/services/rest/document.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { FixOwnerCorrespondent } from 'src/app/data/FixOwnerCorrespondent';
+import { TasksService } from 'src/app/services/tasks.service';
 
 @Component({
   selector: 'pngx-fix-documents-dropdown',
@@ -32,6 +33,7 @@ export class FixDocumentsDropdownComponent implements OnInit {
   private usersService: UserService,
   private activeModal: NgbActiveModal,
   private documentsService: DocumentService,
+  public tasksService: TasksService,
   private toastService: ToastService,
 )
   
@@ -74,8 +76,10 @@ export class FixDocumentsDropdownComponent implements OnInit {
     this.documentsService.fixOwnerCorrespondent(id,dataToSave).pipe(first())
     .subscribe({
       next: () => {
-     
+        
         this.toastService.showInfo($localize`Document saved successfully.`)
+        this.activeModal.close()
+        this.tasksService.reload()
       },
       error: (error) =>{
         this.toastService.showError($localize`Error saving document`, error)

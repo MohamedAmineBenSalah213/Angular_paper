@@ -209,8 +209,22 @@ export abstract class EditDialogComponent<
         }
           serverResponse = this.service.create(newObject,this.getAction())
         } 
+        debugger
+        if(newObject.matching_algorithm== MATCH_NONE ){
+          const userData = sessionStorage.getItem('0-angularclient');
+          if (userData) {
+                // Parse the JSON string into an object
+           const tokenObject = JSON.parse(userData); 
+           // Extract the access token
+           const id = tokenObject?.userData?.sub;
+           newObject.owner = id;
+           newObject.match=[]
+          }
+          serverResponse = this.service.create(newObject,this.getAction())
 
-        if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_AUTO ){
+        }
+
+        if(newObject.matching_algorithm in MATCHING_ALGORITHMS && newObject.matching_algorithm!= MATCH_AUTO &&newObject.matching_algorithm!= MATCH_NONE   ){
 
           if(newObject.match != "" && newObject.match.trim() !== "" && newObject.match != null ){
           newObject.match = this.splitIntoList(newObject.match); 

@@ -37,8 +37,8 @@ export class DocumentTypeEditDialogComponent extends EditDialogComponent<documen
     super(service, activeModal, userService, settingsService)
   }
   ngOnInit() {
-    //super.ngOnInit();
-    this.getCustomFields();
+    super.ngOnInit();
+
   }
   getCreateTitle() {
     return $localize`Create new document type`
@@ -47,7 +47,6 @@ export class DocumentTypeEditDialogComponent extends EditDialogComponent<documen
     this.selectedFields = selectedFields;
     const selectedFieldIds = selectedFields.map(field => field.id);
     this.objectForm.get('ExtractedData').patchValue(selectedFieldIds);
-    console.log(this.selectedFields);
   }
   getEditTitle() {
     return $localize`Edit document type`
@@ -59,7 +58,6 @@ export class DocumentTypeEditDialogComponent extends EditDialogComponent<documen
       matching_algorithm: new FormControl(DEFAULT_MATCHING_ALGORITHM),
       match: new FormControl(['']),
       is_insensitive: new FormControl(true),
-      ExtractedData : new FormControl([]),
       permissions_form: new FormControl(null),
     })
   }
@@ -74,9 +72,6 @@ export class DocumentTypeEditDialogComponent extends EditDialogComponent<documen
       .subscribe((result) => (this.customFields = result.results))
   }
   onFormSubmit(event: Event) {
-   console.log(this.customFieldFormFields);
-    
-    console.log(this.objectForm.value)
     event.preventDefault(); // Prevent default form submission behavior
     this.save(); // Manually call the save method or perform any other necessary action
   }
@@ -87,4 +82,5 @@ export class DocumentTypeEditDialogComponent extends EditDialogComponent<documen
   get customFieldFormFields(): FormArray {
     return this.objectForm.get('customFields') as FormArray
   }
+ 
 }

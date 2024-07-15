@@ -24,7 +24,6 @@ export enum PermissionType {
   MailRule = '%s_mailrule',
   User = '%s_user',
   Group = '%s_group',
-  ShareLink = '%s_sharelink',
   ConsumptionTemplate = '%s_consumptiontemplate',
   CustomField = '%s_customfield',
 }

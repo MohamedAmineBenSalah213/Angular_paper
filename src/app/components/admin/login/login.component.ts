@@ -35,7 +35,7 @@ export class LoginComponent {
       this.user_info = this.oidcSecurityService
         .getUserData()
         .subscribe((userInfo: any) => {
-          console.log('User Info:', userInfo);
+        
           // Access specific claims (e.g., email, sub, etc.)
           this.user_email = userInfo.email;
         });

@@ -26,16 +26,12 @@
             <div class="col d-flex align-items-center">{{account.imap_server}}</div>
             <div class="col">
                 <div class="btn-group">
-                <button [disabled]="!userCanEdit(account)" class="btn btn-sm btn-outline-secondary" type="button" (click)="editMailAccount(account)">
-                    <svg class="buttonicon-sm" fill="currentColor"><!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailAccount }"  -->
+                <button [disabled]="!userCanEdit(account)" class="btn btn-sm btn-outline-secondary" *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailAccount }"  type="button" (click)="editMailAccount(account)">
+                    <svg class="buttonicon-sm" fill="currentColor"><!--  -->
                         <use xlink:href="assets/bootstrap-icons.svg#pencil" />
                     </svg>&nbsp;<ng-container i18n>Edit</ng-container>
                 </button>
-                <button class="btn btn-sm btn-outline-secondary" type="button" (click)="editPermissions(account)"><!-- *pngxIfOwner="account"  -->
-                    <svg class="buttonicon-sm" fill="currentColor">
-                        <use xlink:href="assets/bootstrap-icons.svg#person-lock" />
-                    </svg>&nbsp;<ng-container i18n>Permissions</ng-container>
-                </button>
+                
                 <button  [disabled]="!userIsOwner(account)" class="btn btn-sm btn-outline-danger" type="button" (click)="deleteMailAccount(account)"><!-- *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.MailAccount }" -->
                     <svg class="buttonicon-sm" fill="currentColor">
                         <use xlink:href="assets/bootstrap-icons.svg#trash" />
@@ -50,7 +46,7 @@
 
 </ng-container>
 
-<ng-container ><!-- *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailRule }" -->
+<ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailRule }" ><!--  -->
     <h4 class="mt-4">
         <ng-container i18n>Mail rules</ng-container>
         <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="editMailRule()" ><!-- *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.MailRule }" -->
@@ -76,19 +72,15 @@
             <div class="col">
                 <div class="btn-group">
                     <!-- *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailRule }" -->
-                <button  [disabled]="!userCanEdit(rule)" class="btn btn-sm btn-outline-secondary" type="button" (click)="editMailRule(rule)">
+                <button  *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailRule }" [disabled]="!userCanEdit(rule)" class="btn btn-sm btn-outline-secondary" type="button" (click)="editMailRule(rule)">
                     <svg class="buttonicon-sm" fill="currentColor">
                         <use xlink:href="assets/bootstrap-icons.svg#pencil" />
                     </svg>&nbsp;<ng-container i18n>Edit</ng-container>
                 </button>
-                <!-- *pngxIfOwner="rule" -->
-                <button  class="btn btn-sm btn-outline-secondary" type="button" (click)="editPermissions(rule)">
-                    <svg class="buttonicon-sm" fill="currentColor">
-                        <use xlink:href="assets/bootstrap-icons.svg#person-lock" />
-                    </svg>&nbsp;<ng-container i18n>Permissions</ng-container>
-                </button>
-                <!-- *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.MailRule }" -->
-                <button  [disabled]="!userIsOwner(rule)" class="btn btn-sm btn-outline-danger" type="button" (click)="deleteMailRule(rule)">
+                
+               
+                <!--  -->
+                <button *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.MailRule }" [disabled]="!userIsOwner(rule)" class="btn btn-sm btn-outline-danger" type="button" (click)="deleteMailRule(rule)">
                     <svg class="buttonicon-sm" fill="currentColor">
                         <use xlink:href="assets/bootstrap-icons.svg#trash" />
                     </svg>&nbsp;<ng-container i18n>Delete</ng-container>
