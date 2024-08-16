@@ -39,11 +39,7 @@
 
         <div class="d-flex flex-column flex-md-row align-items-md-center">
           <div class="btn-group">
-            <a class="btn btn-sm btn-outline-secondary" (click)="clickMoreLike.emit()">
-              <svg class="sidebaricon" fill="currentColor" class="sidebaricon">
-                <use xlink:href="assets/bootstrap-icons.svg#diagram-3"/>
-              </svg>&nbsp;<span class="d-none d-md-inline" i18n>More like this</span>
-            </a>
+          
             <a routerLink="/documents/{{document.id}}" class="btn btn-sm btn-outline-secondary"  *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Document }" >
               <svg class="sidebaricon" fill="currentColor" class="sidebaricon">
                 <use xlink:href="assets/bootstrap-icons.svg#pencil"/>
@@ -68,26 +64,26 @@
 
 
           <div class="list-group list-group-horizontal border-0 card-info ms-md-auto mt-2 mt-md-0">
-           <!--  <button *ngIf="notesEnabled && document.notes.length" routerLink="/documents/{{document.id}}/notes" class="list-group-item btn btn-sm bg-light text-dark p-1 border-0 me-2" title="View notes" i18n-title>
+            <button *ngIf="notesEnabled && document.notes.length" routerLink="/documents/{{document.id}}/notes" class="list-group-item btn btn-sm bg-light text-dark p-1 border-0 me-2" title="View notes" i18n-title>
               <svg class="metadata-icon me-2 text-muted" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#chat-left-text"/>
               </svg>
               <small i18n>{{document.notes.length}} Notes</small>
-            </button> -->
-            <!--  *ngIf="document.document_type" -->
-            <button type="button" class="list-group-item btn btn-sm bg-light text-dark p-1 border-0 me-2" title="Filter by document type" i18n-title
-            ><!--  (click)="clickDocumentType.emit(document.document_type);$event.stopPropagation()" -->
+            </button>
+            <!--   -->
+            <button *ngIf="document.documentTypeId" type="button" class="list-group-item btn btn-sm bg-light text-dark p-1 border-0 me-2" title="Filter by document type" i18n-title
+              (click)="clickDocumentType.emit(document.document_type);$event.stopPropagation()" >
               <svg class="metadata-icon me-2 text-muted" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#file-earmark"/>
               </svg>
-              <small>{{(document.document_type$ | async)?.name}}dgdg</small>
+              <small>{{(document.document_type$ | async)?.name}}</small>
             </button>
             <button *ngIf="document.storagePathId" type="button" class="list-group-item btn btn-sm bg-light text-dark p-1 border-0 me-2" title="Filter by storage path" i18n-title
              (click)="clickStoragePath.emit(document.StoragePathId);$event.stopPropagation()">
               <svg class="metadata-icon me-2 text-muted" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#archive"/>
               </svg>
-              <small>{{(document.storage_path$ | async)?.name}}</small>
+              <small>{{(document.storagePathId$ | async)?.name}}</small>
             </button>
             <div *ngIf="document.archive_serial_number | isNumber" class="list-group-item me-2 bg-light text-dark p-1 border-0">
               <svg class="metadata-icon me-2 text-muted" fill="currentColor">
@@ -95,18 +91,12 @@
               </svg>
               <small>#{{document.archive_serial_number}}</small>
             </div>
-            <ng-template #dateTooltip>
-              <div class="d-flex flex-column text-light">
-                <span i18n>Created: {{ document.created | customDate }}</span>
-                <span i18n>Added: {{ document.added | customDate }}</span>
-                <span i18n>Modified: {{ document.modified | customDate }}</span>
-              </div>
-            </ng-template>
-            <div class="list-group-item bg-light text-dark p-1 border-0" [ngbTooltip]="dateTooltip">
+          
+            <div class="list-group-item bg-light text-dark p-1 border-0" >
               <svg class="metadata-icon me-2 text-muted" fill="currentColor">
                 <use xlink:href="assets/bootstrap-icons.svg#calendar-event"/>
               </svg>
-              <small>{{document.created_date | customDate:'mediumDate'}}</small>
+              <small>{{document.createdOn | customDate:'mediumDate'}}</small>
             </div>
             <div *ngIf="document.owner && document.owner !== settingsService.currentUser.id" class="list-group-item bg-light text-dark p-1 border-0">
               <svg class="metadata-icon me-2 text-muted" fill="currentColor">

@@ -46,44 +46,13 @@
 </pngx-page-header>
 
 <div class="row">
-  <div class="col-12 col-lg-8 col-xl-9 mb-4">
+  <div class="col-12 col-lg-8 col-xl-9 mb-4" >
     
-      <!--ggggggggggggggggggggggggggggggg-->
-      <!-- <div class="card-group" style="justify-content: space-evenly">
-        <div class="card text-white bg-primary mb-1" style="width: 18rem">
-          <div class="card-header">Header</div>
-          <div class="card-body">
-            <h5 class="card-title">Primary card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-          </div>
-        </div>
-        <div class="card text-white bg-primary mb-1" style="width: 18rem">
-          <div class="card-header">Header</div>
-          <div class="card-body">
-            <h5 class="card-title">Primary card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-          </div>
-        </div>
-        <div class="card text-white bg-primary mb-1" style="width: 18rem">
-          <div class="card-header">Header</div>
-          <div class="card-body">
-            <h5 class="card-title">Primary card title</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-          </div>
-        </div>
-      </div> -->
+   
 
       <pngx-upload-file-widget></pngx-upload-file-widget>
-      <div class="container">
+      <div tourAnchor="tour.dashboard">
+      <div class="container" tourAnchor="tour.files">
         <div class="faders">
           <div class="left"></div>
           <div class="right"></div>
@@ -189,12 +158,13 @@
       </div>
 
       <div style="display: flex">
-        <div class="col">
+        <div class="col" >
           <div id="chart"></div>
         </div>
-        <div class="col">
+        <div class="col" >
           <div id="chartt"></div>
         </div>
+      </div>
       </div>
 
       <!--  <div  class="col"><!-- *ngIf="savedViewService.loading" 
@@ -215,7 +185,7 @@
         <pngx-upload-file-widget></pngx-upload-file-widget>
       </div> -->
       <div class="col">
-        <pngx-statistics-widget></pngx-statistics-widget>
+        <pngx-statistics-widget tourAnchor="tour.dashboard"></pngx-statistics-widget>
       </div>
 
     </div>

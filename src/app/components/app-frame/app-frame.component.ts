@@ -267,7 +267,7 @@ export class AppFrameComponent
     
     this.oidcSecurityService
       .logoff()
-      .subscribe((result) => console.log('okkk', result));
+      .subscribe((result) => console.log(result));
       sessionStorage.clear()
   }
 }

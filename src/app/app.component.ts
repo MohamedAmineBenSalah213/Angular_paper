@@ -133,7 +133,14 @@ export class AppComponent implements OnInit, OnDestroy {
       [
         {
           anchorId: 'tour.dashboard',
-          content: $localize`The dashboard can be used to show saved views, such as an 'Inbox'. Those settings are found under Settings > Saved Views once you have created some.`,
+          content: $localize`The dashboard is a visual display of key information and data points, typically represented through charts, graphs, and tables`,
+          route: '/dashboard',
+          delayAfterNavigation: 500,
+          isOptional: false,
+        },
+        {
+          anchorId :'tour.files',
+          content: $localize`This section provides a quick overview of the number of different types of files`,
           route: '/dashboard',
           delayAfterNavigation: 500,
           isOptional: false,
@@ -178,6 +185,16 @@ export class AppComponent implements OnInit, OnDestroy {
           },
         },
         {
+          anchorId: 'tour.fileshare',
+          content: $localize`Manage fileshare for automatically importing documents.`,
+          route: '/fileshare',
+          backdropConfig: {
+            offset: 0,
+          },
+        },
+        
+
+        {
           anchorId: 'tour.consumption-templates',
           content: $localize`Consumption templates give you finer control over the document ingestion process.`,
           route: '/templates',
@@ -187,7 +204,7 @@ export class AppComponent implements OnInit, OnDestroy {
         },
         {
           anchorId: 'tour.file-tasks',
-          content: $localize`File Tasks shows you documents that have been consumed, are waiting to be, or may have failed during the process.`,
+          content: $localize`File Tasks shows you documents that have problems such as no owner or no correspondent or both.`,
           route: '/tasks',
           backdropConfig: {
             offset: 0,
